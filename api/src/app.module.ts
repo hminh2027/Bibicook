@@ -3,9 +3,11 @@ import { AuthModule } from './modules/auth';
 import { CommonModule } from './common';
 import { ConfigModule, ConfigService } from './common/config';
 import { DatabaseModule } from 'common/database/database.module';
+import { ProductModule } from './src/modules/product/product.module';
+import { ProductModule } from './modules/product/product.module';
 
 @Module({
-  imports: [DatabaseModule, ConfigModule, AuthModule, CommonModule],
+  imports: [DatabaseModule, ConfigModule, AuthModule, CommonModule, ProductModule],
 })
 export class AppModule {
   static port: string | number;
