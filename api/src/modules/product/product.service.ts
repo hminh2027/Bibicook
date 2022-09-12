@@ -11,27 +11,28 @@ export class ProductService {
     @InjectRepository(Product)
     private productRepository: Repository<Product>,
   ) {}
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+  async create(createProductDto: CreateProductDto) {
+    return await this.productRepository.save(createProductDto);
   }
 
   findAll() {
-    return `This action returns all product`;
+    return this.productRepository.find();
   }
 
-  findAllByCategory() {
-    return;
+  findAllByCategorySlug(slug: string) {
+    return 'heeloo';
+    // return this.productRepository.find({ where: { sl}});
   }
 
   findOneBySlug(slug: string) {
     return this.productRepository.findOne({ where: { slug } });
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async updateById(id: string, updateProductDto: UpdateProductDto) {
+    return await this.productRepository.update(id, updateProductDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async removeById(id: string) {
+    return await this.productRepository.delete(id);
   }
 }

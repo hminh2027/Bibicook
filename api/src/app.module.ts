@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AuthModule } from './modules/auth';
 import { CommonModule } from './common';
-import { ConfigModule, ConfigService } from './common/config';
 import { DatabaseModule } from 'common/database/database.module';
 import { ProductModule } from './modules/product/product.module';
 import { CategoryModule } from './modules/category/category.module';
+import { AuthModule } from 'modules/auth/auth.module';
+import { ConfigModule } from 'common/config/config.module';
+import { ConfigService } from 'common/config/config.service';
 
 @Module({
   imports: [

@@ -1,7 +1,10 @@
+import { Category } from './../category/category.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -28,4 +31,14 @@ export class Product {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  /* N-1 */
+  @ManyToOne(() => Category, (cat) => cat.products, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'categoryId' })
+  category: Category;
+
+  @Column({ length: 255 })
+  categoryId!: string;
 }
