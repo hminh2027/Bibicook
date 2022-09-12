@@ -1,9 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { PasswordTransformer } from './password.transformer';
 
-@Entity({
-  name: 'users',
-})
+@Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
