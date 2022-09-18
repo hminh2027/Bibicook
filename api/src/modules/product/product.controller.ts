@@ -9,18 +9,19 @@ import {
   UsePipes,
   UseGuards,
   ValidationPipe,
+  HttpStatus,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'common/guards';
+import { JwtAuthGuard } from 'common/guards/jwt.guard';
 
 @Controller('product')
 @ApiTags('product')
-@ApiBearerAuth()
+// @ApiBearerAuth()
 @UsePipes(ValidationPipe)
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
@@ -28,13 +29,17 @@ export class ProductController {
   @ApiOperation({
     description: 'create new product',
   })
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productService.create(createProductDto);
+  async create(@Body() createProductDto: CreateProductDto) {
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'New product created successfully',
+      data: await this.productService.create(createProductDto),
+    };
   }
 
   @Get()
   @ApiOperation({
-    description: 'create comment',
+    description: 'get all product',
   })
   findAll() {
     return this.productService.findAll();
@@ -42,7 +47,7 @@ export class ProductController {
 
   @Get(':slug')
   @ApiOperation({
-    description: 'get product by slug',
+    description: 'get a product by slug',
   })
   findOne(@Param('slug') slug: string) {
     return this.productService.findOneBySlug(slug);
@@ -52,15 +57,26 @@ export class ProductController {
   @ApiOperation({
     description: 'update a product',
   })
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productService.update(+id, updateProductDto);
+  async update(
+    @Param('id') id: string,
+    @Body() updateProductDto: UpdateProductDto,
+  ) {
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Product updated successfully',
+      data: await this.productService.updateById(id, updateProductDto),
+    };
   }
 
   @Delete(':id')
   @ApiOperation({
-    description: 'delete product',
+    description: 'delete a product',
   })
-  remove(@Param('id') id: string) {
-    return this.productService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Product deleted successfully',
+      data: await this.productService.removeById(id),
+    };
   }
 }
