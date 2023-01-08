@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography } from "antd";
+import { Button, Typography } from "antd";
 const { Title } = Typography;
 export const ProductDetail = () => {
   return (
@@ -71,7 +71,6 @@ export const ProductDetail = () => {
           </div>
         </section>
       </div>
-      <div>Nút</div>
     </div>
   );
 };

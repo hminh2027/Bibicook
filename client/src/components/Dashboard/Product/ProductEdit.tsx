@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Input, Radio, Select, Typography, Upload } from "antd";
 import { Editor } from "../lib/ReactQuillEditor";
+import Attributes from "./ProductEdit/Attributes";
 const { Title } = Typography;
 const { TextArea } = Input;
 export const ProductEdit = () => {
@@ -12,45 +13,7 @@ export const ProductEdit = () => {
           <Input size="large" />
         </section>
         <section>
-          <div className="flex justify-between">
-            <Title level={4}>Thuộc tính</Title>
-            <Button type="primary">Thêm</Button>
-          </div>
-          <div className="flex flex-col gap-1">
-            <div className="flex gap-2">
-              <Select
-                className="w-[200px]"
-                placeholder="Chọn thuộc tính"
-                dropdownRender={(menu) => (
-                  <>
-                    {menu}
-                    <div className="flex gap-2">
-                      <Input
-                        placeholder="Tên thuộc tính"
-                        // ref={inputRef}
-                        // value={name}
-                        // onChange={onNameChange}
-                      />
-                      <Button
-                        type="primary"
-                        //   onClick={addItem}
-                      >
-                        Thêm
-                      </Button>
-                    </div>
-                  </>
-                )}
-                options={["Hello"].map((item) => ({
-                  label: item,
-                  value: item,
-                }))}
-              />
-              <Input className="flex-1" />
-              <Button type="primary" danger htmlType="button">
-                Xoá
-              </Button>
-            </div>
-          </div>
+          <Attributes />
         </section>
         <section>
           <Title level={4}>Mô tả ngắn</Title>
@@ -112,7 +75,11 @@ export const ProductEdit = () => {
           </div>
         </section>
       </div>
-      <div>Nút</div>
+      <div>
+        <Button size="large" type="primary">
+          Update
+        </Button>
+      </div>
     </div>
   );
 };
