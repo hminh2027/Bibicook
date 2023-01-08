@@ -1,5 +1,5 @@
 # Bebecook
-An e-commerce-like website for personal business (outsource project)
+*An e-commerce-like website for personal business (outsource project)*
 
 **Software specifications:**
 - CMS backend to manage products, accounts, site's setting and interface, etc...
