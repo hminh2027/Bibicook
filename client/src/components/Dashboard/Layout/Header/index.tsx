@@ -1,6 +1,11 @@
 import React, { FC } from "react";
 
-const DashboardHeader: FC = ({ avatar, name, role }: any) => {
+interface Props {
+  avatar?: string;
+  name?: string;
+  role?: string;
+}
+const DashboardHeader: FC<Props> = ({ avatar, name, role }: Props) => {
   return (
     <div className="flex items-center gap-4 p-4">
       <div className="flex items-center gap-4 justify-center cursor-pointer">

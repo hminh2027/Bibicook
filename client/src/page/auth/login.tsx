@@ -1,7 +1,5 @@
 import React, { FormEvent, useContext, useEffect, useState } from "react";
 
-import { AuthContext } from "../../store/auth/AuthContext";
-
 const initialFormValues = {
   email: "",
   password: "",
