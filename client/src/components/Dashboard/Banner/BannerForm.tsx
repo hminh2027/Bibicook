@@ -1,14 +1,16 @@
 import React, { useEffect } from "react";
 import { useFieldArray, useForm, Controller } from "react-hook-form";
 import { Button, Form, Input } from "antd";
-
+interface Props {
+  banners?: Banner[];
+}
 interface Banner {
   url: string;
 }
 
 export const BannerForm = ({
   banners = [{ url: "HELLO" }, { url: "123" }],
-}: Banner[]) => {
+}: Props) => {
   const { control, handleSubmit, setValue, getValues, watch } = useForm({
     defaultValues: {
       banners: [],

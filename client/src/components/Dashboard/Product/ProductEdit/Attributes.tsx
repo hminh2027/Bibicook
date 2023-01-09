@@ -19,8 +19,11 @@ export const Attributes = (props: Props) => {
     control,
     name: "attributes",
   });
+  const onSubmit = (data) => {
+    console.log(data);
+  };
   return (
-    <section>
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
       <div className="flex justify-between">
         <Title level={4}>Thuộc tính</Title>
         <Button
@@ -41,12 +44,14 @@ export const Attributes = (props: Props) => {
             <Controller
               control={control}
               name={`attributes.${index}.id`}
-              render={() => <AttributeSelect />}
+              render={({ field }) => <AttributeSelect {...field} />}
             />
-            <Input
-              {...register(`attributes.${index}.value`)}
-              className="flex-1"
+            <Controller
+              control={control}
+              name={`attributes.${index}.value`}
+              render={({ field }) => <Input className="flex-1" {...field} />}
             />
+
             <Button
               type="primary"
               danger
@@ -58,7 +63,16 @@ export const Attributes = (props: Props) => {
           </div>
         ))}
       </div>
-    </section>
+      <div className="text-right">
+        <Button
+          type="primary"
+          htmlType="submit"
+          className="btn-success w-[120px] font-bold"
+        >
+          Lưu
+        </Button>
+      </div>
+    </form>
   );
 };
 

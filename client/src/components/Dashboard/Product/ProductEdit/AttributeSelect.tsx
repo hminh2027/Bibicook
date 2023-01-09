@@ -8,24 +8,28 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import apiClient from "../../../../services/api";
 interface Props {
-  data: Attribute[];
+  data?: Attribute[];
 }
 interface Attribute {
   id: number | string;
   name: string;
 }
 
-export const AttributeSelect: FC = (data: any) => {
+export const AttributeSelect: FC<any> = ({
+  data = [{ name: "HELLO", id: 1 }],
+}: Props) => {
   const { handleSubmit, control } = useForm();
   const mutation = useQueryMutate({
     mutationFn: (name: string) => {
-      return apiClient.get(name);
+      return productAttributeApi.create(name);
     },
     queryKey: ["product-attributes"],
   });
 
   const onSubmit = ({ name }: any) => {
+    // console.log(name);
     mutation.mutate(name);
+    console.log(mutation.data);
   };
   return (
     <div>
@@ -47,7 +51,7 @@ export const AttributeSelect: FC = (data: any) => {
             </form>
           </>
         )}
-        options={[{ name: "HELLO", id: 1 }].map((attribute) => ({
+        options={data.map((attribute) => ({
           label: attribute.name,
           value: attribute.id,
         }))}

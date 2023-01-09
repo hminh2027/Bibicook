@@ -1,18 +1,9 @@
 import axios from "axios";
-import { parse, stringify } from "qs";
 
-import { setupInterceptors } from "./interceptors";
-
-// export const apiClient = setupInterceptors(
-//   axios.create({
-//     baseURL: process.env.REACT_APP_API_URL,
-//   })
-// );
 // Set up default config for http requests here
-
 // Please have a look at here `https://github.com/axios/axios#request-config` for the full list of configs
 export const apiClient = axios.create({
-  baseURL: process.env.BASE_API_URL,
+  baseURL: import.meta.env.VITE_API_URL,
   headers: {
     "Content-Type": "application/json",
   },
@@ -36,7 +27,7 @@ apiClient.interceptors.response.use(
   },
   (error) => {
     // Handle errors
-
+    console.log(error);
     throw error;
   }
 );

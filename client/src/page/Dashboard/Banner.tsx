@@ -3,7 +3,7 @@ import { BannerForm } from "../../components/Dashboard/Banner";
 export const BannerPage: FC = () => {
   return (
     // <div>
-    <BannerForm banners={[]} />
+    <BannerForm />
     // </div>
   );
 };

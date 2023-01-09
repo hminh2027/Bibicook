@@ -2,24 +2,25 @@ import React from "react";
 import { Button, Input, Radio, Select, Typography, Upload } from "antd";
 import { Editor } from "../lib/ReactQuillEditor";
 import Attributes from "./ProductEdit/Attributes";
+import MainImage from "./ProductEdit/MainImage";
 const { Title } = Typography;
 const { TextArea } = Input;
 export const ProductEdit = () => {
   return (
     <div className="grid gap-4 grid-cols-12">
       <div className="flex flex-col gap-4 col-span-8 md:col-span-8">
-        <section>
+        <section className="card">
           <Title level={4}>Tên sản phẩm</Title>
           <Input size="large" />
         </section>
-        <section>
+        <section className="card">
           <Attributes />
         </section>
-        <section>
+        <section className="card">
           <Title level={4}>Mô tả ngắn</Title>
           <TextArea />
         </section>
-        <section>
+        <section className="card">
           <Title level={4}>Mô tả</Title>
           <div className="">
             <Editor />
@@ -27,7 +28,7 @@ export const ProductEdit = () => {
         </section>
       </div>
       <div className="flex flex-col gap-4 col-span-4 md:col-span-4">
-        <section>
+        <section className="card">
           <Title level={4}>Danh mục</Title>
           <div>
             <Radio.Group className="flex flex-col gap-1">
@@ -38,8 +39,8 @@ export const ProductEdit = () => {
             </Radio.Group>
           </div>
         </section>
-        <section>
-          <Title level={4}>Ảnh chính</Title>
+        <section className="card">
+          {/* <Title level={4}>Ảnh chính</Title>
 
           <div className="overflow-hidden cursor-pointer">
             <Upload
@@ -50,12 +51,13 @@ export const ProductEdit = () => {
             >
               <img
                 src="https://i0.wp.com/www.flutterbeads.com/wp-content/uploads/2021/11/o-creating-circular-image-in-flutter.png?w=950&ssl=1"
-                className="w-[300px] h-[300px] object-cover rounded-md"
+                className="w-[200px] h-[200px] object-cover rounded-md"
               />
             </Upload>
-          </div>
+          </div> */}
+          <MainImage />
         </section>
-        <section>
+        <section className="card">
           <div className="flex flex-col">
             <Title level={4}>Ảnh phụ</Title>
             <Upload
@@ -69,7 +71,7 @@ export const ProductEdit = () => {
           </div>
           <div className="flex gap-2 flex-wrap overflow-hidden">
             <img
-              className="w-[100px] h-[100px] object-cover "
+              className="w-[100px] h-[100px] object-cover rounded-sm"
               src="https://i0.wp.com/www.flutterbeads.com/wp-content/uploads/2021/11/o-creating-circular-image-in-flutter.png?w=950&ssl=1"
             />
           </div>

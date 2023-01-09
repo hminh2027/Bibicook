@@ -8,4 +8,5 @@ module.exports = {
   corePlugins: {
     preflight: false, // <== disable this for antd!
   },
+  important: "#root",
 };
