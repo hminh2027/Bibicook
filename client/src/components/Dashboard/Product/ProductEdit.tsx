@@ -1,30 +1,43 @@
-import React from "react";
-import { Button, Input, Radio, Select, Typography, Upload } from "antd";
+import { Button, Input, Radio, Typography } from "antd";
 import { Editor } from "../lib/ReactQuillEditor";
-import Attributes from "./ProductEdit/Attributes";
-import MainImage from "./ProductEdit/MainImage";
+import { Attributes, ImageUpload, SubImage } from "./ProductEdit/index";
+import { useForm, Controller } from "react-hook-form";
 const { Title } = Typography;
 const { TextArea } = Input;
 export const ProductEdit = () => {
+  const { control, handleSubmit } = useForm();
+  const onSubmit = (data) => {
+    console.log(data);
+  };
   return (
-    <div className="grid gap-4 grid-cols-12">
+    <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4 grid-cols-12">
       <div className="flex flex-col gap-4 col-span-8 md:col-span-8">
         <section className="card">
           <Title level={4}>Tên sản phẩm</Title>
-          <Input size="large" />
+          <Controller
+            control={control}
+            name="name"
+            render={({ field }) => <Input size="large" {...field} />}
+          />
         </section>
         <section className="card">
           <Attributes />
         </section>
         <section className="card">
           <Title level={4}>Mô tả ngắn</Title>
-          <TextArea />
+          <Controller
+            control={control}
+            name="shortDescription"
+            render={({ field }) => <TextArea size="large" {...field} />}
+          />
         </section>
         <section className="card">
           <Title level={4}>Mô tả</Title>
-          <div className="">
-            <Editor />
-          </div>
+          <Controller
+            control={control}
+            name="description"
+            render={({ field }) => <Editor {...field} />}
+          />
         </section>
       </div>
       <div className="flex flex-col gap-4 col-span-4 md:col-span-4">
@@ -40,49 +53,20 @@ export const ProductEdit = () => {
           </div>
         </section>
         <section className="card">
-          {/* <Title level={4}>Ảnh chính</Title>
-
-          <div className="overflow-hidden cursor-pointer">
-            <Upload
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-              listType="picture"
-              defaultFileList={[]}
-              maxCount={1}
-            >
-              <img
-                src="https://i0.wp.com/www.flutterbeads.com/wp-content/uploads/2021/11/o-creating-circular-image-in-flutter.png?w=950&ssl=1"
-                className="w-[200px] h-[200px] object-cover rounded-md"
-              />
-            </Upload>
-          </div> */}
-          <MainImage />
+          <Title level={4}>Ảnh chính</Title>
+          <ImageUpload />
         </section>
         <section className="card">
-          <div className="flex flex-col">
-            <Title level={4}>Ảnh phụ</Title>
-            <Upload
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-              listType="picture"
-              defaultFileList={[]}
-              className="upload-list-inline"
-            >
-              <Button>Upload</Button>
-            </Upload>
-          </div>
-          <div className="flex gap-2 flex-wrap overflow-hidden">
-            <img
-              className="w-[100px] h-[100px] object-cover rounded-sm"
-              src="https://i0.wp.com/www.flutterbeads.com/wp-content/uploads/2021/11/o-creating-circular-image-in-flutter.png?w=950&ssl=1"
-            />
-          </div>
+          <Title level={4}>Ảnh phụ</Title>
+          <SubImage />
         </section>
       </div>
       <div>
-        <Button size="large" type="primary">
+        <Button size="large" type="primary" htmlType="submit">
           Update
         </Button>
       </div>
-    </div>
+    </form>
   );
 };
 

@@ -1,5 +1,10 @@
 import { Button, Input, Typography } from "antd";
-import { useFieldArray, useForm, Controller } from "react-hook-form";
+import {
+  useFieldArray,
+  useForm,
+  Controller,
+  FieldValues,
+} from "react-hook-form";
 import { AttributeSelect } from "./AttributeSelect";
 
 interface Props {}
@@ -19,7 +24,7 @@ export const Attributes = (props: Props) => {
     control,
     name: "attributes",
   });
-  const onSubmit = (data) => {
+  const onSubmit = (data: FieldValues) => {
     console.log(data);
   };
   return (
