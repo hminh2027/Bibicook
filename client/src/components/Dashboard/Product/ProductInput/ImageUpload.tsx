@@ -10,12 +10,11 @@ interface Props {
 export const ImageUpload = ({
   previewSize = 200,
   endpoint = "https://www.mocky.io/v2/5cc8019d300000980a055e76",
+  curImage = "https://hibabi.vn/bebecook/2021/12/banh-bi-bebecook-vi-bap-phomai-600x600.png",
 }) => {
   const preview = useRef();
   const isHovering = useHoverDirty(preview);
-  const [imgScr, setImgScr] = useState(
-    "https://hibabi.vn/bebecook/2021/12/banh-bi-bebecook-vi-bap-phomai-600x600.png"
-  );
+  const [imgScr, setImgScr] = useState(curImage);
   const handleUploadChange = ({ file }: { file: UploadFile }) => {
     console.log(file);
   };

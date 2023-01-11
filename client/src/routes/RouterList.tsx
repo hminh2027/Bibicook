@@ -3,7 +3,13 @@ import { LoginPage } from "../page/auth";
 import ErrorPage from "./ErrorPage";
 import { BannerPage, AlbumPage } from "../page/Dashboard";
 import { DashboardLayout } from "../components/Dashboard/Layout";
-import { ProductDetail, ProductEdit } from "../components/Dashboard/Product";
+import {
+  ProductCreate,
+  ProductDetail,
+  ProductEdit,
+  ProductMain,
+} from "../components/Dashboard/Product";
+import { CategoryMain } from "../components/Dashboard/Category";
 export const router = createBrowserRouter([
   {
     path: "/login",
@@ -26,19 +32,30 @@ export const router = createBrowserRouter([
         path: "product",
         element: (
           <>
+            <ProductMain />
+          </>
+        ),
+      },
+      {
+        path: "product/create",
+        element: <ProductCreate />,
+      },
+      {
+        path: "product/:id",
+        element: <ProductDetail />,
+      },
+      {
+        path: "product/:id/edit",
+        element: <ProductEdit />,
+      },
+      {
+        path: "category",
+        element: (
+          <>
+            <CategoryMain />
             <Outlet />
           </>
         ),
-        children: [
-          {
-            path: ":id",
-            element: <ProductDetail />,
-          },
-          {
-            path: ":id/edit",
-            element: <ProductEdit />,
-          },
-        ],
       },
     ],
   },
