@@ -11,7 +11,7 @@ export const DashboardLayout: FC = ({ children }: any) => {
       {/* Content */}
       <div className="flex flex-col flex-1">
         <DashboardHeader name="PTA" role="Admin" avatar="" />
-        <div className="p-4 flex-1 bg-gray-100 rounded-tl-lg">
+        <div className="p-4 flex-1 bg-[#fbfbfb] rounded-tl-lg">
           <Outlet />
           {/* Outlet is for react router */}
         </div>

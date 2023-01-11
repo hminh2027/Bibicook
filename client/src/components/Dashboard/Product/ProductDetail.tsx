@@ -4,7 +4,7 @@ const { Title } = Typography;
 export const ProductDetail = () => {
   return (
     <div className="grid gap-4 grid-cols-12">
-      <div className="flex flex-col gap-4 col-span-8 md:col-span-8">
+      <div className="flex flex-col gap-4 col-span-12 md:col-span-8">
         <section>
           <Title>Tên sản phẩm</Title>
         </section>
@@ -47,7 +47,7 @@ export const ProductDetail = () => {
           </div>
         </section>
       </div>
-      <div className="flex flex-col gap-4 col-span-4 md:col-span-4">
+      <div className="flex flex-col gap-4 col-span-12 md:col-span-4">
         <section>
           <Title level={4}>Danh mục</Title>
           <div>Món phụ</div>

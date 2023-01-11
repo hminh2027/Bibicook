@@ -4,7 +4,7 @@ import { Attributes, ImageUpload, SubImage } from "./ProductInput/index";
 import { useForm, Controller } from "react-hook-form";
 const { Title } = Typography;
 const { TextArea } = Input;
-export const ProductEdit = () => {
+export const ProductCreate = () => {
   const { control, handleSubmit } = useForm();
   const onSubmit = (data) => {
     console.log(data);
@@ -60,7 +60,7 @@ export const ProductEdit = () => {
         </section>
         <section className="card">
           <Title level={4}>Ảnh chính</Title>
-          <ImageUpload />
+          <ImageUpload curImage="" />
         </section>
         <section className="card">
           <Title level={4}>Ảnh phụ</Title>
@@ -69,11 +69,11 @@ export const ProductEdit = () => {
       </div>
       <div>
         <Button size="large" type="primary" htmlType="submit">
-          Cập nhật
+          Tạo
         </Button>
       </div>
     </form>
   );
 };
 
-export default ProductEdit;
+export default ProductCreate;

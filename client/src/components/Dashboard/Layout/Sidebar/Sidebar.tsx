@@ -3,7 +3,7 @@ import DashboardMenu from "../Menu";
 const DashboardSideBar: FC = () => {
   return (
     <div
-      className={`flex flex-col min-h-screen w-60 border-r-2 border-gray-200`}
+      className={`flex flex-col min-h-screen w-48 border-r-2 border-gray-200`}
     >
       {/* <Image
         src={
