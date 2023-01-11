@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 
 export const DashboardLayout: FC = ({ children }: any) => {
   return (
-    <div className="min-h-screen flex bg-gray-200">
+    <div className="flex bg-gray-200">
       {/* Sidebar */}
       <DashboardSideBar />
       {/* Content */}

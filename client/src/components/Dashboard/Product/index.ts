@@ -1,4 +1,4 @@
 export * from "./ProductDetail";
-export * from "./ProductEdit";
+export * from "./ProductMain";
 export * from "./ProductCreate";
-export * from "./ProductList";
+export * from "./ProductEdit";

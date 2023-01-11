@@ -7,8 +7,9 @@ import {
   ProductCreate,
   ProductDetail,
   ProductEdit,
-  ProductList,
+  ProductMain,
 } from "../components/Dashboard/Product";
+import { CategoryMain } from "../components/Dashboard/Category";
 export const router = createBrowserRouter([
   {
     path: "/login",
@@ -31,7 +32,7 @@ export const router = createBrowserRouter([
         path: "product",
         element: (
           <>
-            <ProductList />
+            <ProductMain />
           </>
         ),
       },
@@ -46,6 +47,15 @@ export const router = createBrowserRouter([
       {
         path: "product/:id/edit",
         element: <ProductEdit />,
+      },
+      {
+        path: "category",
+        element: (
+          <>
+            <CategoryMain />
+            <Outlet />
+          </>
+        ),
       },
     ],
   },
