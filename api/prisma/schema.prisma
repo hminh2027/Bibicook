@@ -1,0 +1,80 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Products {
+  id               Int                @id @default(autoincrement())
+  name             String
+  price            Float
+  desc             String
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @default(now())
+  isDeleted        Boolean            @default(false)
+  // relations
+  Attribute_values Attribute_values[]
+  Accounts         Accounts           @relation(fields: [updatedBy], references: [username])
+  updatedBy        String
+  Categories       Categories?        @relation(fields: [categoriesName], references: [name])
+  categoriesName   String?
+}
+
+model Accounts {
+  email     String     @id
+  username  String     @unique
+  password  String
+  createdAt DateTime   @default(now())
+  isAdmin   Boolean    @default(false)
+  isActive  Boolean    @default(true)
+  Products  Products[]
+  Medias    Medias[]
+}
+
+model Attributes {
+  name             String             @id
+  Attribute_values Attribute_values[]
+}
+
+model Attribute_values {
+  id             Int        @id @default(autoincrement())
+  Products       Products   @relation(fields: [productsId], references: [id])
+  productsId     Int
+  Attributes     Attributes @relation(fields: [attributesName], references: [name])
+  attributesName String
+  value          String
+
+  @@unique([productsId, attributesName], name: "Attribute_values_unique")
+}
+
+model Categories {
+  name     String     @id
+  slug     String
+  desc     String
+  Products Products[]
+}
+
+model Medias {
+  url        String   @id
+  alt        String
+  index      Int
+  name       String
+  size       String
+  uploadedAt DateTime @default(now())
+  // relations
+  Accounts   Accounts @relation(fields: [uploadedBy], references: [username])
+  uploadedBy String
+}
+
+model Slides {
+  index Int    @id
+  url   String
+  alt   String
+}
+
+model Setting {
+  id Int @id @default(autoincrement())
+}

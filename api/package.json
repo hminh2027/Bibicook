@@ -1,11 +1,32 @@
 {
   "name": "bebecook",
   "version": "1.0.0",
-  "description": "",
+  "description": "An e-commerce-like website for personal business (outsource project)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "pm2 start ecosystem.config.json --no-daemon",
+    "dev": "cross-env NODE_ENV=development nodemon src/index.js",
+    "prettier": "prettier --check **/*.js",
+    "prettier:fix": "prettier --write **/*.js"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Hoang Minh, Tien Anh",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "helmet": "^6.0.1",
+    "joi": "^17.7.0",
+    "moment": "^2.29.4",
+    "nodemailer": "^6.8.0",
+    "swagger-jsdoc": "^6.2.7",
+    "swagger-ui-express": "^4.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20",
+    "prettier": "^2.8.2",
+    "prisma": "^4.8.1"
+  }
 }
