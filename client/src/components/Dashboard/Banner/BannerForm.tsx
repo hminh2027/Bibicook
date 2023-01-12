@@ -1,14 +1,16 @@
 import React, { useEffect } from "react";
 import { useFieldArray, useForm, Controller } from "react-hook-form";
 import { Button, Form, Input } from "antd";
-
+interface Props {
+  banners?: Banner[];
+}
 interface Banner {
   url: string;
 }
 
 export const BannerForm = ({
   banners = [{ url: "HELLO" }, { url: "123" }],
-}: Banner[]) => {
+}: Props) => {
   const { control, handleSubmit, setValue, getValues, watch } = useForm({
     defaultValues: {
       banners: [],
@@ -52,7 +54,7 @@ export const BannerForm = ({
         <div className="flex justify-between">
           <div className="text-3xl">Banners:</div>
           <Button type="primary" onClick={() => append({ url: "" })}>
-            Add
+            Thêm
           </Button>
         </div>
         <div className="flex flex-col gap-4">
@@ -76,15 +78,15 @@ export const BannerForm = ({
                   danger
                   onClick={() => remove(index)}
                 >
-                  Remove
+                  Xoá
                 </Button>
               </div>
             </div>
           ))}
         </div>
 
-        <Button type="primary" htmlType="submit">
-          Submit
+        <Button type="primary" htmlType="submit" className="btn-success">
+          Lưu
         </Button>
       </form>
       {renderPreview()}

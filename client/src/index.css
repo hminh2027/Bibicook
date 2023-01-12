@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@layer components{
+    .card{
+    @apply bg-white p-4 shadow-md rounded-md
+    }
+}
+
+@layer utilities{
+    .btn-success{
+    @apply bg-emerald-600 hover:bg-emerald-500
+    }
+    .transition-ease-in{
+    @apply transition-all duration-300 ease-in
+    }
+}

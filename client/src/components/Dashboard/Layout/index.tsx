@@ -5,13 +5,13 @@ import { Outlet } from "react-router-dom";
 
 export const DashboardLayout: FC = ({ children }: any) => {
   return (
-    <div className="min-h-screen flex bg-slate-100">
+    <div className="flex bg-gray-200">
       {/* Sidebar */}
-      <DashboardSideBar className="w-60 min-h-screen border-r-2 border-gray-200" />
+      <DashboardSideBar />
       {/* Content */}
       <div className="flex flex-col flex-1">
-        <DashboardHeader name="PTA" role="Admin" />
-        <div className="p-4 flex-1 bg-white">
+        <DashboardHeader name="PTA" role="Admin" avatar="" />
+        <div className="p-4 flex-1 bg-[#fbfbfb] rounded-tl-lg">
           <Outlet />
           {/* Outlet is for react router */}
         </div>

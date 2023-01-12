@@ -1,8 +1,10 @@
 import React, { FC } from "react";
 import DashboardMenu from "../Menu";
-const DashboardSideBar: FC = ({ className }: any) => {
+const DashboardSideBar: FC = () => {
   return (
-    <div className={`flex flex-col min-h-screen ${className}`}>
+    <div
+      className={`flex flex-col min-h-screen w-48 border-r-2 border-gray-200`}
+    >
       {/* <Image
         src={
           "https://admin.bebecook.com/images/common/PC_bebecook_logo.png?ver=20220708"
