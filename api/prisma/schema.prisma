@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Products {
+  id               Int                @id @default(autoincrement())
+  name             String             @db.VarChar(255)
+  price            Float
+  desc             String?            @db.VarChar(512)
+  createdAt        DateTime           @default(now()) @db.Timestamp(6)
+  updatedAt        DateTime           @default(now()) @db.Timestamp(6)
+  isDeleted        Boolean            @default(false)
+  // relations
+  Attribute_values Attribute_values[]
+  Accounts         Accounts           @relation(fields: [updatedBy], references: [username])
+  updatedBy        String
+  Categories       Categories?        @relation(fields: [categoriesName], references: [name])
+  categoriesName   String?
+}
+
+model Accounts {
+  email     String     @id @db.VarChar(255)
+  username  String     @unique @db.VarChar(255)
+  password  String     @db.VarChar(512)
+  createdAt DateTime   @default(now()) @db.Timestamp(6)
+  token     String?    @db.VarChar(512)
+  isActive  Boolean    @default(true)
+  // relations
+  Products  Products[]
+  Medias    Medias[]
+  Roles     Roles?     @relation(fields: [rolesId], references: [id])
+  rolesId   Int?
+}
+
+model Roles {
+  id       Int        @id @default(autoincrement())
+  name     String     @db.VarChar(255)
+  // relations
+  Accounts Accounts[]
+}
+
+model Attributes {
+  name             String             @id @db.VarChar(255)
+  // relations
+  Attribute_values Attribute_values[]
+}
+
+model Attribute_values {
+  id             Int        @id @default(autoincrement())
+  Products       Products   @relation(fields: [productsId], references: [id])
+  productsId     Int
+  Attributes     Attributes @relation(fields: [attributesName], references: [name])
+  attributesName String
+  value          String     @db.VarChar(255)
+
+  @@unique([productsId, attributesName], name: "Attribute_values_unique")
+}
+
+model Categories {
+  name     String     @id @db.VarChar(255)
+  slug     String     @db.VarChar(255)
+  desc     String?    @db.VarChar(512)
+  Products Products[]
+}
+
+model Medias {
+  url        String   @id @db.VarChar(255)
+  alt        String?  @db.VarChar(255)
+  index      Int
+  name       String   @db.VarChar(255)
+  size       String?
+  uploadedAt DateTime @default(now()) @db.Timestamp(6)
+  // relations
+  Accounts   Accounts @relation(fields: [uploadedBy], references: [username])
+  uploadedBy String
+}
+
+model Slides {
+  url   String  @id @db.VarChar(255)
+  index Int
+  alt   String? @db.VarChar(255)
+}
+
+model Setting {
+  id         Int     @id @default(autoincrement())
+  address    String? @db.VarChar(255)
+  logo       String  @db.VarChar(255)
+  siteTitle  String  @db.VarChar(255)
+  theme      String? @db.VarChar(255)
+  adminEmail String? @db.VarChar(255)
+}
