@@ -11,7 +11,7 @@ model Products {
   id               Int                @id @default(autoincrement())
   name             String             @db.VarChar(255)
   price            Float
-  desc             String?
+  desc             String?            @db.VarChar(512)
   createdAt        DateTime           @default(now()) @db.Timestamp(6)
   updatedAt        DateTime           @default(now()) @db.Timestamp(6)
   isDeleted        Boolean            @default(false)
@@ -26,9 +26,9 @@ model Products {
 model Accounts {
   email     String     @id @db.VarChar(255)
   username  String     @unique @db.VarChar(255)
-  password  String
+  password  String     @db.VarChar(512)
   createdAt DateTime   @default(now()) @db.Timestamp(6)
-  token     String?
+  token     String?    @db.VarChar(512)
   isActive  Boolean    @default(true)
   // relations
   Products  Products[]
@@ -64,13 +64,13 @@ model Attribute_values {
 model Categories {
   name     String     @id @db.VarChar(255)
   slug     String     @db.VarChar(255)
-  desc     String?
+  desc     String?    @db.VarChar(512)
   Products Products[]
 }
 
 model Medias {
   url        String   @id @db.VarChar(255)
-  alt        String?
+  alt        String?  @db.VarChar(255)
   index      Int
   name       String   @db.VarChar(255)
   size       String?
@@ -83,7 +83,7 @@ model Medias {
 model Slides {
   url   String  @id @db.VarChar(255)
   index Int
-  alt   String?
+  alt   String? @db.VarChar(255)
 }
 
 model Setting {
