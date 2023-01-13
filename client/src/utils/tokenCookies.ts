@@ -4,7 +4,7 @@ import {
   COOKIE_EXPIRATION_TIME,
   REFRESH_TOKEN_COOKIE,
   TOKEN_COOKIE,
-} from "../utils/constants";
+} from "./constants";
 
 export function createTokenCookies(token: string, refreshToken: string) {
   setCookie(null, TOKEN_COOKIE, token, {
