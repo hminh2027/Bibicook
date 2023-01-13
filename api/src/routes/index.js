@@ -1,8 +1,11 @@
 const express = require("express");
-
-const docsRoute = require("./docs.route");
 const router = express.Router();
 
-router.use("/", docsRoute);
+const docsRoute = require("./docs.route");
+const accountRoute = require("./account.route");
+
+router.use("/docs", docsRoute);
+router.use("/account", accountRoute);
+// router.use("/account", accountRoute);
 
 module.exports = router;

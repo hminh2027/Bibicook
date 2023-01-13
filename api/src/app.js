@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 // Routers
-app.use("/v1", routes);
+app.use("/api", routes);
 
 app.use(helmet());
 
