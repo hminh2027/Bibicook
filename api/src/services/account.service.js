@@ -1,23 +1,22 @@
-const { prisma } = require("../../prisma/prismaClient");
+const { prisma } = require("../database/prismaClient");
 
 /**
- * Login with username and password
- * @param {string} email
- * @param {string} password
+ * Create a user
+ * @param {Object} userBody
  * @returns {Promise<User>}
  */
-
-const login = async (email, password) => {
-  const user = await prisma.accounts.findUniqueOrThrow({
-    email,
-    password,
+const createUser = async ({ email, password, username }) => {
+  const user = await prisma.accounts.create({
+    data: {
+      email,
+      password,
+      username,
+    },
   });
-  // if (!user || !(await user.isPasswordMatch(password))) {
-  //   // throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect email or password');
-  // }
-  console.log(user);
 
   return user;
 };
 
-const signup = async (email, password) => {};
+module.exports = {
+  createUser,
+};
