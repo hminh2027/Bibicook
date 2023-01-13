@@ -1,0 +1,21 @@
+GET http://localhost:8000/api/auth/login HTTP/1.1
+
+### AUTH: POST LOGIN
+
+POST http://localhost:8000/api/auth/login HTTP/1.1
+content-type: application/json
+
+{
+    "username": "admin",
+    "password": "Wed, 21 Oct 2015 18:27:50 GMT"
+}
+
+### AUTH: POST SIGNUP
+POST http://localhost:8000/api/auth/signup HTTP/1.1
+content-type: application/json
+
+{
+    "email": "dackheros@gmail.com",
+    "username": "admin",
+    "password": "123456"
+}
