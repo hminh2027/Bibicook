@@ -9,43 +9,27 @@ interface Banner {
 }
 
 export const BannerForm = ({
-  banners = [{ url: "HELLO" }, { url: "123" }],
+  banners = [
+    {
+      url: "https://images.unsplash.com/photo-1587502537147-2ba64a62e3d3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1896&q=80",
+    },
+    {
+      url: "https://images.unsplash.com/photo-1434725039720-aaad6dd32dfe?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1642&q=80",
+    },
+  ],
 }: Props) => {
   const { control, handleSubmit, setValue, getValues, watch } = useForm({
     defaultValues: {
-      banners: [],
+      banners: banners,
     },
   });
   const { fields, append, remove } = useFieldArray({
     control,
     name: "banners",
   });
-  const bannerWatcher = watch("banners");
-  useEffect(() => {
-    if (banners) setValue("banners", banners);
-  }, [banners]);
-
-  useEffect(() => {
-    renderPreview();
-  }, [bannerWatcher]);
 
   const onSubmit = (values: any) => {
     console.log(values);
-  };
-  const renderPreview = () => {
-    const bannersPreview = getValues("banners");
-    return (
-      <div className="flex flex-col justify-center gap-4">
-        <div className="font-bold text-center">
-          Preview (slide chạy từ trái qua phải)
-        </div>
-        <div className="flex gap-2 flex-wrap">
-          {bannersPreview?.map((banner: Banner) => (
-            <img src={banner?.url} className="w-[320px] h-[190px] rounded-md" />
-          ))}
-        </div>
-      </div>
-    );
   };
 
   return (
@@ -60,7 +44,7 @@ export const BannerForm = ({
         <div className="flex flex-col gap-4">
           {fields.map((field, index) => (
             <div className="flex flex-col">
-              <div className="flex gap-4 items-center">
+              <div className="flex gap-4 items-center" key={index}>
                 <Controller
                   control={control}
                   name={`banners.${index}.url`}
@@ -89,7 +73,6 @@ export const BannerForm = ({
           Lưu
         </Button>
       </form>
-      {renderPreview()}
     </div>
   );
 };
