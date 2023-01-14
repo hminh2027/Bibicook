@@ -24,6 +24,7 @@ async function main() {
       email: "admin",
       username: "admin",
       password: "123",
+      rolesId: 1,
     },
   });
 }

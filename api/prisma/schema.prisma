@@ -34,7 +34,7 @@ model Accounts {
   Products  Products[]
   Medias    Medias[]
   Roles     Roles?     @relation(fields: [rolesId], references: [id])
-  rolesId   Int?       @default(1)
+  rolesId   Int?       @default(2)
 }
 
 model Roles {
