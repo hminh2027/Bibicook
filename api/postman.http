@@ -15,7 +15,7 @@ POST http://localhost:8000/api/auth/signup HTTP/1.1
 content-type: application/json
 
 {
-    "email": "dackhero1s@gmail.com",
-    "username": "admin",
+    "email": "admin2",
+    "username": "admin12",
     "password": "123456"
 }
