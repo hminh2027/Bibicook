@@ -3,6 +3,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const { port } = require("./config/config");
 const routes = require("./routes/index");
+const { errorHandler } = require("./middlewares/error");
 
 const app = express();
 
@@ -17,9 +18,15 @@ app.use("/api", routes);
 
 app.use(helmet());
 
+// send back a 404 error for any unknown api request
 app.use((req, res, next) => {
-  res.status(404).render("404");
+  next(new ApiError(httpStatus.NOT_FOUND, "Not found"));
 });
+
+// convert error to ApiError, if needed
+// app.use(errorConverter);
+
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log("Server started at port " + port);

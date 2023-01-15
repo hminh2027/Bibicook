@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bannerController = require("../controllers/banner.controller");
-const upload = require("../middleware/banner-upload.middleware");
+const upload = require("../middlewares/banner-upload.middleware");
 router
   .route("/")
   .get(

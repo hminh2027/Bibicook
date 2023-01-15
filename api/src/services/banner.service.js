@@ -1,4 +1,4 @@
-const { prisma } = require("../database/prismaClient");
+const { prisma } = require("../database/prisma-client");
 
 const getBanners = async () => {
   return [
