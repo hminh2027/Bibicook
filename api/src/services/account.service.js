@@ -1,6 +1,6 @@
 const httpStatus = require("http-status");
-const { prisma } = require("../database/prismaClient");
-const ApiError = require("../utils/apiError");
+const { prisma } = require("../database/prisma-client");
+const ApiError = require("../utils/api-error");
 const { exclude } = require("../utils/exclude");
 
 /**

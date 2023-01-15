@@ -1,5 +1,5 @@
 const httpStatus = require("http-status");
-const ApiError = require("../utils/apiError");
+const ApiError = require("../utils/api-error");
 const accountService = require("./account.service");
 
 /**
