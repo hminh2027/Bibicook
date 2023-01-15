@@ -1,12 +1,29 @@
 const winston = require("winston");
+const config = require("./config");
 
-const logger = new winston.Logger({
+const enumerateErrorFormat = winston.format((info) => {
+  if (info instanceof Error) {
+    Object.assign(info, { message: info.stack });
+  }
+  return info;
+});
+
+const logger = new winston.createLogger({
+  level: config.env === "development" ? "debug" : "info",
+  format: winston.format.combine(
+    enumerateErrorFormat(),
+    config.env === "development"
+      ? winston.format.colorize()
+      : winston.format.uncolorize(),
+    winston.format.timestamp(),
+    winston.format.splat(),
+    winston.format.printf(({ level, message }) => `${level}: ${message}`)
+  ),
   transports: [
     new winston.transports.Console({
-      json: true,
-      colorize: true,
+      stderrLevels: ["error"],
     }),
   ],
 });
 
-module.exports = logger;
+module.exports = { logger };

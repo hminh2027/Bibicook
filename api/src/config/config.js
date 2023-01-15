@@ -9,6 +9,16 @@ const envVariables = Joi.object()
       .default("development"),
     PORT: Joi.number().default(8000),
     DATABASE_URL: Joi.string().required().description("MySQL url"),
+    JWT_SECRET: Joi.string().required().description("JWT secret"),
+    JWT_AT_EXPIRE_IN: Joi.string()
+      .required()
+      .description("JWT access token time-to-live"),
+    JWT_RT_EXPIRE_IN: Joi.string()
+      .required()
+      .description("JWT refresh token time-to-live"),
+    JWT_VERIFY_EMAIL_EXPIRE_IN: Joi.string()
+      .required()
+      .description("JWT verify email token time-to-live"),
   })
   .unknown();
 
@@ -23,5 +33,11 @@ module.exports = {
   port: envVars.PORT,
   prisma: {
     url: envVars.DATABASE_URL,
+  },
+  jwt: {
+    secret: envVars.JWT_SECRET,
+    atExpiresIn: envVars.JWT_AT_EXPIRE_IN,
+    rtExpiresIn: envVars.JWT_RT_EXPIRE_IN,
+    emailExpiresIn: envVars.JWT_VERIFY_EMAIL_EXPIRE_IN,
   },
 };

@@ -7,7 +7,7 @@ content-type: application/json
 
 {
     "username": "admin",
-    "password": "Wed, 21 Oct 2015 18:27:50 GMT"
+    "password": "1234"
 }
 
 ### AUTH: POST SIGNUP
@@ -15,7 +15,7 @@ POST http://localhost:8000/api/auth/signup HTTP/1.1
 content-type: application/json
 
 {
-    "email": "dackhero1s@gmail.com",
-    "username": "admin",
+    "email": "admin2",
+    "username": "admin12",
     "password": "123456"
 }

@@ -1,22 +1,45 @@
-const { prisma } = require("../database/prismaClient");
 const authService = require("../services/auth.service");
+const tokenService = require("../services/token.service");
 
 const httpStatus = require("http-status");
 
-const login = (req, res) => {
-  const { email, password } = req.body;
-  console.log(email, password);
+const login = async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    const user = await authService.login({ username, password });
 
-  // const user = await
+    res.json({
+      userId: user.email,
+      accessToken: await tokenService.generateAccessToken({
+        userId: user.email,
+      }),
+      refreshToken: await tokenService.generateRefreshToken({
+        userId: user.email,
+      }),
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
-const signup = async (req, res) => {
-  const { email, password, username } = req.body;
-  console.log(email, password, username);
+const signup = async (req, res, next) => {
+  try {
+    const { email, password, username } = req.body;
 
-  const user = await authService.signup({ email, password, username });
+    const user = await authService.signup({ email, password, username });
 
-  res.status(httpStatus.CREATED).json({ user });
+    res.status(httpStatus.CREATED).json({
+      userId: user.email,
+      accessToken: await tokenService.generateAccessToken({
+        userId: user.email,
+      }),
+      refreshToken: await tokenService.generateRefreshToken({
+        userId: user.email,
+      }),
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = {
