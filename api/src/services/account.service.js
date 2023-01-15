@@ -1,4 +1,6 @@
+const { METHOD_NOT_ALLOWED } = require("http-status");
 const httpStatus = require("http-status");
+const { PrismaErrors } = require("../constants/error");
 const { prisma } = require("../database/prisma-client");
 const ApiError = require("../utils/api-error");
 const { exclude } = require("../utils/exclude");
@@ -9,18 +11,21 @@ const { exclude } = require("../utils/exclude");
  * @returns {Promise<User>}
  */
 const createUser = async ({ email, password, username }) => {
-  try {
-    const user = await prisma.accounts.create({
-      data: {
-        email,
-        password,
-        username,
-      },
-    });
-    return exclude(user, ["password"]);
-  } catch (error) {
-    throw new ApiError(httpStatus.NOT_FOUND, "Oh no");
-  }
+  const emailNotUniue = await getUserByEmail({ email });
+  const usernameNotUniue = await getUserByUsername({ username });
+  if (emailNotUniue)
+    throw new ApiError(httpStatus.BAD_REQUEST, "Email này đã tồn tại");
+  if (usernameNotUniue)
+    throw new ApiError(httpStatus.BAD_REQUEST, "Username này đã tồn tại");
+
+  const user = await prisma.accounts.create({
+    data: {
+      email,
+      password,
+      username,
+    },
+  });
+  return exclude(user, ["password"]);
 };
 
 const deleteUserById = async ({ id }) => {};
@@ -34,9 +39,9 @@ const getUserByEmail = async ({ email }) => {
     const user = await prisma.accounts.findUnique({
       where: { email },
     });
-    return exclude(user, ["password"]);
+    return user ? exclude(user, ["password"]) : user;
   } catch (error) {
-    throw new ApiError(httpStatus.NOT_FOUND, "Oh no");
+    throw new ApiError(httpStatus.NOT_FOUND, error);
   }
 };
 
@@ -45,7 +50,7 @@ const getUserByUsername = async ({ username }) => {
     const user = await prisma.accounts.findUnique({
       where: { username },
     });
-    return exclude(user, ["password"]);
+    return user ? exclude(user, ["password"]) : user;
   } catch (error) {}
 };
 

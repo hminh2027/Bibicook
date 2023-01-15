@@ -7,16 +7,10 @@ const router = express.Router();
 const authController = require("../controllers/auth.controller");
 const ApiError = require("../utils/api-error");
 
-router
-  .route("/login")
-  .get(() => {
-    throw new ApiError(httpStatus.NOT_FOUND, "Oh no");
-    // throw new Error("yes its ,e");
-  })
-  .post(
-    // validate(userValidation.createUser),
-    authController.login
-  );
+router.route("/login").post(
+  // validate(userValidation.createUser),
+  authController.login
+);
 
 router.route("/signup").post(
   // validate(userValidation.createUser),

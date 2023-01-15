@@ -17,7 +17,7 @@ const login = async ({ username, password }) => {
   if (!user)
     throw new ApiError(
       httpStatus.UNAUTHORIZED,
-      "Username or password is incorrect"
+      "Sai tên đăng nhập hoặc mật khẩu"
     );
 
   return user;
