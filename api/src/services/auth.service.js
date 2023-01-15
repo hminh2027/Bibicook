@@ -1,4 +1,5 @@
-const { prisma } = require("../database/prismaClient");
+const httpStatus = require("http-status");
+const ApiError = require("../utils/apiError");
 const accountService = require("./account.service");
 
 /**
@@ -8,8 +9,16 @@ const accountService = require("./account.service");
  * @returns {Promise<User>}
  */
 
-const login = async (email, password) => {
-  console.log(user);
+const login = async ({ username, password }) => {
+  const user = await accountService.getUserByUsernameAndPassword({
+    username,
+    password,
+  });
+  if (!user)
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      "Username or password is incorrect"
+    );
 
   return user;
 };

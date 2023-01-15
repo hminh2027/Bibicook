@@ -1,13 +1,16 @@
-const { prisma } = require("../database/prismaClient");
 const authService = require("../services/auth.service");
+const tokenService = require("../services/token.service");
 
 const httpStatus = require("http-status");
 
-const login = (req, res) => {
-  const { email, password } = req.body;
-  console.log(email, password);
+const login = async (req, res, next) => {
+  const { username, password } = req.body;
+  console.log(tokenService.generateAccessToken({ userId: 123 }));
 
-  // const user = await
+  // authService
+  //   .login({ username, password })
+  //   .then((user) => res.json(user))
+  //   .catch((error) => next(error));
 };
 
 const signup = async (req, res) => {

@@ -7,7 +7,7 @@ content-type: application/json
 
 {
     "username": "admin",
-    "password": "Wed, 21 Oct 2015 18:27:50 GMT"
+    "password": "1234"
 }
 
 ### AUTH: POST SIGNUP

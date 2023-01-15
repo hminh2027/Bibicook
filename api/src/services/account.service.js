@@ -1,5 +1,4 @@
 const httpStatus = require("http-status");
-const { PrismaErrors } = require("../constants/error");
 const { prisma } = require("../database/prismaClient");
 const ApiError = require("../utils/apiError");
 const { exclude } = require("../utils/exclude");
@@ -24,6 +23,47 @@ const createUser = async ({ email, password, username }) => {
   }
 };
 
+const deleteUserById = async ({ id }) => {};
+
+const updateUserById = async ({ id, email, password, username }) => {};
+
+const getUsers = async () => {};
+
+const getUserByEmail = async ({ email }) => {
+  try {
+    const user = await prisma.accounts.findUnique({
+      where: { email },
+    });
+    return exclude(user, ["password"]);
+  } catch (error) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Oh no");
+  }
+};
+
+const getUserByUsername = async ({ username }) => {
+  try {
+    const user = await prisma.accounts.findUnique({
+      where: { username },
+    });
+    return exclude(user, ["password"]);
+  } catch (error) {}
+};
+
+const getUserByUsernameAndPassword = async ({ username, password }) => {
+  try {
+    const user = await prisma.accounts.findFirst({
+      where: { username, password },
+    });
+    return exclude(user, ["password"]);
+  } catch (error) {}
+};
+
 module.exports = {
   createUser,
+  deleteUserById,
+  getUserByEmail,
+  updateUserById,
+  getUsers,
+  getUserByUsername,
+  getUserByUsernameAndPassword,
 };
