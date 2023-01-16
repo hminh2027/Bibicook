@@ -1,20 +1,20 @@
 const { prisma } = require("../database/prisma-client");
 
 const getBanners = async () => {
-  return [
-    {
-      url: "google.com",
-      index: 1,
-      alt: "temp banner",
+  return await prisma.slides.findMany();
+};
+const createBanner = async ({ fileName, url, index = 1 }) => {
+  const alt = fileName.split(".")[0];
+  return await prisma.slides.create({
+    data: {
+      alt,
+      url,
+      index: parseInt(index),
     },
-    {
-      url: "bing.com",
-      index: 2,
-      alt: "temp banner 2",
-    },
-  ];
+  });
 };
 
 module.exports = {
   getBanners,
+  createBanner,
 };
