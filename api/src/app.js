@@ -3,8 +3,10 @@ const cors = require("cors");
 const helmet = require("helmet");
 const { port } = require("./config/config");
 const routes = require("./routes/index");
+const cookieParser = require("cookie-parser");
 const { errorHandler } = require("./middlewares/error");
 const ApiError = require("./utils/api-error");
+const httpStatus = require("http-status");
 const app = express();
 
 // Middleware
@@ -12,6 +14,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.use(cookieParser());
 
 // Routers
 app.use("/api", routes);

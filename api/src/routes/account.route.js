@@ -5,11 +5,12 @@ const router = express.Router();
 // const validate = require('../../middlewares/validate');
 // const userValidation = require('../../validations/user.validation');
 const accountController = require("../controllers/account.controller");
+const { authenticate } = require("../middlewares/auth.middleware");
 
 router
   .route("/")
   .get(
-    // auth("getUsers"),
+    authenticate,
     // validate(userValidation.getUsers),
     accountController.getUsers
   )

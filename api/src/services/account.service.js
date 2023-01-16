@@ -32,6 +32,7 @@ const getUserByEmail = async ({ email }) => {
     const user = await prisma.accounts.findUnique({
       where: { email },
     });
+    // TODO: Check xem trả về fields nào
     return user ? _.omit(user, ["password"]) : user;
   } catch (error) {
     throw new ApiError(httpStatus.NOT_FOUND, error);
