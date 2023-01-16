@@ -12,6 +12,7 @@ model Products {
   name             String             @db.VarChar(255)
   price            Float
   desc             String?            @db.VarChar(512)
+  slug             String?            @db.VarChar(512)
   createdAt        DateTime           @default(now()) @db.Timestamp(6)
   updatedAt        DateTime           @default(now()) @db.Timestamp(6)
   isDeleted        Boolean            @default(false)
@@ -21,6 +22,7 @@ model Products {
   updatedBy        String
   Categories       Categories?        @relation(fields: [categoriesName], references: [name])
   categoriesName   String?
+  ProductMedias    ProductMedias[]
 }
 
 model Accounts {
@@ -28,11 +30,9 @@ model Accounts {
   username  String     @unique @db.VarChar(255)
   password  String     @db.VarChar(512)
   createdAt DateTime   @default(now()) @db.Timestamp(6)
-  token     String?    @db.VarChar(512)
   isActive  Boolean    @default(true)
   // relations
   Products  Products[]
-  Medias    Medias[]
   Roles     Roles?     @relation(fields: [rolesId], references: [id])
   rolesId   Int?       @default(2)
 }
@@ -51,14 +51,13 @@ model Attributes {
 }
 
 model Attribute_values {
-  id             Int        @id @default(autoincrement())
   Products       Products   @relation(fields: [productsId], references: [id])
   productsId     Int
   Attributes     Attributes @relation(fields: [attributesName], references: [name])
   attributesName String
   value          String     @db.VarChar(255)
 
-  @@unique([productsId, attributesName], name: "Attribute_values_unique")
+  @@id([productsId, attributesName])
 }
 
 model Categories {
@@ -69,21 +68,42 @@ model Categories {
 }
 
 model Medias {
-  url        String   @id @db.VarChar(255)
-  alt        String?  @db.VarChar(255)
-  index      Int
-  name       String   @db.VarChar(255)
-  size       String?
-  uploadedAt DateTime @default(now()) @db.Timestamp(6)
+  url           String          @id @db.VarChar(255)
+  alt           String?         @db.VarChar(255)
+  name          String          @db.VarChar(255)
+  size          String?
+  uploadedAt    DateTime        @default(now()) @db.Timestamp(6)
   // relations
-  Accounts   Accounts @relation(fields: [uploadedBy], references: [username])
-  uploadedBy String
+  ProductMedias ProductMedias[]
+  BannerMedias  BannerMedias[]
 }
 
-model Slides {
-  url   String  @id @db.VarChar(255)
-  index Int
-  alt   String? @db.VarChar(255)
+model ProductMedias {
+  index      Int
+  // relations
+  Products   Products @relation(fields: [productsId], references: [id])
+  productsId Int
+  Medias     Medias   @relation(fields: [mediasUrl], references: [url])
+  mediasUrl  String   @db.VarChar(255)
+
+  @@id([productsId, mediasUrl])
+}
+
+model BannerMedias {
+  index       Int
+  // relations
+  Medias      Medias  @relation(fields: [mediasUrl], references: [url])
+  mediasUrl   String  @db.VarChar(255)
+  Banners     Banners @relation(fields: [bannersName], references: [name])
+  bannersName String  @db.VarChar(255)
+
+  @@id([bannersName, mediasUrl])
+}
+
+model Banners {
+  name         String         @id @db.VarChar(255)
+  // relations
+  BannerMedias BannerMedias[]
 }
 
 model Setting {
