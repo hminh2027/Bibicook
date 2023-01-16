@@ -3,7 +3,7 @@ const FILE_SIZE_LIMIT = 0.5 * 1024 * 1024;
 const path = require("path");
 const multer = require("multer");
 
-var storage = multer.memoryStorage();
+const storage = multer.memoryStorage();
 const checkFileType = (file, cb) => {
   // Allowed ext
   const filetypes = /jpeg|jpg|png|gif|webp|svg/;

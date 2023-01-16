@@ -3,29 +3,33 @@ import { useFieldArray, useForm, Controller } from "react-hook-form";
 import { Button, Form, Input } from "antd";
 import BannerPreview from "./BannerPreview";
 import { Upload } from "./BannerInput";
+import axios from "axios";
+import { bannerEndpoint } from "../../../services/endpoint";
 interface Props {
   banners?: Banner[];
 }
 interface Banner {
   url: string;
+  index: number;
 }
 
 export const BannerForm = ({
   banners = [
     {
       url: "https://images.unsplash.com/photo-1587502537147-2ba64a62e3d3",
+      index: 1,
     },
     {
       url: "https://images.unsplash.com/photo-1434725039720-aaad6dd32dfe",
+      index: 1,
     },
   ],
 }: Props) => {
-  const { control, handleSubmit, setValue, getValues, watch, register } =
-    useForm({
-      defaultValues: {
-        banners: banners,
-      },
-    });
+  const { control, handleSubmit, watch, register } = useForm({
+    defaultValues: {
+      banners: banners,
+    },
+  });
   const { fields, append, remove } = useFieldArray({
     control,
     name: "banners",
@@ -33,18 +37,13 @@ export const BannerForm = ({
 
   const onSubmit = async (data: any) => {
     const { banners } = data;
-    console.log(banners);
+    // console.log(banners);
     const formData = new FormData();
-    for (let i = 0; i < banners.length; i++) {
-      formData.append("banner", banners[i]);
-      formData.append("index", `${i}`);
-    }
-
-    const res = await fetch("http://localhost:8000/api/banner", {
-      method: "POST",
-      body: formData,
-    }).then((res) => res.json());
-    alert(JSON.stringify(`${res.message}, status: ${res.status}`));
+    banners.map((banner) => {
+      formData.append("banner", banner.url[0]);
+      formData.append("index", banner.index);
+    });
+    const res = await bannerEndpoint.post(formData);
   };
   const bannersToWatch = watch("banners");
   return (
@@ -52,17 +51,21 @@ export const BannerForm = ({
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <div className="flex justify-between">
           <div className="text-3xl">Banners:</div>
-          <Button type="primary" onClick={() => append({ url: "" })}>
+          <Button type="primary" onClick={() => append({ url: "", index: 0 })}>
             Thêm
           </Button>
         </div>
         <div className="flex flex-col gap-4">
-          <Controller
-            control={control}
-            name={`banners`}
-            render={({ field }) => <Upload {...field} />}
-          />
-          {/* <input {...register("banners")} /> */}
+          {fields.map((field, index) => (
+            <Upload
+              key={field.id}
+              register={register}
+              index={index}
+              onRemove={() => remove(index)}
+              control={control}
+              field={field}
+            />
+          ))}
         </div>
 
         <Button type="primary" htmlType="submit" className="btn-success">
