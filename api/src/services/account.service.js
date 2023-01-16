@@ -1,15 +1,8 @@
-const { METHOD_NOT_ALLOWED } = require("http-status");
 const httpStatus = require("http-status");
-const { PrismaErrors } = require("../constants/error");
 const { prisma } = require("../database/prisma-client");
 const ApiError = require("../utils/api-error");
-const { exclude } = require("../utils/exclude");
+const _ = require("lodash");
 
-/**
- * Create a user
- * @param {Object} userBody
- * @returns {Promise<User>}
- */
 const createUser = async ({ email, password, username }) => {
   const emailNotUniue = await getUserByEmail({ email });
   const usernameNotUniue = await getUserByUsername({ username });
@@ -25,7 +18,7 @@ const createUser = async ({ email, password, username }) => {
       username,
     },
   });
-  return exclude(user, ["password"]);
+  return _.omit(user, ["password"]);
 };
 
 const deleteUserById = async ({ id }) => {};
@@ -39,7 +32,7 @@ const getUserByEmail = async ({ email }) => {
     const user = await prisma.accounts.findUnique({
       where: { email },
     });
-    return user ? exclude(user, ["password"]) : user;
+    return user ? _.omit(user, ["password"]) : user;
   } catch (error) {
     throw new ApiError(httpStatus.NOT_FOUND, error);
   }
@@ -50,7 +43,7 @@ const getUserByUsername = async ({ username }) => {
     const user = await prisma.accounts.findUnique({
       where: { username },
     });
-    return user ? exclude(user, ["password"]) : user;
+    return user ? _.omit(user, ["password"]) : user;
   } catch (error) {}
 };
 
@@ -59,7 +52,7 @@ const getUserByUsernameAndPassword = async ({ username, password }) => {
     const user = await prisma.accounts.findFirst({
       where: { username, password },
     });
-    return exclude(user, ["password"]);
+    return _.omit(user, ["password"]);
   } catch (error) {}
 };
 
