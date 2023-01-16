@@ -4,7 +4,7 @@ const helmet = require("helmet");
 const { port } = require("./config/config");
 const routes = require("./routes/index");
 const { errorHandler } = require("./middlewares/error");
-
+const ApiError = require("./utils/api-error");
 const app = express();
 
 // Middleware

@@ -1,15 +1,10 @@
-const FILE_SIZE_LIMIT = 5 * 1024;
+const FILE_SIZE_LIMIT = 0.5 * 1024 * 1024;
+
 const path = require("path");
 const multer = require("multer");
-var storage = multer.diskStorage({
-  destination: function (req, file, callback) {
-    callback(null, "./upload/banner");
-  },
-  filename: function (req, file, callback) {
-    callback(null, file.originalname);
-  },
-});
-function checkFileType(file, cb) {
+
+const storage = multer.memoryStorage();
+const checkFileType = (file, cb) => {
   // Allowed ext
   const filetypes = /jpeg|jpg|png|gif|webp|svg/;
   // Check ext
@@ -23,13 +18,14 @@ function checkFileType(file, cb) {
     console.log(path.extname(file.originalname).toLowerCase());
     cb("Error: Images Only!");
   }
-}
+};
 const upload = multer({
   storage: storage,
   limits: { fileSize: FILE_SIZE_LIMIT },
   fileFilter: function (_req, file, cb) {
     checkFileType(file, cb);
   },
+  preservePath: true,
 });
 
 module.exports = upload;
