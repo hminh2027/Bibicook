@@ -14,7 +14,7 @@ const { logger } = require("../config/winston");
 // };
 
 const errorHandler = (err, req, res, next) => {
-  let { statusCode, message } = err;
+  let { statusCode = 500, message } = err;
   if (config.env === "production" && !err.isOperational) {
     statusCode = httpStatus.INTERNAL_SERVER_ERROR;
     message = httpStatus[httpStatus.INTERNAL_SERVER_ERROR];

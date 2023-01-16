@@ -2,13 +2,6 @@ const httpStatus = require("http-status");
 const ApiError = require("../utils/api-error");
 const accountService = require("./account.service");
 
-/**
- * Login with username and password
- * @param {string} email
- * @param {string} password
- * @returns {Promise<User>}
- */
-
 const login = async ({ username, password }) => {
   const user = await accountService.getUserByUsernameAndPassword({
     username,
