@@ -7,7 +7,6 @@ const login = async (req, res, next) => {
   try {
     const { username, password } = req.body;
     const user = await authService.login({ username, password });
-
     res.json({
       userId: user.email,
       accessToken: await tokenService.generateAccessToken({

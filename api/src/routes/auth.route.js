@@ -1,20 +1,15 @@
 const express = require("express");
-const httpStatus = require("http-status");
 const router = express.Router();
-
-// const validate = require('../../middlewares/validate');
-// const userValidation = require('../../validations/user.validation');
+const authValidation = require("../validations/auth.validation");
 const authController = require("../controllers/auth.controller");
-const ApiError = require("../utils/api-error");
+const { validate } = require("../middlewares/validate.middleware");
 
-router.route("/login").post(
-  // validate(userValidation.createUser),
-  authController.login
-);
+router
+  .route("/login")
+  .post(validate(authValidation.login), authController.login);
 
-router.route("/signup").post(
-  // validate(userValidation.createUser),
-  authController.signup
-);
+router
+  .route("/signup")
+  .post(validate(authValidation.signup), authController.signup);
 
 module.exports = router;
