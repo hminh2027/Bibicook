@@ -24,8 +24,8 @@ const DashboardHeader: FC<Props> = ({ avatar, name, role }: Props) => {
       <div className="flex justify-between items-center">
         <div className="w-10 h-10 rounded-full bg-red-600"></div>
         <div className="flex flex-col">
-          <div>{user.name}</div>
-          <div>{user.role}</div>
+          <div>{user?.name}</div>
+          <div>{user?.role}</div>
         </div>
       </div>
 
