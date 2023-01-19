@@ -10,16 +10,23 @@ const authenticate = async (req, res, next) => {
     const token = req.headers.cookie;
     const decoded = jwt.verify(token, config.jwt.secret);
     if (decoded.type !== TokenTypes.ACCESS)
-      throw new ApiError(httpStatus.BAD_REQUEST, "Token not accepted");
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        "Token is invalid! Please login"
+      );
     const user = await accountService.getUserByEmail({ email: decoded.userId });
-    if (!user) throw new ApiError(httpStatus.BAD_REQUEST, "Token from who?");
+    if (!user)
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        "Token is invalid! Please login"
+      );
     req.user = user;
     console.log(decoded);
     console.log(user);
 
     next();
   } catch (error) {
-    next(error);
+    next({ ...error, message: "Token is invalid! Please login" });
   }
 };
 
