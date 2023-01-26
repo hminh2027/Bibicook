@@ -10,18 +10,15 @@ interface Props {
 }
 interface Banner {
   url: string;
-  index: number;
 }
 
 export const BannerForm = ({
   banners = [
     {
       url: "https://images.unsplash.com/photo-1587502537147-2ba64a62e3d3",
-      index: 1,
     },
     {
       url: "https://images.unsplash.com/photo-1434725039720-aaad6dd32dfe",
-      index: 1,
     },
   ],
 }: Props) => {
@@ -37,13 +34,7 @@ export const BannerForm = ({
 
   const onSubmit = async (data: any) => {
     const { banners } = data;
-    // console.log(banners);
-    const formData = new FormData();
-    banners.map((banner) => {
-      formData.append("banner", banner.url[0]);
-      formData.append("index", banner.index);
-    });
-    const res = await bannerEndpoint.post(formData);
+    console.log(banners);
   };
   const bannersToWatch = watch("banners");
   return (
@@ -51,11 +42,11 @@ export const BannerForm = ({
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <div className="flex justify-between">
           <div className="text-3xl">Banners:</div>
-          <Button type="primary" onClick={() => append({ url: "", index: 0 })}>
+          <Button type="primary" onClick={() => append({ url: "" })}>
             Thêm
           </Button>
         </div>
-        <div className="flex flex-col gap-4">
+        <div className="flex gap-4">
           {fields.map((field, index) => (
             <Upload
               key={field.id}

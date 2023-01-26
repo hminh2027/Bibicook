@@ -1,7 +1,8 @@
 const ApiError = require("../utils/api-error");
 const mediaService = require("../services/media.service");
 const getMedias = async (req, res, next) => {
-  res.status(200).json([]);
+  const medias = await mediaService.getMedias();
+  res.status(200).json(medias);
 };
 const createMedia = async (req, res, next) => {
   try {

@@ -2,7 +2,11 @@ const { prisma } = require("../database/prisma-client");
 const ApiError = require("../utils/api-error");
 
 const getMedias = async (req, res, next) => {
-  return [];
+  try {
+    return await prisma.medias.findMany();
+  } catch (error) {
+    throw new ApiError(404, "Failed");
+  }
 };
 const createMedia = async ({ fileName, size, url }) => {
   try {

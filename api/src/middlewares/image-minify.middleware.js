@@ -24,14 +24,13 @@ const imageMinifyMany = async (req, res, next) => {
 
   const newFiles = await Promise.allSettled(
     files?.map(async (file, i) => {
-      const { buffer, originalname, ...others } = file;
+      const { buffer, originalname } = file;
       const fileName = restoreFileName(originalname);
       const minifiedImage = await sharp(buffer)
         .webp({ quality: IMAGE_QUALITY })
         .toFile(`${UPLOAD_PATH}/` + fileName);
       const url = `http://localhost:8000/${RETURN_UPLOAD_PATH}/${fileName}`;
       return {
-        ...others,
         ...minifiedImage,
         fileName,
         url,
@@ -52,13 +51,13 @@ const imageMinifyOne = async (req, res, next) => {
     }
   });
 
-  const { buffer, originalname, ...others } = req.file;
+  const { buffer, originalname } = req.file;
   const fileName = restoreFileName(originalname);
   const minifiedImage = await sharp(buffer)
     .webp({ quality: IMAGE_QUALITY })
     .toFile(`${UPLOAD_PATH}/` + fileName);
   const url = `http://localhost:8000/${RETURN_UPLOAD_PATH}/${fileName}`;
-  req.file = { ...others, ...minifiedImage, fileName, url };
+  req.file = { ...minifiedImage, fileName, url };
   next();
 };
 module.exports = { imageMinifyMany, imageMinifyOne };
