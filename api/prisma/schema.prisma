@@ -71,7 +71,7 @@ model Medias {
   url           String          @id @db.VarChar(255)
   alt           String?         @db.VarChar(255)
   name          String          @db.VarChar(255)
-  size          String?
+  size          Int?
   uploadedAt    DateTime        @default(now()) @db.Timestamp(6)
   // relations
   ProductMedias ProductMedias[]

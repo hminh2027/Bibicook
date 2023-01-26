@@ -4,10 +4,7 @@ const url = "banner";
 
 export const bannerEndpoint = {
   post: async (formData: FormData) => {
-    return await apiClient.request({
-      url,
-      data: formData,
-      method: "POST",
+    return await apiClient.post(url, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

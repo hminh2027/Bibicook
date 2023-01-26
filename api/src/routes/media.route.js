@@ -1,14 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const bannerController = require("../controllers/banner.controller");
+const mediaController = require("../controllers/media.controller");
 const upload = require("../middlewares/media-upload.middleware");
+const { imageMinifyOne } = require("../middlewares/image-minify.middleware");
 router
   .route("/")
   .get(
     // auth("getUsers"),
     // validate(userValidation.getUsers),
-    bannerController.getBanners
+    mediaController.getMedias
   )
-  .post(upload.array("banner"), bannerController.createBanners);
+  .post(upload.single("media"), imageMinifyOne, mediaController.createMedia);
 
 module.exports = router;
