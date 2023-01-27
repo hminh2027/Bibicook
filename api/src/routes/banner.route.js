@@ -9,6 +9,6 @@ router
     // validate(userValidation.getUsers),
     bannerController.getBanners
   )
-  .post(upload.array("banner"), bannerController.createBanners);
+  .post(upload.array("banner"), bannerController.saveBanners);
 
 module.exports = router;

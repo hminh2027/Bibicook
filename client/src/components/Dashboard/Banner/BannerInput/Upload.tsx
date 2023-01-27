@@ -1,7 +1,5 @@
-import { Button, InputNumber } from "antd";
-import axios from "axios";
-import { useRef, useState } from "react";
-import { Controller } from "react-hook-form";
+import { Button } from "antd";
+import { useEffect, useRef, useState } from "react";
 import { mediaEndpoint } from "../../../../services/endpoint/media";
 
 // interface Props {
@@ -9,21 +7,24 @@ import { mediaEndpoint } from "../../../../services/endpoint/media";
 //   index?: number;
 // }
 
-export const Upload = ({ control, index, onRemove, register, field }) => {
+export const Upload = ({ index, onRemove, register, field, setValue }) => {
   const [file, setFile] = useState(field);
   const inputRef = useRef(null);
+  useEffect(() => {
+    if (file.url) setValue(`banners.${index}.url`, file?.url);
+  }, [file]);
+
   const handleClick = () => {
     inputRef.current.click();
   };
-  const { onChange, ref, value, name } = register(`banners.${index}.url`);
   const onFileSelected = async (e) => {
-    const file = e.target.files[0];
+    const fileToUpload = e.target.files[0];
     const formData = new FormData();
-    formData.append("media", file);
+    formData.append("media", fileToUpload);
+
     try {
       const res = await mediaEndpoint.post(formData);
       setFile(res);
-      console.log(res);
     } catch (error) {
       console.log(error);
     }
@@ -45,17 +46,14 @@ export const Upload = ({ control, index, onRemove, register, field }) => {
         {file.url ? showFile : uploadBtn}
         <input
           type="file"
-          onChange={(e) => {
-            onFileSelected(e);
-            onChange(e);
-          }}
-          ref={(el) => {
-            inputRef.current = el;
-            ref(el);
-          }}
-          name={name}
+          onChange={onFileSelected}
+          ref={inputRef}
           style={{ display: "none" }}
-          value={value}
+        />
+        <input
+          type="text"
+          {...register(`banners.${index}.url`)}
+          style={{ display: "none" }}
         />
       </div>
 
