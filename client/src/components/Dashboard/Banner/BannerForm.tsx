@@ -1,31 +1,18 @@
-import React, { useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import { useFieldArray, useForm, Controller } from "react-hook-form";
 import { Button, Form, Input } from "antd";
 import BannerPreview from "./BannerPreview";
 import { Upload } from "./BannerInput";
 import axios from "axios";
 import { bannerEndpoint } from "../../../services/endpoint";
-interface Props {
-  banners?: Banner[];
-}
+
 interface Banner {
+  id: number;
   url: string;
-  index: number;
 }
 
-export const BannerForm = ({
-  banners = [
-    {
-      url: "https://images.unsplash.com/photo-1587502537147-2ba64a62e3d3",
-      index: 1,
-    },
-    {
-      url: "https://images.unsplash.com/photo-1434725039720-aaad6dd32dfe",
-      index: 1,
-    },
-  ],
-}: Props) => {
-  const { control, handleSubmit, watch, register } = useForm({
+export const BannerForm: FC<any> = ({ banners }) => {
+  const { control, handleSubmit, watch, register, setValue } = useForm({
     defaultValues: {
       banners: banners,
     },
@@ -37,13 +24,12 @@ export const BannerForm = ({
 
   const onSubmit = async (data: any) => {
     const { banners } = data;
-    // console.log(banners);
-    const formData = new FormData();
-    banners.map((banner) => {
-      formData.append("banner", banner.url[0]);
-      formData.append("index", banner.index);
-    });
-    const res = await bannerEndpoint.post(formData);
+    try {
+      const res = await bannerEndpoint.post(banners);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
   };
   const bannersToWatch = watch("banners");
   return (
@@ -51,19 +37,19 @@ export const BannerForm = ({
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <div className="flex justify-between">
           <div className="text-3xl">Banners:</div>
-          <Button type="primary" onClick={() => append({ url: "", index: 0 })}>
+          <Button type="primary" onClick={() => append({ url: "" })}>
             Thêm
           </Button>
         </div>
-        <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {fields.map((field, index) => (
             <Upload
               key={field.id}
               register={register}
               index={index}
               onRemove={() => remove(index)}
-              control={control}
               field={field}
+              setValue={setValue}
             />
           ))}
         </div>
