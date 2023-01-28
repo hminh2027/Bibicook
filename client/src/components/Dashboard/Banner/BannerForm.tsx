@@ -1,10 +1,7 @@
 import React, { FC, useEffect } from "react";
 import { useFieldArray, useForm, Controller } from "react-hook-form";
-import { Button, Form, Input } from "antd";
-import BannerPreview from "./BannerPreview";
+import { Button } from "antd";
 import { Upload } from "./BannerInput";
-import axios from "axios";
-import { bannerEndpoint } from "../../../services/endpoint";
 import { usePostBanner } from "./hook";
 
 interface Banner {
@@ -22,17 +19,21 @@ export const BannerForm: FC<any> = ({ banners }) => {
     control,
     name: "banners",
   });
-  const { postBanner } = usePostBanner();
+  const { postBanner } = usePostBanner(
+    () => {},
+    () => {}
+  );
   const onSubmit = async (data: any) => {
     const { banners } = data;
     try {
-      postBanner(banners);
+      const _banners = banners.filter((banner) => banner.url != "");
+      postBanner(_banners);
     } catch (error) {
       console.log(error);
     }
   };
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col h-full justify-between gap-8">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <div className="flex justify-between">
           <div className="text-3xl">Banners:</div>

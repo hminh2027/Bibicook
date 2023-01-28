@@ -35,14 +35,14 @@ export const Upload = ({ index, onRemove, register, field, setValue }) => {
     </Button>
   );
   const showFile = (
-    <div className="flex flex-col">
-      <img onClick={handleClick} className="h-[200px]" src={file.url} />
-      <div>{file?.name}</div>
+    <div className="grid place-items-center overflow-hidden object-cover">
+      <img onClick={handleClick} className="w-full " src={file.url} />
+      {/* <div>{file?.name}</div> */}
     </div>
   );
   return (
     <div className="flex flex-col gap-2 items-center">
-      <div className="flex">
+      <div className="grid grid-cols-1">
         {file.url ? showFile : uploadBtn}
         <input
           type="file"
