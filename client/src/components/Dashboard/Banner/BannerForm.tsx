@@ -1,10 +1,8 @@
 import React, { FC, useEffect } from "react";
 import { useFieldArray, useForm, Controller } from "react-hook-form";
-import { Button, Form, Input } from "antd";
-import BannerPreview from "./BannerPreview";
+import { Button } from "antd";
 import { Upload } from "./BannerInput";
-import axios from "axios";
-import { bannerEndpoint } from "../../../services/endpoint";
+import { usePostBanner } from "./hook";
 
 interface Banner {
   id: number;
@@ -12,28 +10,30 @@ interface Banner {
 }
 
 export const BannerForm: FC<any> = ({ banners }) => {
-  const { control, handleSubmit, watch, register, setValue } = useForm({
+  const { control, handleSubmit, register, setValue } = useForm({
     defaultValues: {
-      banners: banners,
+      banners,
     },
   });
   const { fields, append, remove } = useFieldArray({
     control,
     name: "banners",
   });
-
+  const { postBanner } = usePostBanner(
+    () => {},
+    () => {}
+  );
   const onSubmit = async (data: any) => {
     const { banners } = data;
     try {
-      const res = await bannerEndpoint.post(banners);
-      console.log(res);
+      const _banners = banners.filter((banner) => banner.url != "");
+      postBanner(_banners);
     } catch (error) {
       console.log(error);
     }
   };
-  const bannersToWatch = watch("banners");
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col h-full justify-between gap-8">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <div className="flex justify-between">
           <div className="text-3xl">Banners:</div>
@@ -58,7 +58,6 @@ export const BannerForm: FC<any> = ({ banners }) => {
           Lưu
         </Button>
       </form>
-      {/* <BannerPreview banners={bannersToWatch} /> */}
     </div>
   );
 };
