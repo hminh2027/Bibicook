@@ -57,11 +57,9 @@ export const Upload = ({ index, onRemove, register, field, setValue }) => {
         />
       </div>
 
-      <div className="w-[120px]">
-        <Button className="w-full" onClick={onRemove} danger>
-          Xoá
-        </Button>
-      </div>
+      <Button className="w-full" onClick={onRemove} danger>
+        Xoá
+      </Button>
     </div>
   );
 };

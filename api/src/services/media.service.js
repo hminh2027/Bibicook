@@ -1,14 +1,26 @@
+const { PrismaClientKnownRequestError } = require("@prisma/client/runtime");
 const { prisma } = require("../database/prisma-client");
 const ApiError = require("../utils/api-error");
 
-const getMedias = async (req, res, next) => {
+const getMedias = async () => {
   try {
     return await prisma.medias.findMany();
   } catch (error) {
     throw new ApiError(404, "Failed");
   }
 };
-const createMedia = async ({ fileName, size, url }) => {
+const getMedia = async (url) => {
+  try {
+    return await prisma.medias.findFirst({
+      where: {
+        url,
+      },
+    });
+  } catch (error) {
+    throw new ApiError(404, "Mo media found");
+  }
+};
+const createMedia = async (fileName, size, url) => {
   try {
     return await prisma.medias.create({
       data: {
@@ -19,6 +31,8 @@ const createMedia = async ({ fileName, size, url }) => {
       },
     });
   } catch (error) {
+    // if (error instanceof PrismaClientKnownRequestError) {
+    // }
     console.log(error);
     throw new ApiError(200, "Failed");
   }
