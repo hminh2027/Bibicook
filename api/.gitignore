@@ -4,3 +4,5 @@ node_modules
 prisma/migrations/*
 upload/banner/*
 *.http
+
+public

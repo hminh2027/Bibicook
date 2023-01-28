@@ -1,7 +1,7 @@
 import { Outlet, createBrowserRouter } from "react-router-dom";
 import { Login } from "../components/Auth/Login";
 import ErrorPage from "./ErrorPage";
-import { BannerPage, AlbumPage } from "../page/Dashboard";
+import { BannerPage, AlbumPage, MediaPage } from "../page/Dashboard";
 import { DashboardLayout } from "../components/Dashboard/Layout";
 import {
   ProductCreate,
@@ -46,24 +46,29 @@ export const router = createBrowserRouter([
             element: <AlbumPage />,
           },
           {
+            path: "media",
+            element: <MediaPage />,
+          },
+          {
             path: "product",
-            element: (
-              <>
-                <ProductMain />
-              </>
-            ),
-          },
-          {
-            path: "product/create",
-            element: <ProductCreate />,
-          },
-          {
-            path: "product/:id",
-            element: <ProductDetail />,
-          },
-          {
-            path: "product/:id/edit",
-            element: <ProductEdit />,
+            children: [
+              {
+                path: "",
+                element: <ProductMain />,
+              },
+              {
+                path: "create",
+                element: <ProductCreate />,
+              },
+              {
+                path: ":id",
+                element: <ProductDetail />,
+              },
+              {
+                path: ":id/edit",
+                element: <ProductEdit />,
+              },
+            ],
           },
           {
             path: "category",

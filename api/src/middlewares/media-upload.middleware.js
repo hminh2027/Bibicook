@@ -1,4 +1,4 @@
-const FILE_SIZE_LIMIT = 0.5 * 1024 * 1024;
+const FILE_SIZE_LIMIT = 40 * 1024 * 1024;
 
 const path = require("path");
 const multer = require("multer");

@@ -1,10 +1,14 @@
 const bannerService = require("../services/banner.service");
+const ApiError = require("../utils/api-error");
 
-const createBanners = async (req, res, next) => {
-  const { files } = req;
-  // const banner = await bannerService.createBanners({ fileName, url, index });
-  // res.status(200).json(banner);
-  res.status(200).json(files);
+const saveBanners = async (req, res, next) => {
+  try {
+    const banners = req.body;
+    const result = await bannerService.saveBanners(banners);
+    res.status(200).json(result);
+  } catch (e) {
+    next(e);
+  }
 };
 
 const getBanners = async (req, res, next) => {
@@ -12,4 +16,4 @@ const getBanners = async (req, res, next) => {
   return res.status(200).json(banners);
 };
 
-module.exports = { createBanners, getBanners };
+module.exports = { saveBanners, getBanners };

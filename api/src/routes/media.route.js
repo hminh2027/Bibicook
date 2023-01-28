@@ -1,14 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const bannerController = require("../controllers/banner.controller");
+const mediaController = require("../controllers/media.controller");
 const upload = require("../middlewares/media-upload.middleware");
 router
   .route("/")
   .get(
     // auth("getUsers"),
     // validate(userValidation.getUsers),
-    bannerController.getBanners
+    mediaController.getMedias
   )
-  .post(upload.array("banner"), bannerController.saveBanners);
+  .post(upload.single("media"), mediaController.createMedia);
 
 module.exports = router;
