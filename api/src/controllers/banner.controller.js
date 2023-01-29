@@ -1,19 +1,31 @@
+const httpStatus = require("http-status");
 const bannerService = require("../services/banner.service");
-const ApiError = require("../utils/api-error");
 
-const saveBanners = async (req, res, next) => {
+const { imageMinify } = require("../utils/file-helper");
+
+const createBanner = async (req, res, next) => {
   try {
-    const banners = req.body;
-    const result = await bannerService.saveBanners(banners);
-    res.status(200).json(result);
-  } catch (e) {
-    next(e);
+    const { buffer, originalname } = req.file;
+    const { fileName, size, url } = await imageMinify(buffer, originalname);
+
+    const banner = await bannerService.createBanner({ url, fileName, size });
+
+    res.status(httpStatus.CREATED).json({
+      message: "Tạo banner thành công!",
+      data: banner,
+    });
+  } catch (error) {
+    next(error);
   }
 };
 
 const getBanners = async (req, res, next) => {
-  const banners = await bannerService.getBanners();
-  return res.status(200).json(banners);
+  try {
+    const banners = await bannerService.getBanners();
+    res.status(httpStatus.OK).json(banners);
+  } catch (error) {
+    next(error);
+  }
 };
 
-module.exports = { saveBanners, getBanners };
+module.exports = { getBanners, createBanner };

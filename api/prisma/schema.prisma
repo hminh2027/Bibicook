@@ -75,7 +75,7 @@ model Medias {
   uploadedAt    DateTime        @default(now()) @db.Timestamp(6)
   // relations
   ProductMedias ProductMedias[]
-  Banners       Banners[]
+  Banners       Banners?
 }
 
 model ProductMedias {
@@ -89,22 +89,11 @@ model ProductMedias {
   @@id([productsId, mediasUrl])
 }
 
-// model BannerMedias {
-//   index       Int
-//   // relations
-//   Medias      Medias  @relation(fields: [mediasUrl], references: [url])
-//   mediasUrl   String  @db.VarChar(255)
-//   Banners     Banners @relation(fields: [bannersName], references: [name])
-//   bannersName String  @db.VarChar(255)
-
-//   @@id([bannersName, mediasUrl])
-// }
-
 model Banners {
-  id     Int    @id @default(autoincrement())
+  id    Int    @id @default(autoincrement())
   // relations
-  Medias Medias @relation(fields: [url], references: [url])
-  url    String @db.VarChar(255)
+  Media Medias @relation(fields: [url], references: [url])
+  url   String @unique @db.VarChar(255)
 }
 
 model Setting {

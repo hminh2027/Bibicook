@@ -7,7 +7,8 @@ const envVariables = Joi.object()
     NODE_ENV: Joi.string()
       .valid("development", "production", "test")
       .default("development"),
-    PORT: Joi.number().default(8000),
+    APP_PORT: Joi.number().default(8000),
+    APP_URL: Joi.string().required().description("App url"),
     DATABASE_URL: Joi.string().required().description("MySQL url"),
     JWT_SECRET: Joi.string().required().description("JWT secret"),
     JWT_AT_EXPIRE_IN: Joi.string()
@@ -30,7 +31,8 @@ if (error) throw new Error(error.message);
 
 module.exports = {
   env: envVars.NODE_ENV,
-  port: envVars.PORT,
+  port: envVars.APP_PORT,
+  url: envVars.APP_URL,
   prisma: {
     url: envVars.DATABASE_URL,
   },
