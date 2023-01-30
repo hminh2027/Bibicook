@@ -1,9 +1,12 @@
 import React, { FC } from "react";
 import { BannerForm } from "../../components/Dashboard/Banner";
+import { useGetBanner } from "../../components/Dashboard/Banner/hook";
 export const BannerPage: FC = () => {
+  const { banners, isLoading } = useGetBanner();
+  if (isLoading) return <></>;
   return (
     // <div>
-    <BannerForm />
+    <BannerForm banners={banners} />
     // </div>
   );
 };

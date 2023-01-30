@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const bannerController = require("../controllers/banner.controller");
-const upload = require("../middlewares/banner-upload.middleware");
-const imageMinify = require("../middlewares/image-minify.middleware");
-const imageMinifyMany = require("../middlewares/image-minify-many.middleware");
+const upload = require("../middlewares/upload.middleware");
+
 router
   .route("/")
   .get(
@@ -11,10 +10,6 @@ router
     // validate(userValidation.getUsers),
     bannerController.getBanners
   )
-  .post(
-    upload.array("banner"),
-    imageMinifyMany,
-    bannerController.createBanners
-  );
+  .post(upload.single("media"), bannerController.createBanner);
 
 module.exports = router;

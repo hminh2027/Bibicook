@@ -1,66 +1,65 @@
-import { Button, InputNumber } from "antd";
-import { useRef, useState } from "react";
-import { Controller } from "react-hook-form";
+import { Button } from "antd";
+import { useEffect, useRef, useState } from "react";
+import { mediaEndpoint } from "../../../../services/endpoint/media";
 
 // interface Props {
 //   url?: string;
 //   index?: number;
 // }
 
-export const Upload = ({ control, index, onRemove, register, field }) => {
-  const [fileName, setFileName] = useState(field.url);
+export const Upload = ({ index, onRemove, register, field, setValue }) => {
+  const [file, setFile] = useState(field);
   const inputRef = useRef(null);
+  useEffect(() => {
+    if (file.url) setValue(`banners.${index}.url`, file?.url);
+  }, [file]);
+
   const handleClick = () => {
     inputRef.current.click();
   };
-  const { onChange, ref, value, name } = register(`banners.${index}.url`);
   const onFileSelected = async (e) => {
-    const { name } = e.target.files[0];
-    setFileName(name);
-    // setFile(e.target.files[0]);
+    const fileToUpload = e.target.files[0];
+    const formData = new FormData();
+    formData.append("media", fileToUpload);
+
+    try {
+      const res = await mediaEndpoint.post(formData);
+      setFile(res);
+    } catch (error) {
+      console.log(error);
+    }
   };
   const uploadBtn = (
     <Button className="w-full" onClick={handleClick}>
       Upload
     </Button>
   );
-  const showFileName = <div onClick={handleClick}>{fileName}</div>;
+  const showFile = (
+    <div className="grid place-items-center overflow-hidden object-cover">
+      <img onClick={handleClick} className="w-full " src={file.url} />
+      {/* <div>{file?.name}</div> */}
+    </div>
+  );
   return (
-    <div className="flex justify-between items-center">
-      <div className="flex flex-col">
-        <div className="">
-          {fileName ? showFileName : uploadBtn}
-          <input
-            type="file"
-            onChange={(e) => {
-              onFileSelected(e);
-              onChange(e);
-            }}
-            ref={(el) => {
-              inputRef.current = el;
-              ref(el);
-            }}
-            name={name}
-            style={{ display: "none" }}
-            value={value}
-          />
-        </div>
-
-        <div className="flex items-center  gap-2">
-          <div className="">Thứ tự: </div>
-          <Controller
-            control={control}
-            name={`banners.${index}.index`}
-            render={({ field }) => <InputNumber type="number" {...field} />}
-          />
-        </div>
+    <div className="flex flex-col gap-2 items-center">
+      <div className="grid grid-cols-1">
+        {file.url ? showFile : uploadBtn}
+        <input
+          type="file"
+          onChange={onFileSelected}
+          ref={inputRef}
+          style={{ display: "none" }}
+        />
+        <input
+          type="text"
+          {...register(`banners.${index}.url`)}
+          style={{ display: "none" }}
+        />
       </div>
 
-      <div className="w-[120px]">
-        <Button className="w-full" onClick={onRemove} danger>
-          Xoá
-        </Button>
-      </div>
+      <Button className="w-full" onClick={onRemove} danger>
+        Xoá
+      </Button>
     </div>
   );
 };
