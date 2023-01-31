@@ -1,21 +1,23 @@
 const sharp = require("sharp");
 const path = require("path");
 const fs = require("fs");
-const { slugify } = require("./slugify");
 const config = require("../config/config");
+const { slugifyMedia } = require("./slugify");
 
 const IMAGE_QUALITY = 80;
 const UPLOAD_FOLDER = "upload";
 const UPLOAD_PATH = path.join("public", UPLOAD_FOLDER);
 
-const minifyFile = async (buffer) => {
-  return await sharp(buffer)
+// TODO: Check size xem có cần sharp hay không
+const minifyFile = (buffer, fileName) => {
+  return sharp(buffer)
     .webp({ quality: IMAGE_QUALITY })
     .toFile(`${UPLOAD_PATH}/${fileName}`);
 };
+
 // Need duplicateNumber only when filename already exist
-const writeFile = async (buffer, originalName) => {
-  const fileName = slugify(originalName);
+const writeFile = (buffer, originalName) => {
+  const fileName = slugifyMedia(originalName);
   const url = `${config.url}/${UPLOAD_FOLDER}/${fileName}`;
 
   fs.access(`./${UPLOAD_PATH}/`, (error) => {
@@ -24,18 +26,17 @@ const writeFile = async (buffer, originalName) => {
     }
   });
 
-  const minifiedImage = minifyFile(buffer);
+  const minifiedImage = minifyFile(buffer, fileName);
 
   return { ...minifiedImage, fileName, url };
 };
-// TODO: hoàn thiện deleteFile và dùng trong catch(err)
+
 const deleteFile = (fileName) => {
-  fs.unlink(
-    path.join(__dirname, fileName, (err) => {
-      if (err) throw err;
-      console.log("path/file.txt was deleted");
-    })
-  );
+  fs.unlink(`${UPLOAD_PATH}/${fileName}`, (err) => {
+    if (err) console.log(err);
+    console.log("path/file.txt was deleted");
+  });
+  console.log("deleted");
 };
 
-module.exports = { writeFile };
+module.exports = { writeFile, deleteFile };
