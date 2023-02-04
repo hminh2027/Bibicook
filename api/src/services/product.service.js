@@ -1,11 +1,22 @@
 const { prisma } = require("../database/prisma-client");
 const { slugify } = require("../utils/slugify");
 
-const getProducts = async () => {
-  return await prisma.products.findMany();
+const getProducts = async ({ take, skip }) => {
+  return await prisma.products.findMany({ take, skip });
 };
 
-const createProduct = async ({ name, price, desc, slug, updateBy }) => {
+const getProductById = async ({ id }) => {
+  return await prisma.products.findUnique({ where: { id } });
+};
+
+const createProduct = async ({
+  name,
+  price,
+  desc,
+  slug,
+  updatedBy,
+  medias,
+}) => {
   const product = await prisma.products.create({
     data: {
       name,
@@ -13,6 +24,11 @@ const createProduct = async ({ name, price, desc, slug, updateBy }) => {
       desc,
       slug: slugify(slug),
       updatedBy,
+      ProductMedias: {
+        createMany: {
+          data: medias,
+        },
+      },
     },
   });
   return product;
@@ -21,4 +37,5 @@ const createProduct = async ({ name, price, desc, slug, updateBy }) => {
 module.exports = {
   getProducts,
   createProduct,
+  getProductById,
 };
