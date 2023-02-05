@@ -14,27 +14,25 @@ model Products {
   desc             String?            @db.VarChar(512)
   slug             String?            @unique @db.VarChar(512)
   createdAt        DateTime           @default(now()) @db.Timestamp(6)
+  createdBy        String
   updatedAt        DateTime           @default(now()) @db.Timestamp(6)
   isDeleted        Boolean            @default(false)
   // relations
   Attribute_values Attribute_values[]
-  Accounts         Accounts           @relation(fields: [updatedBy], references: [username])
-  updatedBy        String
   Categories       Categories?        @relation(fields: [categoriesName], references: [name])
   categoriesName   String?
   ProductMedias    ProductMedias[]
 }
 
 model Accounts {
-  email     String     @id @db.VarChar(255)
-  username  String     @unique @db.VarChar(255)
-  password  String     @db.VarChar(512)
-  createdAt DateTime   @default(now()) @db.Timestamp(6)
-  isActive  Boolean    @default(true)
+  email     String   @id @db.VarChar(255)
+  username  String   @unique @db.VarChar(255)
+  password  String   @db.VarChar(512)
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  isActive  Boolean  @default(true)
   // relations
-  Products  Products[]
-  Roles     Roles?     @relation(fields: [rolesId], references: [id])
-  rolesId   Int?       @default(2)
+  Roles     Roles?   @relation(fields: [rolesId], references: [id])
+  rolesId   Int?     @default(2)
 }
 
 model Roles {

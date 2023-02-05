@@ -41,7 +41,7 @@ const createProduct = async (req, res, next) => {
       desc,
       slug,
       // TODO: sau này thêm authentication thì thay bằng user.username
-      updatedBy: "admin",
+      createdBy: "admin",
       medias,
     });
 
