@@ -1,3 +1,4 @@
+import { useCookie } from "react-use";
 import axios from "axios";
 
 // Set up default config for http requests here
@@ -8,12 +9,23 @@ export const apiClient = axios.create({
     "Content-Type": "application/json",
   },
 });
-export const setToken = (token: string) => {
-  apiClient.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+export const setToken = () => {
+  const [accessToken, updateCookie, deleteCookie] = useCookie("accessToken");
+  console.log(accessToken);
+  if (accessToken) {
+    apiClient.defaults.withCredentials = true;
+  }
+  // apiClient.defaults.headers.common[
+  //   "Authorization"
+  // ] = `Bearer ${accessToken}`;
+};
+export const clearToken = () => {
+  delete apiClient.defaults.headers.common["Authorization"];
 };
 
 apiClient.interceptors.request.use(async (config) => {
   // Handle token here ...
+  // setToken();
 
   return config;
 });
@@ -27,7 +39,9 @@ apiClient.interceptors.response.use(
   },
   (error) => {
     // Handle errors
-    console.log(error);
+    if (error && error.response.data) {
+      throw error.response.data;
+    }
     throw error;
   }
 );
