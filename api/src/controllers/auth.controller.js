@@ -1,7 +1,7 @@
 const authService = require("../services/auth.service");
 const tokenService = require("../services/token.service");
-
 const httpStatus = require("http-status");
+const { TokenTypes } = require("../constants/token");
 
 const login = async (req, res, next) => {
   try {
@@ -48,7 +48,39 @@ const signup = async (req, res, next) => {
   }
 };
 
+const logout = async (req, res) => {
+  return res
+    .clearCookie("accessToken")
+    .status(httpStatus.OK)
+    .json({ message: "Đăng xuất thành công!" });
+};
+
+const refreshToken = (req, res, next) => {
+  try {
+    const { refreshToken } = req.body;
+
+    const decoded = tokenService.verifyToken({
+      token: refreshToken,
+      tokenType: TokenTypes.REFRESH,
+    });
+
+    const accessToken = tokenService.generateAccessToken({
+      userId: decoded.userId,
+    });
+
+    res
+      .cookie("accessToken", accessToken, {
+        httpOnly: true,
+      })
+      .json({ accessToken });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   login,
   signup,
+  logout,
+  refreshToken,
 };
