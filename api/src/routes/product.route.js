@@ -7,7 +7,10 @@ const { validate } = require("../middlewares/validate.middleware");
 
 router
   .route("/")
-  .get(validate(productValidation.getProducts), productController.getProducts)
+  .get(
+    // validate(productValidation.getProducts),
+    productController.getProducts
+  )
   .post(productController.createProduct);
 
 router.route("/:id").get(productController.getProductById);
