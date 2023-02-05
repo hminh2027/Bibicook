@@ -1,8 +1,9 @@
 import { Button, Input, Radio, Typography } from "antd";
 import { Editor } from "../../lib/ReactQuillEditor";
-import { Attributes, ImageUpload, SubImage } from "./index";
+import Attributes from "./Attributes";
+import Images from "./Images";
 import { useForm, Controller } from "react-hook-form";
-const { Title } = Typography;
+const { Title, Text } = Typography;
 const { TextArea } = Input;
 export const CreateForm = () => {
   const { control, handleSubmit } = useForm();
@@ -58,13 +59,13 @@ export const CreateForm = () => {
             />
           </div>
         </section>
+
         <section className="card">
-          <Title level={4}>Ảnh chính</Title>
-          <ImageUpload curImage="" />
-        </section>
-        <section className="card">
-          <Title level={4}>Ảnh phụ</Title>
-          <SubImage />
+          <div className="flex gap-2 items-baseline">
+            <Title level={4}>Ảnh</Title>
+            <Text>(Ảnh đầu là ảnh chính)</Text>
+          </div>
+          <Images />
         </section>
       </div>
       <div className="flex col-span-12">

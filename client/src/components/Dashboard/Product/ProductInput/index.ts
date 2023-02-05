@@ -1,5 +1,5 @@
-export { ImageUpload } from "./ImageUpload";
-export { Attributes } from "./Attributes";
-export { SubImage } from "./SubImage";
+export * from "./ImageUpload";
+export * from "./Attributes";
+export * from "./Images";
 export * from "./EditForm";
 export * from "./CreateForm";
