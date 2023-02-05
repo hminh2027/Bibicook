@@ -1,26 +1,21 @@
 import { apiClient } from "../api";
 
-const url = "";
-
+const url = "auth";
+interface UserCredential {
+  username: string;
+  password: string;
+}
+interface UserSignUp extends UserCredential {
+  email: string;
+}
 export const authEndpoint = {
-  signIn: async ({ username, password }) => {
-    return await new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve({ name: "User 1", role: "Admin" });
-      }, 2000);
-    });
-
-    //  await apiClient.post(
-    //   url,
-    //   { username, password },
-    //   {
-    //     url: "https://run.mocky.io/v3/f0420205-468c-4406-8ecb-3e0b42a01b36",
-    //   }
-    // );
+  login: async (userCredential: UserCredential) => {
+    return await apiClient.post(`${url}/login`, userCredential);
+  },
+  signUp: async (userSignUpData: UserSignUp) => {
+    return await apiClient.post(`${url}/signup`, userSignUpData);
   },
   getMe: async () => {
-    return await apiClient.get(
-      "https://run.mocky.io/v3/f0420205-468c-4406-8ecb-3e0b42a01b36"
-    );
+    return await apiClient.get("account");
   },
 };
