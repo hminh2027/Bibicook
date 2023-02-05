@@ -14,7 +14,7 @@ const createProduct = async ({
   price,
   desc,
   slug,
-  updatedBy,
+  createdBy,
   medias,
 }) => {
   const product = await prisma.products.create({
@@ -23,7 +23,7 @@ const createProduct = async ({
       price,
       desc,
       slug: slugify(slug),
-      updatedBy,
+      createdBy,
       ProductMedias: {
         createMany: {
           data: medias,
