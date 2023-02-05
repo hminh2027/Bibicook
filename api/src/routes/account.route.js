@@ -3,40 +3,34 @@ const router = express.Router();
 
 // const auth = require('../../middlewares/auth');
 // const validate = require('../../middlewares/validate');
-// const userValidation = require('../../validations/user.validation');
+const userValidation = require("../validations/user.validation");
 const accountController = require("../controllers/account.controller");
 const { authenticate } = require("../middlewares/auth.middleware");
 
-router
-  .route("/")
-  .get(
-    authenticate,
-    // validate(userValidation.getUsers),
-    accountController.getUsers
-  )
-  .post(
-    // auth("manageUsers"),
-    // validate(userValidation.createUser),
-    accountController.createUser
-  );
+router.route("/").get(
+  authenticate
+  // validate(userValidation.),
+  // accountController.getUsers
+);
+router.route("/me").get(authenticate, accountController.getUserByToken);
 
 router
   .route("/:userId")
-  .get(
-    // auth("getUsers"),
-    // validate(userValidation.getUser),
-    accountController.getUserById
-  )
-  .patch(
-    // auth("manageUsers"),
-    // validate(userValidation.updateUser),
-    accountController.updateUser
-  )
-  .delete(
-    // auth("manageUsers"),
-    // validate(userValidation.deleteUser),
-    accountController.deleteUser
-  );
+  .get
+  // auth("getUsers"),
+  // validate(userValidation.getUser)
+  // accountController.getUserById
+  ();
+// .patch(
+//   // auth("manageUsers"),
+//   // validate(userValidation.updateUser),
+//   accountController.updateUser
+// )
+// .delete(
+//   // auth("manageUsers"),
+//   // validate(userValidation.deleteUser),
+//   accountController.deleteUser
+// );
 
 module.exports = router;
 

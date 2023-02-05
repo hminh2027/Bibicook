@@ -12,4 +12,10 @@ router
   .route("/signup")
   .post(validate(authValidation.signup), authController.signup);
 
+router.route("/refresh").post(
+  // validate(authValidation.refreshAuth)
+  authController.refreshToken
+);
+
+router.route("/logout").get(authController.logout);
 module.exports = router;
