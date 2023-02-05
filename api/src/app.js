@@ -8,16 +8,23 @@ const { errorHandler } = require("./middlewares/error");
 const ApiError = require("./utils/api-error");
 const httpStatus = require("http-status");
 const app = express();
+const corsOptions = {
+  //To allow requests from client
+  origin: true,
+  // ["http://localhost:3000", "http://127.0.0.1"],
+  credentials: true,
+  exposedHeaders: ["set-cookie"],
+};
 
 // Middleware
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(cookieParser());
+// app.use();
 
 // Routers
-app.use("/api", routes);
+app.use("/api", cors(corsOptions), routes);
 
 app.use(helmet());
 

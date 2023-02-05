@@ -1,6 +1,6 @@
 import { Button, Input, Radio, Typography } from "antd";
 import { Editor } from "../../lib/ReactQuillEditor";
-import { Attributes, ImageUpload, SubImage } from "./index";
+// import { Attributes, ImageUpload } from "./index";
 import { useForm, Controller } from "react-hook-form";
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -23,9 +23,7 @@ export const EditForm = () => {
             render={({ field }) => <Input size="large" {...field} />}
           />
         </section>
-        <section className="card">
-          <Attributes />
-        </section>
+        <section className="card">{/* <Attributes /> */}</section>
         <section className="card">
           <Title level={4}>Mô tả ngắn</Title>
           <Controller
@@ -63,11 +61,11 @@ export const EditForm = () => {
         </section>
         <section className="card">
           <Title level={4}>Ảnh chính</Title>
-          <ImageUpload />
+          {/* <ImageUpload /> */}
         </section>
         <section className="card">
           <Title level={4}>Ảnh phụ</Title>
-          <SubImage />
+          {/* <SubImage /> */}
         </section>
       </div>
       <div className="col-span-12 flex">

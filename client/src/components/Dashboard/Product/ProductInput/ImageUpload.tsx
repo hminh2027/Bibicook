@@ -1,7 +1,8 @@
-import { Upload, Typography, UploadFile } from "antd";
+import { Upload, Typography, UploadFile, Button } from "antd";
 import { useHover, useHoverDirty } from "react-use";
 import { AiFillEdit } from "react-icons/ai";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { mediaEndpoint } from "../../../../services/endpoint/media";
 interface Props {
   previewSize?: number;
   endpoint: string;
@@ -9,41 +10,58 @@ interface Props {
 
 export const ImageUpload = ({
   previewSize = 200,
-  endpoint = "https://www.mocky.io/v2/5cc8019d300000980a055e76",
-  curImage = "https://hibabi.vn/bebecook/2021/12/banh-bi-bebecook-vi-bap-phomai-600x600.png",
+  index,
+  onRemove,
+  register,
+  field,
+  setValue,
 }) => {
-  const preview = useRef();
-  const isHovering = useHoverDirty(preview);
-  const [imgScr, setImgScr] = useState(curImage);
-  const handleUploadChange = ({ file }: { file: UploadFile }) => {
-    console.log(file);
+  const [image, setImage] = useState(field);
+  const inputRef = useRef(null);
+  useEffect(() => {
+    if (image.url) setValue(`images.${index}.url`, image?.url);
+  }, [image]);
+  const handleClick = () => {
+    inputRef.current.click();
+  };
+
+  const onFileSelected = async (e) => {
+    const fileToUpload = e.target.files[0];
+    const formData = new FormData();
+    formData.append("media", fileToUpload);
+
+    try {
+      const res = await mediaEndpoint.post(formData);
+      console.log(res);
+      setImage(res.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
-    <div className="overflow-hidden rounded-sm cursor-pointer">
-      <Upload
-        action={endpoint}
-        listType="picture"
-        defaultFileList={[]}
-        maxCount={1}
-        accept="image/png, image/jpeg"
-        onChange={handleUploadChange}
-      >
-        <div className="relative" ref={preview}>
-          <div
-            className={`${
-              isHovering ? "" : "hidden"
-            } absolute grid place-items-center w-full h-full bg-slate-300 opacity-80 rounded-md `}
-          >
-            <AiFillEdit className="text-blue-600 text-6xl p-4 rounded-full bg-blue-300" />
-          </div>
+    <div className="cursor-pointer w-[100px]" onClick={handleClick}>
+      <div>
+        <input
+          type="file"
+          onChange={onFileSelected}
+          ref={inputRef}
+          style={{ display: "none" }}
+        />
+        <input
+          type="text"
+          {...register(`images.${index}.url`)}
+          style={{ display: "none" }}
+        />
+      </div>
+      <div className="">
+        {image && (
           <img
-            src={imgScr}
-            width={previewSize}
-            height={previewSize}
-            className="object-cover rounded-md"
+            className="w-full"
+            src={image.url}
+            // crossOrigin="anonymous"
           />
-        </div>
-      </Upload>
+        )}
+      </div>
     </div>
   );
 };
