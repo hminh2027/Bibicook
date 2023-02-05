@@ -25,7 +25,7 @@ router
   .get(
     // auth("getUsers"),
     // validate(userValidation.getUser),
-    accountController.getUser
+    accountController.getUserById
   )
   .patch(
     // auth("manageUsers"),
