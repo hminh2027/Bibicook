@@ -10,9 +10,14 @@ export const Login = ({ title = "BVN" }: Props) => {
   const [isLogging, setIsLogging] = useState(false);
   const { login } = useAuth();
   const handleSubmit = async (data) => {
-    setIsLogging(true);
-    await login(data);
-    setIsLogging(false);
+    try {
+      setIsLogging(true);
+      await login(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLogging(false);
+    }
   };
   return (
     <Form

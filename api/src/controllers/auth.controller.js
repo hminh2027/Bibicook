@@ -7,15 +7,22 @@ const login = async (req, res, next) => {
   try {
     const { username, password } = req.body;
     const user = await authService.login({ username, password });
-    res.json({
-      user,
-      accessToken: await tokenService.generateAccessToken({
-        userId: user.email,
-      }),
-      refreshToken: await tokenService.generateRefreshToken({
-        userId: user.email,
-      }),
+    const accessToken = await tokenService.generateAccessToken({
+      userId: user.email,
     });
+    const refreshToken = await tokenService.generateRefreshToken({
+      userId: user.email,
+    });
+
+    res
+      .cookie("accessToken", accessToken, {
+        httpOnly: true,
+      })
+      .json({
+        user,
+        accessToken,
+        refreshToken,
+      });
   } catch (error) {
     next(error);
   }
