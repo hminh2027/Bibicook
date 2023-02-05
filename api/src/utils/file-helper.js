@@ -9,14 +9,14 @@ const UPLOAD_FOLDER = "upload";
 const UPLOAD_PATH = path.join("public", UPLOAD_FOLDER);
 
 // TODO: Check size xem có cần sharp hay không
-const minifyFile = (buffer, fileName) => {
-  return sharp(buffer)
+const minifyFile = async (buffer, fileName) => {
+  return await sharp(buffer)
     .webp({ quality: IMAGE_QUALITY })
     .toFile(`${UPLOAD_PATH}/${fileName}`);
 };
 
 // Need duplicateNumber only when filename already exist
-const writeFile = (buffer, originalName) => {
+const writeFile = async (buffer, originalName) => {
   const fileName = slugifyMedia(originalName);
   const url = `${config.url}/${UPLOAD_FOLDER}/${fileName}`;
 
@@ -26,7 +26,7 @@ const writeFile = (buffer, originalName) => {
     }
   });
 
-  const minifiedImage = minifyFile(buffer, fileName);
+  const minifiedImage = await minifyFile(buffer, fileName);
 
   return { ...minifiedImage, fileName, url };
 };
