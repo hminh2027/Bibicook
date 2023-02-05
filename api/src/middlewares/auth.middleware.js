@@ -18,8 +18,8 @@ const authenticate = async (req, res, next) => {
 
     req.user = user;
 
-    console.log(decoded);
-    console.log(user);
+    // console.log(decoded);
+    // console.log(user);
 
     next();
   } catch (error) {

@@ -13,16 +13,20 @@ const AuthContext = createContext({
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useLocalStorage("user", null);
-  const [accessToken, updateAccessToken, deleteAccessToken] =
-    useCookie("accessToken");
+  const [refreshToken, updateRefreshToken, deleteRefreshToken] =
+    useCookie("refreshToken");
   const navigate = useNavigate();
   useEffect(() => {
-    (async () => {
-      const me = await authEndpoint.getMe();
-      console.log("ME:", me);
-      if (!_.isEmpty(me)) setUser(me);
-      else logout();
-    })();
+    const fetchMe = async () => {
+      try {
+        const me = await authEndpoint.getMe();
+        console.log(me);
+        if (!_.isEmpty(me)) setUser(me);
+      } catch (error) {
+        logout();
+      }
+    };
+    fetchMe();
   }, []);
   // call this function when you want to authenticate the user
   const login = async (data) => {
@@ -30,9 +34,7 @@ export const AuthProvider = ({ children }) => {
       const { user, accessToken, refreshToken }: any = await authEndpoint.login(
         data
       );
-      // updateAccessToken(accessToken);
-      // localStorage.setItem("accessToken", accessToken);
-      // localStorage.setItem("refreshToken", refreshToken);
+      updateRefreshToken(refreshToken);
       setUser(user);
       navigate("/");
     } catch (error) {
@@ -41,13 +43,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   // call this function to sign out logged in user
-  const logout = () => {
-    clearToken();
-    deleteAccessToken();
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    setUser(null);
+  const logout = async () => {
     navigate("/auth/login", { replace: true });
+    deleteRefreshToken();
+    setUser(null);
+    await authEndpoint.logout();
   };
 
   const value = useMemo(

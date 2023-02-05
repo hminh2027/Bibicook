@@ -12,10 +12,11 @@ export const authEndpoint = {
   login: async (userCredential: UserCredential) => {
     return await apiClient.post(`${url}/login`, userCredential);
   },
+  logout: async () => await apiClient.get(`${url}/logout`),
   signUp: async (userSignUpData: UserSignUp) => {
     return await apiClient.post(`${url}/signup`, userSignUpData);
   },
   getMe: async () => {
-    return await apiClient.get("account");
+    return await apiClient.get("account/me");
   },
 };
