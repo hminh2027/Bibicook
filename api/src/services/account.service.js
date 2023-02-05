@@ -51,9 +51,9 @@ const getUserByUsername = async ({ username }) => {
 const getUserByUsernameAndPassword = async ({ username, password }) => {
   try {
     const user = await prisma.accounts.findFirst({
-      where: { username, password },
+      where: { username, password, isActive: true },
     });
-    return _.omit(user, ["password"]);
+    return _.omit(user, ["password", "createdAt", "isActive"]);
   } catch (error) {}
 };
 
