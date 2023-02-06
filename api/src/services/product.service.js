@@ -12,18 +12,26 @@ const getProductById = async ({ id }) => {
 const createProduct = async ({
   name,
   price,
-  desc,
+  shortDesc,
+  longDesc,
   slug,
   createdBy,
   medias,
+  categoryName,
 }) => {
   const product = await prisma.products.create({
     data: {
       name,
       price,
-      desc,
+      shortDesc,
+      longDesc,
       slug: slugify(slug),
       createdBy,
+      Categories: {
+        connect: {
+          name: categoryName,
+        },
+      },
       ProductMedias: {
         createMany: {
           data: medias,

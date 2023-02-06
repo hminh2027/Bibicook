@@ -33,16 +33,19 @@ const getProducts = async (req, res, next) => {
 
 const createProduct = async (req, res, next) => {
   try {
-    const { name, price, desc, slug, medias } = req.body;
+    const { name, price, shortDesc, longDesc, slug, medias, categoryName } =
+      req.body;
+    const { username } = req.user;
 
     const product = await productService.createProduct({
       name,
       price: +price,
-      desc,
+      shortDesc,
+      longDesc,
       slug,
-      // TODO: sau này thêm authentication thì thay bằng user.username
-      createdBy: "admin",
+      createdBy: username,
       medias,
+      categoryName,
     });
 
     res.status(httpStatus.CREATED).json({
