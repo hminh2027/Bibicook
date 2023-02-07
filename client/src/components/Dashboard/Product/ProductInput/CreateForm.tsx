@@ -6,7 +6,21 @@ import { useForm, Controller } from "react-hook-form";
 const { Title, Text } = Typography;
 const { TextArea } = Input;
 export const CreateForm = () => {
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit, register, setValue } = useForm({
+    defaultValues: {
+      name: "",
+      shortDescription: "",
+      description: "",
+      category: 0,
+      attributes: [
+        {
+          id: 0,
+          value: "",
+        },
+      ],
+      images: [{ url: "" }],
+    },
+  });
   const onSubmit = (data) => {
     console.log(data);
   };
@@ -22,7 +36,13 @@ export const CreateForm = () => {
           />
         </section>
         <section className="card">
-          <Attributes />
+          <Controller
+            control={control}
+            name="attributes"
+            render={({ field }) => (
+              <Attributes control={control} register={register} {...field} />
+            )}
+          />
         </section>
         <section className="card">
           <Title level={4}>Mô tả ngắn</Title>
@@ -60,12 +80,23 @@ export const CreateForm = () => {
           </div>
         </section>
 
-        <section className="card">
+        <section className="flex flex-col gap-2 card">
           <div className="flex gap-2 items-baseline">
             <Title level={4}>Ảnh</Title>
             <Text>(Ảnh đầu là ảnh chính)</Text>
           </div>
-          <Images />
+          <Controller
+            name="images"
+            control={control}
+            render={({ field }) => (
+              <Images
+                control={control}
+                register={register}
+                setValue={setValue}
+                {...field}
+              />
+            )}
+          />
         </section>
       </div>
       <div className="flex col-span-12">

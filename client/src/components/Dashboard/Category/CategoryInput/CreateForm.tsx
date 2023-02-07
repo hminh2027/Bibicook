@@ -1,13 +1,16 @@
 import { Button, Input, Form } from "antd";
-import FormItem from "antd/es/form/FormItem";
-import React from "react";
-import { useForm } from "react-hook-form";
+import { useMutateCategory } from "../hook";
+import { useState } from "react";
 
 interface Props {}
 
-export const CreateForm = (props: Props) => {
-  const onSubmit = (data) => {
-    console.log(data);
+export const CreateForm = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { postCategory } = useMutateCategory();
+  const onSubmit = async (data) => {
+    setIsSubmitting(true);
+    await postCategory(data);
+    setIsSubmitting(false);
   };
   return (
     <Form onFinish={onSubmit} layout="vertical" className="flex flex-col">
@@ -18,7 +21,12 @@ export const CreateForm = (props: Props) => {
       >
         <Input placeholder="Tên danh mục" />
       </Form.Item>
-      <Button type="primary" htmlType="submit" className="btn-success">
+      <Button
+        type="primary"
+        htmlType="submit"
+        className="btn-success"
+        disabled={isSubmitting}
+      >
         Thêm
       </Button>
     </Form>

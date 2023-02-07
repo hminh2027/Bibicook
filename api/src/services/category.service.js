@@ -4,7 +4,15 @@ const ApiError = require("../utils/api-error");
 const { slugify } = require("../utils/slugify");
 
 const getCategories = async () => {
-  return await prisma.categories.findMany();
+  return await prisma.categories.findMany({
+    include: {
+      _count: {
+        select: {
+          Products: true,
+        },
+      },
+    },
+  });
 };
 
 const getCategoryByName = async ({ name }) => {
@@ -12,14 +20,14 @@ const getCategoryByName = async ({ name }) => {
 };
 
 // TODO: check unique constraint và catch auto
-const createCategory = async ({ name, slug, desc }) => {
+const createCategory = async ({ name }) => {
   const categoryNotUnique = await getCategoryByName({ name });
   if (categoryNotUnique)
     throw new ApiError(httpStatus.BAD_REQUEST, "Category đã tồn tại");
   const category = await prisma.categories.create({
     data: {
       name,
-      slug: slugify(slug),
+      slug: slugify(name),
       desc,
     },
   });
