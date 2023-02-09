@@ -3,9 +3,9 @@ const categoryService = require("../services/category.service");
 
 const createCategory = async (req, res, next) => {
   try {
-    const { name, desc, slug } = req.body;
+    const { name } = req.body;
 
-    const category = await categoryService.createCategory({ name, desc, slug });
+    const category = await categoryService.createCategory({ name });
     res.status(httpStatus.CREATED).json({
       message: "Tạo category thành công!",
       data: category,

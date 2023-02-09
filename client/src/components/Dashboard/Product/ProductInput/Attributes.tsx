@@ -7,28 +7,15 @@ import {
 } from "react-hook-form";
 import { AttributeSelect } from "./AttributeSelect";
 
-interface Props {}
 const { Title } = Typography;
-export const Attributes = (props: Props) => {
-  const { control, register, handleSubmit } = useForm({
-    defaultValues: {
-      attributes: [
-        {
-          id: 0,
-          value: "",
-        },
-      ],
-    },
-  });
+export const Attributes = ({ control, register }) => {
   const { append, remove, fields } = useFieldArray({
     control,
     name: "attributes",
   });
-  const onSubmit = (data: FieldValues) => {
-    console.log(data);
-  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4">
       <div className="flex justify-between">
         <Title level={4}>Thuộc tính</Title>
         <Button
@@ -68,16 +55,7 @@ export const Attributes = (props: Props) => {
           </div>
         ))}
       </div>
-      <div className="text-right">
-        <Button
-          type="primary"
-          htmlType="submit"
-          className="btn-success w-[120px] font-bold"
-        >
-          Lưu
-        </Button>
-      </div>
-    </form>
+    </div>
   );
 };
 

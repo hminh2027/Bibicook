@@ -1,14 +1,16 @@
-import React from "react";
+import React, { FC } from "react";
 import { CategoryCard } from ".";
-
-interface Props {}
-
-export const CategoryList = (props: Props) => {
-  const categories = new Array(4).fill(1);
+import { Category } from "../type";
+interface CategoriesProp {
+  categories: Category[];
+}
+export const CategoryList: FC<CategoriesProp> = ({
+  categories,
+}: CategoriesProp) => {
   return (
     <div className="flex flex-col gap-4">
       {categories.map((category, index) => (
-        <CategoryCard key={index} />
+        <CategoryCard category={category} key={index} />
       ))}
     </div>
   );

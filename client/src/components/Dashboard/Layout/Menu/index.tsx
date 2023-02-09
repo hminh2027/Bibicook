@@ -8,13 +8,13 @@ const DashboardMenu: FC = ({ className }: any) => {
     <div className={className}>
       <div className="flex flex-col gap-4">
         {menuItems.map((menuItem) => (
-          <div className="flex flex-col gap-2 text-xl px-2" key={menuItem.name}>
+          <div className="flex flex-col gap-2 text-md px-2" key={menuItem.name}>
             <div className="font-bold">{menuItem.name}</div>
             {menuItem.items.map((item) => (
               <Link
                 key={item.name}
                 to={`${item.href}`}
-                className={`p-1 rounded-lg  no-underline hover:bg-indigo-600 hover:text-indigo-50 text-indigo-900 ${
+                className={`px-2 py-1 rounded-md no-underline hover:bg-indigo-600 hover:text-indigo-50 text-indigo-900 ${
                   pathname === item.href ? "bg-indigo-600 text-indigo-50" : ""
                 }`}
               >

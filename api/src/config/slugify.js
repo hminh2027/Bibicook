@@ -1,7 +1,7 @@
 module.exports.slugifyConfig = {
   replacement: "-",
   remove: undefined,
-  lower: false,
+  lower: true,
   strict: false,
   locale: "vi",
   trim: true,
