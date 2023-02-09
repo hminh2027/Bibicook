@@ -1,13 +1,18 @@
 import { Button, Typography } from "antd";
-import React from "react";
+import React, { FC } from "react";
+import { Category } from "../type";
 const { Title, Text } = Typography;
-interface Props {}
 
-export const CategoryCard = (props: Props) => {
+interface CategoryCardProp {
+  category: Category;
+}
+export const CategoryCard: FC<CategoryCardProp> = ({
+  category,
+}: CategoryCardProp) => {
   return (
     <div className="flex justify-between">
       <div className="flex flex-col flex-1">
-        <Title level={5}>Tên danh mục</Title>
+        <Title level={5}>{category.name}</Title>
         <Text>Số sản phẩm: 10</Text>
       </div>
       <div className="flex gap-1 flex-col w-[120px]">

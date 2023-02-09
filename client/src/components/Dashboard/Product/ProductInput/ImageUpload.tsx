@@ -1,6 +1,6 @@
 import { Upload, Typography, UploadFile, Button } from "antd";
 import { useHover, useHoverDirty } from "react-use";
-import { AiFillEdit } from "react-icons/ai";
+import { AiFillEdit, AiFillFileAdd, AiOutlineClose } from "react-icons/ai";
 import { useEffect, useRef, useState } from "react";
 import { mediaEndpoint } from "../../../../services/endpoint/media";
 interface Props {
@@ -39,7 +39,7 @@ export const ImageUpload = ({
     }
   };
   return (
-    <div className="cursor-pointer w-[100px]" onClick={handleClick}>
+    <div className="w-[100px] h-[100px] relative">
       <div>
         <input
           type="file"
@@ -53,13 +53,20 @@ export const ImageUpload = ({
           style={{ display: "none" }}
         />
       </div>
-      <div className="">
-        {image && (
-          <img
-            className="w-full"
-            src={image.url}
-            // crossOrigin="anonymous"
-          />
+      <Button
+        danger
+        icon={<AiOutlineClose fontSize={"20px"} />}
+        className="absolute top-0 right-0 hover:bg-red-200"
+        onClick={onRemove}
+      ></Button>
+      <div
+        className="grid place-items-center w-full h-full cursor-pointer "
+        onClick={handleClick}
+      >
+        {image.url ? (
+          <img className="w-full" src={image.url} />
+        ) : (
+          <AiFillFileAdd fontSize={"32px"} />
         )}
       </div>
     </div>

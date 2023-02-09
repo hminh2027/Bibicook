@@ -1,26 +1,16 @@
 import { Typography, Button } from "antd";
 import { useFieldArray, useForm } from "react-hook-form";
 import ImageUpload from "./ImageUpload";
+import { AiFillPlusCircle } from "react-icons/ai";
 
-export const Images = ({
-  images = [
-    {
-      url: "http://localhost:8000/upload/banh-gao-huu-co-moms-care-hinh-ong-mat-troi-1675593531955.jpg",
-    },
-  ],
-}) => {
-  const { control, register, handleSubmit, setValue } = useForm({
-    defaultValues: {
-      images,
-    },
-  });
+export const Images = ({ control, register, setValue, ...props }) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "images",
   });
   return (
-    <div className="flex flex-wrap">
-      <div className="flex flex-wrap gap-2">
+    <div className="grid">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
         {fields.map((field, index) => (
           <ImageUpload
             key={field.id}
@@ -30,14 +20,15 @@ export const Images = ({
             field={field}
             setValue={setValue}
           />
-          // <img
-          //   src="localhost:8000/upload/banh-gao-huu-co-moms-care-hinh-que-vi-ngu-coc-1674906328808.jpg"
-          //   width={500}
-          // />
         ))}
+        <div className="grid place-items-center w-[100px] h-[100px]">
+          <AiFillPlusCircle
+            fontSize={"24px"}
+            className="text-green-300"
+            onClick={() => append({ url: "" })}
+          />
+        </div>
       </div>
-
-      <Button onClick={() => append({ url: "" })}>Add</Button>
     </div>
   );
 };
