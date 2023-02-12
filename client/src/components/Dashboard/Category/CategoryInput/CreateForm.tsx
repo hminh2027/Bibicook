@@ -1,5 +1,5 @@
 import { Button, Input, Form } from "antd";
-import { usePostCategory } from "../hook";
+import { usePostCategory } from "../hooks";
 import { useState } from "react";
 
 interface Props {}

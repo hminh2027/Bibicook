@@ -10,8 +10,7 @@ datasource db {
 model Products {
   id               Int                @id @default(autoincrement())
   name             String             @unique @db.VarChar(255)
-  price            Float
-  longDesc         String?            @default("") @db.VarChar(512)
+  longDesc         String?            @db.LongText()
   shortDesc        String?            @default("") @db.VarChar(512)
   slug             String?            @unique @db.VarChar(512)
   createdAt        DateTime           @default(now()) @db.Timestamp(6)
@@ -20,8 +19,8 @@ model Products {
   isDeleted        Boolean            @default(false)
   // relations
   Attribute_values Attribute_values[]
-  Categories       Categories         @relation(fields: [categoriesName], references: [name])
-  categoriesName   String
+  Categories       Categories         @relation(fields: [categoriesSlug], references: [slug])
+  categoriesSlug   String
   ProductMedias    ProductMedias[]
 }
 
@@ -44,7 +43,8 @@ model Roles {
 }
 
 model Attributes {
-  name             String             @id @db.VarChar(255)
+  slug             String             @id
+  name             String             @db.VarChar(255)
   // relations
   Attribute_values Attribute_values[]
 }
@@ -52,16 +52,16 @@ model Attributes {
 model Attribute_values {
   Products       Products   @relation(fields: [productsId], references: [id])
   productsId     Int
-  Attributes     Attributes @relation(fields: [attributesName], references: [name])
-  attributesName String
+  Attributes     Attributes @relation(fields: [attributesSlug], references: [slug])
+  attributesSlug String
   value          String     @db.VarChar(255)
 
-  @@id([productsId, attributesName])
+  @@id([productsId, attributesSlug])
 }
 
 model Categories {
-  name     String     @id @db.VarChar(255)
-  slug     String     @db.VarChar(255)
+  name     String     @db.VarChar(255)
+  slug     String     @id @db.VarChar(255)
   Products Products[]
 }
 

@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import React from "react";
 import { bannerEndpoint } from "../../../../services/endpoint";
+import { BannerType } from "../type";
 
 export const useGetBanner = () => {
   const {

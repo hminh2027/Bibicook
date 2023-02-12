@@ -1,15 +1,12 @@
-import React from "react";
 import { ProductCard } from ".";
-import { Link } from "react-router-dom";
+import { useQueryProduct } from "../hooks";
 
-interface Props {}
-
-export const ProductList = (props: Props) => {
-  const products = new Array(10).fill(1);
+export const ProductList = () => {
+  const { products, isLoading, isError }: any = useQueryProduct();
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       {products.map((product, index) => (
-        <ProductCard className="col-span-1" />
+        <ProductCard className="col-span-1" product={product} />
       ))}
     </div>
   );

@@ -1,7 +1,7 @@
 import { Button, Typography } from "antd";
 import React, { FC } from "react";
 import { Category } from "../type";
-import { useRemoveCategory } from "../hook";
+import { useRemoveCategory } from "../hooks";
 const { Title, Text } = Typography;
 
 interface CategoryCardProp {

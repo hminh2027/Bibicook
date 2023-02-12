@@ -15,20 +15,16 @@ const getCategories = async () => {
   });
 };
 
-const getCategoryByName = async ({ name }) => {
-  return await prisma.categories.findUnique({ where: { name } });
+const getCategoryByName = async (name) => {
+  return await prisma.categories.findFirst({ where: { name } });
 };
 const getCategoryBySlug = async (slug) => {
-  try {
-    return await prisma.categories.findFirstOrThrow({ where: { slug } });
-  } catch (e) {
-    throw new ApiError(httpStatus.NOT_FOUND, "Không tìm thấy category");
-  }
+  return await prisma.categories.findFirst({ where: { slug } });
 };
 
 // TODO: check unique constraint và catch auto
 const createCategory = async ({ name }) => {
-  const categoryNotUnique = await getCategoryByName({ name });
+  const categoryNotUnique = await getCategoryByName(name);
   if (categoryNotUnique)
     throw new ApiError(httpStatus.BAD_REQUEST, "Category đã tồn tại");
   const category = await prisma.categories.create({

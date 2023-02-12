@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const ImageUpload = ({
-  previewSize = 200,
+  name,
   index,
   onRemove,
   register,
@@ -19,7 +19,7 @@ export const ImageUpload = ({
   const [image, setImage] = useState(field);
   const inputRef = useRef(null);
   useEffect(() => {
-    if (image.url) setValue(`images.${index}.url`, image?.url);
+    if (image.url) setValue(`${name}`, image?.url);
   }, [image]);
   const handleClick = () => {
     inputRef.current.click();
@@ -49,7 +49,7 @@ export const ImageUpload = ({
         />
         <input
           type="text"
-          {...register(`images.${index}.url`)}
+          {...register(`medias.${index}.url`)}
           style={{ display: "none" }}
         />
       </div>

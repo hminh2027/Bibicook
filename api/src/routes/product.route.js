@@ -4,7 +4,6 @@ const productValidation = require("../validations/product.validation");
 const productController = require("../controllers/Product.controller");
 const { validate } = require("../middlewares/validate.middleware");
 const { authenticate } = require("../middlewares/auth.middleware");
-
 router
   .route("/")
   .get(

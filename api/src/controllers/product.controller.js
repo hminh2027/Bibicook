@@ -1,12 +1,13 @@
 const httpStatus = require("http-status");
 const productService = require("../services/product.service");
-
+const productFieldFormatter = require("../utils/product-field-format");
 const getProductById = async (req, res, next) => {
   try {
     const { id } = req.params;
     const product = await productService.getProductById({ id: +id });
+
     res.status(httpStatus.OK).json({
-      data: product,
+      data: productFieldFormatter.single(product),
     });
   } catch (error) {
     next(error);
@@ -20,7 +21,7 @@ const getProducts = async (req, res, next) => {
 
     const products = await productService.getProducts({ take: +limit, skip });
     res.status(httpStatus.OK).json({
-      data: products,
+      data: productFieldFormatter.multi(products),
       pagination: {
         page,
         total: products.length,
@@ -33,17 +34,18 @@ const getProducts = async (req, res, next) => {
 
 const createProduct = async (req, res, next) => {
   try {
-    const { name, price, shortDesc, longDesc, medias, categoryName } = req.body;
+    const { name, shortDesc, longDesc, medias, categorySlug, attributes } =
+      req.body;
     const { username } = req.user;
 
     const product = await productService.createProduct({
       name,
-      price: +price,
       shortDesc,
       longDesc,
       createdBy: username,
       medias,
-      categoryName,
+      categorySlug,
+      attributes,
     });
 
     res.status(httpStatus.CREATED).json({

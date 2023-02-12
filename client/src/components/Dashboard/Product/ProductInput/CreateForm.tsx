@@ -4,26 +4,28 @@ import { Attributes } from "../Attribute";
 import Images from "./Images";
 import { useForm, Controller } from "react-hook-form";
 import CategoryRadioList from "./CategoryRadioList";
+import { usePostProduct } from "../hooks";
 const { Title, Text } = Typography;
 const { TextArea } = Input;
 export const CreateForm = () => {
+  const { postProduct, isPosting, isError } = usePostProduct();
   const { control, handleSubmit, register, setValue } = useForm({
     defaultValues: {
       name: "",
-      shortDescription: "",
-      description: "",
-      category: 0,
+      shortDesc: "",
+      longDesc: "",
+      categorySlug: 0,
       attributes: [
         {
-          id: 0,
+          slug: "",
           value: "",
         },
       ],
-      images: [{ url: "" }],
+      medias: [{ url: "" }],
     },
   });
   const onSubmit = (data) => {
-    console.log(data);
+    postProduct(data);
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4 grid-cols-12">
@@ -40,16 +42,14 @@ export const CreateForm = () => {
           <Controller
             control={control}
             name="attributes"
-            render={({ field }) => (
-              <Attributes control={control} register={register} {...field} />
-            )}
+            render={({ field }) => <Attributes control={control} {...field} />}
           />
         </section>
         <section className="card">
           <Title level={4}>Mô tả ngắn</Title>
           <Controller
             control={control}
-            name="shortDescription"
+            name="shortDesc"
             render={({ field }) => <TextArea size="large" {...field} />}
           />
         </section>
@@ -57,7 +57,7 @@ export const CreateForm = () => {
           <Title level={4}>Mô tả</Title>
           <Controller
             control={control}
-            name="description"
+            name="longDesc"
             render={({ field }) => <Editor {...field} />}
           />
         </section>
@@ -68,7 +68,7 @@ export const CreateForm = () => {
           <div>
             <Controller
               control={control}
-              name="category"
+              name="categorySlug"
               render={({ field }) => <CategoryRadioList {...field} />}
             />
           </div>
@@ -80,7 +80,7 @@ export const CreateForm = () => {
             <Text>(Ảnh đầu là ảnh chính)</Text>
           </div>
           <Controller
-            name="images"
+            name="medias"
             control={control}
             render={({ field }) => (
               <Images

@@ -1,6 +1,6 @@
 import { Radio, Spin } from "antd";
 import React, { FC } from "react";
-import { useQueryCategory } from "../../Category/hook";
+import { useQueryCategory } from "../../Category/hooks";
 import { Category } from "../../Category/type";
 interface Props {}
 
