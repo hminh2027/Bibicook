@@ -33,8 +33,7 @@ const getProducts = async (req, res, next) => {
 
 const createProduct = async (req, res, next) => {
   try {
-    const { name, price, shortDesc, longDesc, slug, medias, categoryName } =
-      req.body;
+    const { name, price, shortDesc, longDesc, medias, categoryName } = req.body;
     const { username } = req.user;
 
     const product = await productService.createProduct({
@@ -42,7 +41,6 @@ const createProduct = async (req, res, next) => {
       price: +price,
       shortDesc,
       longDesc,
-      slug,
       createdBy: username,
       medias,
       categoryName,

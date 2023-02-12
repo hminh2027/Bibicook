@@ -14,7 +14,6 @@ const createProduct = async ({
   price,
   shortDesc,
   longDesc,
-  slug,
   createdBy,
   medias,
   categoryName,
@@ -25,7 +24,7 @@ const createProduct = async ({
       price,
       shortDesc,
       longDesc,
-      slug: slugify(slug),
+      slug: slugify(name),
       createdBy,
       Categories: {
         connect: {
