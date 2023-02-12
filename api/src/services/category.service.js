@@ -28,7 +28,6 @@ const createCategory = async ({ name }) => {
     data: {
       name,
       slug: slugify(name),
-      desc,
     },
   });
   return category;

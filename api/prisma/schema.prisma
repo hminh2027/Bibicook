@@ -62,7 +62,6 @@ model Attribute_values {
 model Categories {
   name     String     @id @db.VarChar(255)
   slug     String     @db.VarChar(255)
-  desc     String?    @db.VarChar(512)
   Products Products[]
 }
 
