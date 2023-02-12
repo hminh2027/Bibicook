@@ -23,5 +23,13 @@ const getCategories = async (req, res, next) => {
     next(error);
   }
 };
-
-module.exports = { createCategory, getCategories };
+const removeCategory = async (req, res, next) => {
+  try {
+    const { slug } = req.params;
+    const removedCategory = await categoryService.removeCategory(slug);
+    res.status(httpStatus.OK).json(removedCategory);
+  } catch (error) {
+    next(error);
+  }
+};
+module.exports = { createCategory, getCategories, removeCategory };

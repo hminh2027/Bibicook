@@ -11,8 +11,8 @@ model Products {
   id               Int                @id @default(autoincrement())
   name             String             @unique @db.VarChar(255)
   price            Float
-  longDesc         String?            @db.VarChar(512)
-  shortDesc        String?            @db.VarChar(512)
+  longDesc         String?            @default("") @db.VarChar(512)
+  shortDesc        String?            @default("") @db.VarChar(512)
   slug             String?            @unique @db.VarChar(512)
   createdAt        DateTime           @default(now()) @db.Timestamp(6)
   createdBy        String

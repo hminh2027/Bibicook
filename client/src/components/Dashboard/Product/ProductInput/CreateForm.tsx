@@ -1,8 +1,9 @@
 import { Button, Input, Radio, Typography } from "antd";
 import { Editor } from "../../lib/ReactQuillEditor";
-import Attributes from "./Attributes";
+import { Attributes } from "../Attribute";
 import Images from "./Images";
 import { useForm, Controller } from "react-hook-form";
+import CategoryRadioList from "./CategoryRadioList";
 const { Title, Text } = Typography;
 const { TextArea } = Input;
 export const CreateForm = () => {
@@ -68,14 +69,7 @@ export const CreateForm = () => {
             <Controller
               control={control}
               name="category"
-              render={({ field }) => (
-                <Radio.Group {...field} className="flex flex-col gap-1">
-                  <Radio value={1}>A</Radio>
-                  <Radio value={2}>B</Radio>
-                  <Radio value={3}>C</Radio>
-                  <Radio value={4}>D</Radio>
-                </Radio.Group>
-              )}
+              render={({ field }) => <CategoryRadioList {...field} />}
             />
           </div>
         </section>

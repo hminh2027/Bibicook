@@ -10,4 +10,6 @@ router
   )
   .post(categoryController.createCategory);
 
+router.route("/:slug").delete(categoryController.removeCategory);
+
 module.exports = router;

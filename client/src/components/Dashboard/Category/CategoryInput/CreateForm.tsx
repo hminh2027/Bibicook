@@ -1,15 +1,15 @@
 import { Button, Input, Form } from "antd";
-import { useMutateCategory } from "../hook";
+import { usePostCategory } from "../hook";
 import { useState } from "react";
 
 interface Props {}
 
 export const CreateForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { postCategory } = useMutateCategory();
-  const onSubmit = async (data) => {
+  const { postCategory } = usePostCategory();
+  const onSubmit = (data) => {
     setIsSubmitting(true);
-    await postCategory(data);
+    postCategory(data);
     setIsSubmitting(false);
   };
   return (

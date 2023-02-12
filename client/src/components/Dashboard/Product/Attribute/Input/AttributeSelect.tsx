@@ -1,12 +1,9 @@
-import { Button, Input, Select } from "antd";
+import { Button, Input, Select, Spin } from "antd";
 import React, { FC } from "react";
-import { withSpinner } from "../../../../HOC";
-import { productAttributeApi } from "../../../../services/endpoint";
+import { productAttributeApi } from "../../../../../services/endpoint";
 import { useForm, Controller } from "react-hook-form";
-import { useQueryMutate } from "../../../../hooks";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
-import apiClient from "../../../../services/api";
+import { useQueryMutate } from "../../../../../hooks";
+import { useMutateAttribute, useQueryAttribute } from "../hooks";
 interface Props {
   data?: Attribute[];
 }
@@ -18,18 +15,12 @@ interface Attribute {
 export const AttributeSelect: FC<any> = ({
   data = [{ name: "HELLO", id: 1 }],
 }: Props) => {
+  const { attributes, isLoading, isError } = useQueryAttribute();
   const { handleSubmit, control } = useForm();
-  const mutation = useQueryMutate({
-    mutationFn: (name: string) => {
-      return productAttributeApi.create(name);
-    },
-    queryKey: ["product-attributes"],
-  });
+  const { postAttribute, isPosting } = useMutateAttribute();
 
-  const onSubmit = ({ name }: any) => {
-    // console.log(name);
-    mutation.mutate(name);
-    console.log(mutation.data);
+  const onSubmit = async (data) => {
+    await postAttribute(data);
   };
   return (
     <div>
@@ -45,8 +36,8 @@ export const AttributeSelect: FC<any> = ({
                 control={control}
                 render={({ field }) => <Input {...field} />}
               />
-              <Button type="primary" htmlType="submit">
-                Thêm
+              <Button type="primary" htmlType="submit" disabled={isPosting}>
+                {isPosting ? <Spin /> : "Thêm"}
               </Button>
             </form>
           </>
@@ -59,11 +50,3 @@ export const AttributeSelect: FC<any> = ({
     </div>
   );
 };
-
-// export const AttributeSelectWithSpinner: FC = () =>
-//   withSpinner({
-//     queryKey: ["product-attributes"],
-//     queryFn: productAttributeApi.getAll(),
-//     Component: AttributeSelect,
-//   });
-// export default AttributeSelect;
