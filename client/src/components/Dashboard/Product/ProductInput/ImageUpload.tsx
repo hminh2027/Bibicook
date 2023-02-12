@@ -60,7 +60,7 @@ export const ImageUpload = ({
         onClick={onRemove}
       ></Button>
       <div
-        className="grid place-items-center w-full h-full cursor-pointer "
+        className="grid place-items-center h-full cursor-pointer "
         onClick={handleClick}
       >
         {image.url ? (

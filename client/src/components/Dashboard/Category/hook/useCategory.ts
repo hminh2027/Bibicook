@@ -1,3 +1,4 @@
+import { Category } from "./../type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { categoryEndpoint } from "../../../../services/endpoint";
@@ -11,10 +12,9 @@ export const useQueryCategory = () => {
     queryKey: ["category"],
     queryFn: categoryEndpoint.get,
   });
-
   return { categories, isLoading, isError };
 };
-export const useMutateCategory = (onSuccess = () => {}, onError = () => {}) => {
+export const usePostCategory = (onSuccess = () => {}, onError = () => {}) => {
   const queryClient = useQueryClient();
   const { mutate, isLoading, isError } = useMutation({
     mutationFn: (data) => categoryEndpoint.post(data),
@@ -26,4 +26,17 @@ export const useMutateCategory = (onSuccess = () => {}, onError = () => {}) => {
   });
   const postCategory = (data) => mutate(data);
   return { postCategory, isLoading, isError };
+};
+export const useRemoveCategory = (onSuccess = () => {}, onError = () => {}) => {
+  const queryClient = useQueryClient();
+  const { mutate, isLoading, isError } = useMutation({
+    mutationFn: (data) => categoryEndpoint.delete(data),
+    onSuccess: () => {
+      onSuccess();
+      queryClient.invalidateQueries(["category"]);
+    },
+    onError,
+  });
+  const removeCategory = (data) => mutate(data);
+  return { removeCategory, isLoading, isError };
 };
