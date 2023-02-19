@@ -12,22 +12,17 @@ interface Banner {
 export const BannerForm: FC<any> = ({ banners }) => {
   const { control, handleSubmit, register, setValue } = useForm({
     defaultValues: {
-      banners,
+      banners: banners,
     },
   });
   const { fields, append, remove } = useFieldArray({
     control,
     name: "banners",
   });
-  const { postBanner } = usePostBanner(
-    () => {},
-    () => {}
-  );
+  const { postBanner } = usePostBanner();
   const onSubmit = async (data: any) => {
-    const { banners } = data;
     try {
-      const _banners = banners.filter((banner) => banner.url != "");
-      postBanner(_banners);
+      postBanner(data);
     } catch (error) {
       console.log(error);
     }

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const productValidation = require("../validations/product.validation");
-const productController = require("../controllers/Product.controller");
+const productController = require("../controllers/product.controller");
 const { validate } = require("../middlewares/validate.middleware");
 const { authenticate } = require("../middlewares/auth.middleware");
 router
@@ -17,6 +17,11 @@ router
     productController.createProduct
   );
 
+router
+  .route("/:slug")
+  .get(productController.getProductBySlug)
+  .patch(productController.updateProductBySlug)
+  .delete(productController.removeProductBySlug);
 router.route("/:id").get(productController.getProductById);
 // .patch(productController.updateProductById)
 // .delete(productController.deleteProductById);

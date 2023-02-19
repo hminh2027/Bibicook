@@ -32,7 +32,6 @@ export const ImageUpload = ({
 
     try {
       const res = await mediaEndpoint.post(formData);
-      console.log(res);
       setImage(res.data);
     } catch (error) {
       console.log(error);

@@ -13,6 +13,16 @@ const getProductById = async (req, res, next) => {
     next(error);
   }
 };
+const getProductBySlug = async (req, res, next) => {
+  try {
+    const { slug } = req.params;
+    const product = await productService.getProductBySlug(slug);
+
+    res.status(httpStatus.OK).json(productFieldFormatter.single(product));
+  } catch (error) {
+    next(error);
+  }
+};
 
 const getProducts = async (req, res, next) => {
   try {
@@ -56,5 +66,47 @@ const createProduct = async (req, res, next) => {
     next(error);
   }
 };
+const updateProductBySlug = async (req, res, next) => {
+  try {
+    const { slug } = req.params;
+    const { name, shortDesc, longDesc, medias, categorySlug, attributes } =
+      req.body;
 
-module.exports = { createProduct, getProducts, getProductById };
+    const product = await productService.updateProductBySlug({
+      slug,
+      name,
+      shortDesc,
+      longDesc,
+      medias,
+      categorySlug,
+      attributes,
+    });
+
+    res.status(httpStatus.OK).json({
+      message: "Cập nhật sản phẩm thành công!",
+      data: product,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+const removeProductBySlug = async (req, res, next) => {
+  const { slug } = req.params;
+  try {
+    const result = await productService.removeProductBySlug(slug);
+    res.status(httpStatus.OK).json({
+      message: "Xoá sản phẩm thành công!",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+module.exports = {
+  createProduct,
+  getProducts,
+  getProductById,
+  getProductBySlug,
+  updateProductBySlug,
+  removeProductBySlug,
+};

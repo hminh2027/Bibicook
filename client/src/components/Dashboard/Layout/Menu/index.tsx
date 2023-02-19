@@ -3,7 +3,6 @@ import { menuItems } from "./config";
 import { Link, useLocation } from "react-router-dom";
 const DashboardMenu: FC = ({ className }: any) => {
   const { pathname } = useLocation();
-  console.log(location);
   return (
     <div className={className}>
       <div className="flex flex-col gap-4">

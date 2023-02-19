@@ -1,21 +1,15 @@
 const httpStatus = require("http-status");
 const bannerService = require("../services/banner.service");
 
-const { writeFile, deleteFile } = require("../utils/file-helper");
-
-const createBanner = async (req, res, next) => {
-  const { buffer, originalname } = req.file;
-  const { fileName, size, url } = await writeFile(buffer, originalname);
-
+const createBanners = async (req, res, next) => {
   try {
-    const banner = await bannerService.createBanner({ url, fileName, size });
+    const { banners } = req.body;
+    const result = await bannerService.createBanners(banners);
     res.status(httpStatus.CREATED).json({
       message: "Tạo banner thành công!",
-      data: banner,
+      data: result,
     });
   } catch (error) {
-    // TODO: chưa dùng được vì nó xóa ngay khi có lỗi (ảnh chưa được tạo)
-    // deleteFile(fileName);
     next(error);
   }
 };
@@ -28,5 +22,17 @@ const getBanners = async (req, res, next) => {
     next(error);
   }
 };
+const removeBanner = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const result = await bannerService.removeBanner(id);
+    res.status(httpStatus.OK).json({
+      message: "Xoá banner thành công!",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
-module.exports = { getBanners, createBanner };
+module.exports = { getBanners, createBanners, removeBanner };

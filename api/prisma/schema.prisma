@@ -84,7 +84,7 @@ model ProductMedias {
   Medias     Medias   @relation(fields: [mediasUrl], references: [url])
   mediasUrl  String   @db.VarChar(255)
 
-  @@id([productsId, mediasUrl])
+  @@id([productsId, index])
 }
 
 model Banners {

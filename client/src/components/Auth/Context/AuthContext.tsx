@@ -20,7 +20,6 @@ export const AuthProvider = ({ children }) => {
     const fetchMe = async () => {
       try {
         const me = await authEndpoint.getMe();
-        console.log(me);
         if (!_.isEmpty(me)) setUser(me);
       } catch (error) {
         logout();

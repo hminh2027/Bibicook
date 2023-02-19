@@ -10,6 +10,6 @@ router
     // validate(userValidation.getUsers),
     bannerController.getBanners
   )
-  .post(upload.single("media"), bannerController.createBanner);
+  .post(bannerController.createBanners);
 
 module.exports = router;

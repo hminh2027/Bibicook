@@ -58,6 +58,7 @@ export const AttributeSelect: FC<any> = ({ name, value, onChange, onBlur }) => {
           slug: attribute.slug,
         }))}
         onChange={onChange}
+        value={value}
       />
     </div>
   );

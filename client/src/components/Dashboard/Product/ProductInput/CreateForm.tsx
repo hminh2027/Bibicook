@@ -50,7 +50,9 @@ export const CreateForm = () => {
           <Controller
             control={control}
             name="shortDesc"
-            render={({ field }) => <TextArea size="large" {...field} />}
+            render={({ field }) => (
+              <TextArea size="large" rows={6} {...field} />
+            )}
           />
         </section>
         <section className="card">
@@ -99,6 +101,7 @@ export const CreateForm = () => {
           type="primary"
           htmlType="submit"
           className="flex-1 btn-success"
+          disabled={isPosting}
         >
           Tạo
         </Button>

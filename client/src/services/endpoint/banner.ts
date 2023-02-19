@@ -7,4 +7,7 @@ export const bannerEndpoint = {
   post: async (data) => {
     return await apiClient.post(url, data);
   },
+  remove: async (id) => {
+    return await apiClient.delete(`${url}/${id}`);
+  },
 };
