@@ -18,12 +18,12 @@ async function main() {
   });
   // ACCOUNTS
   await prisma.accounts.upsert({
-    where: { username: "admin" },
+    where: { username: "test" },
     update: {},
     create: {
-      email: "admin",
-      username: "admin",
-      password: "123",
+      email: "test",
+      username: "test",
+      password: "123456",
       rolesId: 1,
     },
   });

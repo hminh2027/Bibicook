@@ -2,16 +2,11 @@ import { Button } from "antd";
 import { useEffect, useRef, useState } from "react";
 import { mediaEndpoint } from "../../../../services/endpoint/media";
 
-// interface Props {
-//   url?: string;
-//   index?: number;
-// }
-
 export const Upload = ({ index, onRemove, register, field, setValue }) => {
   const [file, setFile] = useState(field);
   const inputRef = useRef(null);
   useEffect(() => {
-    if (file.url) setValue(`banners.${index}.url`, file?.url);
+    if (file?.url) setValue(`banners.${index}.url`, file?.url);
   }, [file]);
 
   const handleClick = () => {
@@ -24,7 +19,7 @@ export const Upload = ({ index, onRemove, register, field, setValue }) => {
 
     try {
       const res = await mediaEndpoint.post(formData);
-      setFile(res);
+      setFile(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -37,7 +32,6 @@ export const Upload = ({ index, onRemove, register, field, setValue }) => {
   const showFile = (
     <div className="grid place-items-center overflow-hidden object-cover">
       <img onClick={handleClick} className="w-full " src={file.url} />
-      {/* <div>{file?.name}</div> */}
     </div>
   );
   return (

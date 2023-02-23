@@ -10,7 +10,6 @@ interface Props {
 const DashboardHeader: FC<Props> = ({ avatar, name, role }: Props) => {
   const { user, logout } = useAuth();
   const [open, setOpen] = useState(false);
-
   const hide = () => {
     setOpen(false);
   };

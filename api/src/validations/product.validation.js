@@ -10,11 +10,11 @@ const getProducts = {
 const createProduct = {
   body: Joi.object().keys({
     name: Joi.string().required(),
-    price: Joi.number().required(),
     shortDesc: Joi.string().required(),
     longDesc: Joi.string().required(),
     medias: Joi.array().required(),
-    categoryName: Joi.string().required(),
+    categorySlug: Joi.string().required(),
+    attributes: Joi.array().optional(),
   }),
 };
 

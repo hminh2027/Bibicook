@@ -2,7 +2,7 @@ import React from "react";
 import { CategoryList } from "./CategoryUI";
 import CreateForm from "./CategoryInput/CreateForm";
 import { Typography } from "antd";
-import { useQueryCategory } from "./hook";
+import { useQueryCategory } from "./hooks";
 const { Title } = Typography;
 
 export const CategoryMain = () => {

@@ -6,13 +6,14 @@ import { AiFillPlusCircle } from "react-icons/ai";
 export const Images = ({ control, register, setValue, ...props }) => {
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "images",
+    name: "medias",
   });
   return (
     <div className="grid">
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
         {fields.map((field, index) => (
           <ImageUpload
+            name={`medias.${index}.url`}
             key={field.id}
             register={register}
             index={index}

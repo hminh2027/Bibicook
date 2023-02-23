@@ -1,14 +1,9 @@
 import { Button, Input, Typography } from "antd";
-import {
-  useFieldArray,
-  useForm,
-  Controller,
-  FieldValues,
-} from "react-hook-form";
+import { useFieldArray, Controller } from "react-hook-form";
 import { AttributeSelect } from "./AttributeSelect";
 
 const { Title } = Typography;
-export const Attributes = ({ control, register }) => {
+export const Attributes = ({ control }) => {
   const { append, remove, fields } = useFieldArray({
     control,
     name: "attributes",
@@ -22,7 +17,7 @@ export const Attributes = ({ control, register }) => {
           type="primary"
           onClick={() =>
             append({
-              id: 0,
+              slug: "",
               value: "",
             })
           }
@@ -35,7 +30,7 @@ export const Attributes = ({ control, register }) => {
           <div className="flex gap-2" key={field.id}>
             <Controller
               control={control}
-              name={`attributes.${index}.id`}
+              name={`attributes.${index}.slug`}
               render={({ field }) => <AttributeSelect {...field} />}
             />
             <Controller

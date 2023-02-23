@@ -3,7 +3,8 @@ const { request } = require("express");
 const getUsers = async (req, res, next) => res.send("worked!");
 
 const getUserByToken = async (req, res, next) => {
-  res.status(200).json({ user: req.user });
+  const user = req.user;
+  res.status(200).json(user);
 };
 
 const getUserById = async (req, res, next) => {};

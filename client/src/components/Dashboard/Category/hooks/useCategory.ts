@@ -1,4 +1,4 @@
-import { Category } from "./../type";
+import { CategoryType } from "../type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { categoryEndpoint } from "../../../../services/endpoint";

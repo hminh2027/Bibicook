@@ -27,7 +27,9 @@ const removeCategory = async (req, res, next) => {
   try {
     const { slug } = req.params;
     const removedCategory = await categoryService.removeCategory(slug);
-    res.status(httpStatus.OK).json(removedCategory);
+    res
+      .status(httpStatus.OK)
+      .json({ message: "Xoá thành công", data: removedCategory });
   } catch (error) {
     next(error);
   }
