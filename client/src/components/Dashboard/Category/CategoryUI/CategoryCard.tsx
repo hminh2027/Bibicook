@@ -1,11 +1,11 @@
 import { Button, Typography } from "antd";
 import React, { FC } from "react";
-import { Category } from "../type";
+import { CategoryType } from "../type";
 import { useRemoveCategory } from "../hooks";
 const { Title, Text } = Typography;
 
 interface CategoryCardProp {
-  category: Category;
+  category: CategoryType;
 }
 export const CategoryCard: FC<CategoryCardProp> = ({
   category,

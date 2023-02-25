@@ -6,7 +6,10 @@ import { setToken, clearToken } from "../../../services";
 import _ from "lodash";
 import { useCookie } from "react-use";
 const AuthContext = createContext({
-  user: {},
+  user: {
+    username: "",
+    email: "",
+  },
   login: async (data) => {},
   logout: () => {},
 });

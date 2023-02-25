@@ -1,8 +1,8 @@
 import React, { FC } from "react";
 import { CategoryCard } from ".";
-import { Category } from "../type";
+import { CategoryType } from "../type";
 interface CategoriesProp {
-  categories: Category[];
+  categories: CategoryType[];
 }
 export const CategoryList: FC<CategoriesProp> = ({
   categories,
