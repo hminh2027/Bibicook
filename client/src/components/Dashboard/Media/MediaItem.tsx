@@ -1,6 +1,9 @@
 import React, { FC } from "react";
 import { AiFillFile } from "react-icons/ai";
 
+type MediaItemProps = {
+  media: Media;
+};
 type Media = {
   alt?: string;
   name: string;
@@ -9,7 +12,7 @@ type Media = {
   url?: string;
 };
 
-export const MediaItem: FC<Media> = (media: Media) => {
+export const MediaItem: FC<MediaItemProps> = ({ media }: MediaItemProps) => {
   const { name, alt, size, uploadedAt, url } = media;
   return (
     <div className="flex p-2">

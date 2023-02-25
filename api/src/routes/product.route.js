@@ -7,7 +7,7 @@ const { authenticate } = require("../middlewares/auth.middleware");
 router
   .route("/")
   .get(
-    authenticate,
+    // authenticate,
     validate(productValidation.getProducts),
     productController.getProducts
   )
@@ -20,8 +20,8 @@ router
 router
   .route("/:slug")
   .get(productController.getProductBySlug)
-  .patch(productController.updateProductBySlug)
-  .delete(productController.removeProductBySlug);
+  .patch(authenticate, productController.updateProductBySlug)
+  .delete(authenticate, productController.removeProductBySlug);
 router.route("/:id").get(productController.getProductById);
 // .patch(productController.updateProductById)
 // .delete(productController.deleteProductById);
