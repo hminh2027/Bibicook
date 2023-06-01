@@ -1,5 +1,5 @@
 import React from "react";
-import { Media } from "../../components/Dashboard/Media";
+import { Media } from "../../features/Dashboard/Media";
 
 export const MediaPage = () => {
   return (

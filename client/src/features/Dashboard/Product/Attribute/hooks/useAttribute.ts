@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
-import { attributeEnpoint } from "./../../../../../services/endpoint/attribute";
+import { attributeEnpoint } from "../../../../../services/endpoint/attribute";
 
 export const useQueryAttribute = () => {
   const {

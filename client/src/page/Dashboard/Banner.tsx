@@ -1,6 +1,6 @@
 import React, { FC } from "react";
-import { BannerForm } from "../../components/Dashboard/Banner";
-import { useGetBanner } from "../../components/Dashboard/Banner/hook";
+import { BannerForm } from "../../features/Dashboard/Banner";
+import { useGetBanner } from "../../features/Dashboard/Banner/hook";
 export const BannerPage: FC = () => {
   const { banners, isLoading } = useGetBanner();
   console.log(banners);
