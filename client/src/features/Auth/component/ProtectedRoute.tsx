@@ -1,11 +1,11 @@
-import { Navigate } from "react-router-dom";
+import { useRouter } from "next/router";
 import { useAuth } from "../Context";
 
 export const ProtectedRoute = ({ children }) => {
   const { user }: any = useAuth();
+  const router = useRouter();
   if (!user) {
-    // user is not authenticated
-    return <Navigate to="/" />;
+    router.replace("/");
   }
   return children;
 };

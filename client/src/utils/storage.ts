@@ -1,16 +1,13 @@
-const storagePrefix = "realtor_";
-
+import { ACCESS_TOKEN } from "@/config";
 const storage = {
   getToken: () => {
-    const token = window.localStorage.getItem(`${storagePrefix}token`);
-
-    return token != undefined ? token : undefined;
+    return JSON.parse(window.localStorage.getItem(`${ACCESS_TOKEN}`) as string);
   },
   setToken: (token: string) => {
-    window.localStorage.setItem(`${storagePrefix}token`, token);
+    window.localStorage.setItem(`${ACCESS_TOKEN}`, JSON.stringify(token));
   },
   clearToken: () => {
-    window.localStorage.removeItem(`${storagePrefix}token`);
+    window.localStorage.removeItem(`${ACCESS_TOKEN}`);
   },
 };
 

@@ -15,29 +15,15 @@ const AuthContext = createContext({
 });
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useLocalStorage("user", null);
-  const [refreshToken, updateRefreshToken, deleteRefreshToken] =
-    useCookie("refreshToken");
   const navigate = useNavigate();
-  useEffect(() => {
-    const fetchMe = async () => {
-      try {
-        const me = await authEndpoint.getMe();
-        if (!_.isEmpty(me)) setUser(me);
-      } catch (error) {
-        logout();
-      }
-    };
-    fetchMe();
-  }, []);
+  useEffect(() => {}, []);
   // call this function when you want to authenticate the user
   const login = async (data) => {
     try {
       const { user, accessToken, refreshToken }: any = await authEndpoint.login(
         data
       );
-      updateRefreshToken(refreshToken);
-      setUser(user);
+
       navigate("/");
     } catch (error) {
       throw new Error(error);
@@ -47,8 +33,7 @@ export const AuthProvider = ({ children }) => {
   // call this function to sign out logged in user
   const logout = async () => {
     navigate("/auth/login", { replace: true });
-    deleteRefreshToken();
-    setUser(null);
+
     await authEndpoint.logout();
   };
 
