@@ -10,23 +10,6 @@ type Props = {
 
 function MainLayout({ children }: Props) {
   return (
-    // <Grid
-    //   templateAreas={`"header header"
-    //                 "nav main"
-    //                `}
-    //   gridTemplateRows={"150px 1fr "}
-    //   gridTemplateColumns={"150px 1fr"}
-    //   gap="1rem"
-    //   className="h-screen"
-    // >
-    //   <GridItem area={"header"}>
-    //     <MainHeader />
-    //   </GridItem>
-    //   <GridItem area={"nav"}>
-    //     <MainSidebar />
-    //   </GridItem>
-    //   <GridItem area={"main"}>{children}</GridItem>
-    // </Grid>
     <Flex direction={"column"} className=" h-screen w-screen">
       <MainHeader />
       <Divider />
