@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bannerController = require("../controllers/banner.controller");
 const upload = require("../middlewares/upload.middleware");
-const { authenticate } = require("../middlewares/auth.middleware");
+const { auth } = require("../middlewares");
 
 router
   .route("/")
@@ -11,6 +11,6 @@ router
     // validate(userValidation.getUsers),
     bannerController.getBanners
   )
-  .post(authenticate, bannerController.createBanners);
+  .post(auth, bannerController.createBanners);
 
 module.exports = router;

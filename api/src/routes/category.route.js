@@ -1,14 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const categoryController = require("../controllers/category.controller");
-const { authenticate } = require("../middlewares/auth.middleware");
+const { auth } = require("../middlewares");
 router
   .route("/")
   .get(
     // validate(userValidation.getUsers),
     categoryController.getCategories
   )
-  .post(authenticate, categoryController.createCategory);
+  .post(auth, categoryController.createCategory);
 
 router.route("/:slug").delete(categoryController.removeCategory);
 

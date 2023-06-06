@@ -1,11 +1,9 @@
-const httpStatus = require("http-status");
 const jwt = require("jsonwebtoken");
 const config = require("../config/config");
 const { TokenTypes } = require("../constants/token");
-const ApiError = require("../utils/api-error");
 const accountService = require("../services/account.service");
 
-const authenticate = async (req, res, next) => {
+const auth = async (req, res, next) => {
   try {
     const token = req.cookies.accessToken;
     if (!token) throw new Error();
@@ -23,8 +21,9 @@ const authenticate = async (req, res, next) => {
 
     next();
   } catch (error) {
+    console.log(error);
     next({ ...error, message: "Token is invalid! Please login" });
   }
 };
 
-module.exports = { authenticate };
+module.exports = auth;

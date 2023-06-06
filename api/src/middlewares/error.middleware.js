@@ -2,16 +2,18 @@ const httpStatus = require("http-status");
 const config = require("../config/config");
 const { logger } = require("../config/winston");
 
-// const errorConverter = (err, req, res, next) => {
-//   let error = err;
-//   if (!(error instanceof ApiError)) {
-//     const statusCode =
-//       error.statusCode || error instanceof mongoose.Error ? httpStatus.BAD_REQUEST : httpStatus.INTERNAL_SERVER_ERROR;
-//     const message = error.message || httpStatus[statusCode];
-//     error = new ApiError(statusCode, message, false, err.stack);
-//   }
-//   next(error);
-// };
+const errorConverter = (err, req, res, next) => {
+  let error = err;
+  if (!(error instanceof ApiError)) {
+    const statusCode =
+      error.statusCode || error instanceof mongoose.Error
+        ? httpStatus.BAD_REQUEST
+        : httpStatus.INTERNAL_SERVER_ERROR;
+    const message = error.message || httpStatus[statusCode];
+    error = new ApiError(statusCode, message, false, err.stack);
+  }
+  next(error);
+};
 
 const errorHandler = (err, req, res, next) => {
   let { statusCode = 500, message } = err;
@@ -36,6 +38,6 @@ const errorHandler = (err, req, res, next) => {
 };
 
 module.exports = {
-  // errorConverter,
+  errorConverter,
   errorHandler,
 };

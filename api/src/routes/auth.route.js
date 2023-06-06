@@ -2,18 +2,18 @@ const express = require("express");
 const router = express.Router();
 const authValidation = require("../validations/auth.validation");
 const authController = require("../controllers/auth.controller");
-const { validate } = require("../middlewares/validate.middleware");
+const { validation } = require("../middlewares");
 
 router
   .route("/login")
-  .post(validate(authValidation.login), authController.login);
+  .post(validation(authValidation.login), authController.login);
 
 router
   .route("/signup")
-  .post(validate(authValidation.signup), authController.signup);
+  .post(validation(authValidation.signup), authController.signup);
 
 router.route("/refresh").post(
-  // validate(authValidation.refreshAuth)
+  // validation(authValidation.refreshAuth)
   authController.refreshToken
 );
 

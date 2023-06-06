@@ -11,8 +11,6 @@ const getUserById = async (req, res, next) => {};
 
 const updateUserById = async (req, res, next) => {};
 
-const deleteUserById = async (req, res, next) => {};
-
 module.exports = {
   getUsers,
   getUserById,

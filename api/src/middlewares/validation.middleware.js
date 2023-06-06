@@ -1,9 +1,9 @@
 const httpStatus = require("http-status");
 const Joi = require("joi");
 const _ = require("lodash");
-const ApiError = require("../utils/api-error");
+const ApiError = require("../utils/apiError");
 
-const validate = (schema) => (req, res, next) => {
+const validation = (schema) => (req, res, next) => {
   const validSchema = _.pick(schema, ["body", "query", "params"]);
   const object = _.pick(req, Object.keys(validSchema));
   const { value, error } = Joi.compile(validSchema)
@@ -19,6 +19,4 @@ const validate = (schema) => (req, res, next) => {
   return next();
 };
 
-module.exports = {
-  validate,
-};
+module.exports = validation;

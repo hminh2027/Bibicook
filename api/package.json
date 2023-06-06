@@ -10,7 +10,7 @@
     "prettier": "prettier --check **/*.js",
     "prettier:fix": "prettier --write **/*.js",
     "db:seed": "node src/database/seed.js",
-    "db:reset": "npx prisma migrate reset && npx prisma db push && npm run db:seed"
+    "db:reset": "npx prisma migrate reset && npx prisma db push && yarn run db:seed"
   },
   "author": "Hoang Minh, Tien Anh",
   "license": "ISC",
@@ -31,9 +31,6 @@
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.8.0",
     "sharp": "^0.31.3",
-    "slugify": "^1.6.5",
-    "swagger-jsdoc": "^6.2.7",
-    "swagger-ui-express": "^4.6.0",
     "winston": "^3.8.2"
   },
   "devDependencies": {

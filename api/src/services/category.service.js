@@ -1,7 +1,6 @@
 const httpStatus = require("http-status");
 const { prisma } = require("../database/prisma-client");
-const ApiError = require("../utils/api-error");
-const { slugify } = require("../utils/slugify");
+const ApiError = require("../utils/apiError");
 
 const getCategories = async () => {
   return await prisma.categories.findMany({
@@ -30,7 +29,6 @@ const createCategory = async ({ name }) => {
   const category = await prisma.categories.create({
     data: {
       name,
-      slug: slugify(name),
     },
   });
   return category;

@@ -7,98 +7,70 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Products {
-  id               Int                @id @default(autoincrement())
-  name             String             @unique @db.VarChar(255)
-  longDesc         String?            @db.LongText()
-  shortDesc        String?            @default("") @db.VarChar(512)
-  slug             String?            @unique @db.VarChar(512)
-  createdAt        DateTime           @default(now()) @db.Timestamp(6)
-  createdBy        String
-  updatedAt        DateTime           @default(now()) @db.Timestamp(6)
-  isDeleted        Boolean            @default(false)
+model Product {
+  id              Int               @id @default(autoincrement())
+  categoryId      Int
+  name            String            @unique @db.VarChar(255)
+  longDesc        String?           @db.LongText()
+  shortDesc       String?           @db.VarChar(512)
+  createdAt       DateTime          @default(now()) @db.Timestamp(6)
+  updatedAt       DateTime          @default(now()) @db.Timestamp(6)
   // relations
-  Attribute_values Attribute_values[]
-  Categories       Categories         @relation(fields: [categoriesSlug], references: [slug])
-  categoriesSlug   String
-  ProductMedias    ProductMedias[]
+  Attribute_value Attribute_value[]
+  Category        Category          @relation(fields: [categoryId], references: [id])
+  Media           Media[]
 }
 
-model Accounts {
-  email     String   @id @db.VarChar(255)
-  username  String   @unique @db.VarChar(255)
-  password  String   @db.VarChar(512)
-  createdAt DateTime @default(now()) @db.Timestamp(6)
-  isActive  Boolean  @default(true)
+model Account {
+  email    String @id @db.VarChar(255)
+  username String @unique @db.VarChar(255)
+  password String @db.VarChar(512)
+}
+
+model Attribute {
+  id              Int               @id @default(autoincrement())
+  name            String            @db.VarChar(255)
   // relations
-  Roles     Roles    @relation(fields: [rolesId], references: [id])
-  rolesId   Int      @default(2)
+  Attribute_value Attribute_value[]
 }
 
-model Roles {
-  id       Int        @id @default(autoincrement())
-  name     String     @db.VarChar(255)
+model Attribute_value {
+  Product     Product   @relation(fields: [productId], references: [id])
+  productId   Int
+  Attribute   Attribute @relation(fields: [attributeId], references: [id])
+  attributeId Int
+  value       String    @db.VarChar(255)
+
+  @@id([productId, attributeId])
+}
+
+model Category {
+  id      Int       @id @default(autoincrement())
+  name    String    @db.VarChar(255)
+  Product Product[]
+}
+
+model Media {
+  url        String   @id @db.VarChar(255)
+  name       String   @db.VarChar(255)
+  uploadedAt DateTime @default(now()) @db.Timestamp(6)
   // relations
-  Accounts Accounts[]
+  Banner     Banner?
+  Product    Product? @relation(fields: [productId], references: [id])
+  productId  Int?
 }
 
-model Attributes {
-  slug             String             @id
-  name             String             @db.VarChar(255)
-  // relations
-  Attribute_values Attribute_values[]
-}
-
-model Attribute_values {
-  Products       Products   @relation(fields: [productsId], references: [id])
-  productsId     Int
-  Attributes     Attributes @relation(fields: [attributesSlug], references: [slug])
-  attributesSlug String
-  value          String     @db.VarChar(255)
-
-  @@id([productsId, attributesSlug])
-}
-
-model Categories {
-  name     String     @db.VarChar(255)
-  slug     String     @id @db.VarChar(255)
-  Products Products[]
-}
-
-model Medias {
-  url           String          @id @db.VarChar(255)
-  alt           String?         @db.VarChar(255)
-  name          String          @db.VarChar(255)
-  size          Int?
-  uploadedAt    DateTime        @default(now()) @db.Timestamp(6)
-  // relations
-  ProductMedias ProductMedias[]
-  Banners       Banners?
-}
-
-model ProductMedias {
-  index      Int
-  // relations
-  Products   Products @relation(fields: [productsId], references: [id])
-  productsId Int
-  Medias     Medias   @relation(fields: [mediasUrl], references: [url])
-  mediasUrl  String   @db.VarChar(255)
-
-  @@id([productsId, index])
-}
-
-model Banners {
+model Banner {
   id    Int    @id @default(autoincrement())
   // relations
-  Media Medias @relation(fields: [url], references: [url])
+  Media Media  @relation(fields: [url], references: [url])
   url   String @unique @db.VarChar(255)
 }
 
 model Setting {
   id         Int     @id @default(autoincrement())
   address    String? @db.VarChar(255)
-  logo       String  @db.VarChar(255)
-  siteTitle  String  @db.VarChar(255)
-  theme      String? @db.VarChar(255)
+  logo       String? @db.VarChar(255)
+  siteTitle  String? @db.VarChar(255)
   adminEmail String? @db.VarChar(255)
 }

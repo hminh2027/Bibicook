@@ -1,5 +1,4 @@
 const { prisma } = require("../database/prisma-client");
-const { slugify } = require("../utils/slugify");
 
 const getProducts = async ({ take, skip }) => {
   return await prisma.products.findMany({
@@ -29,20 +28,6 @@ const getProductById = async ({ id }) => {
     },
   });
 };
-const getProductBySlug = async (slug) => {
-  return await prisma.products.findFirst({
-    where: { slug },
-    include: {
-      Attribute_values: {
-        include: {
-          Attributes: true,
-        },
-      },
-      Categories: true,
-      ProductMedias: true,
-    },
-  });
-};
 
 const createProduct = async ({
   name,
@@ -58,7 +43,6 @@ const createProduct = async ({
       name,
       shortDesc,
       longDesc,
-      slug: slugify(name),
       createdBy,
       Categories: {
         connect: {
@@ -77,7 +61,6 @@ const createProduct = async ({
         createMany: {
           data: attributes.map((attribute) => {
             return {
-              attributesSlug: attribute.slug,
               value: attribute.value,
             };
           }),
@@ -95,7 +78,7 @@ const updateProductBySlug = async ({
   shortDesc,
   longDesc,
   medias,
-  categorySlug,
+  categoryName,
   attributes,
 }) => {
   const productToUpdate = await getProductBySlug(slug);
@@ -109,7 +92,7 @@ const updateProductBySlug = async ({
       longDesc,
       Categories: {
         connect: {
-          slug: categorySlug,
+          slug: categoryName,
         },
       },
       ProductMedias: {
@@ -166,6 +149,7 @@ const updateProductBySlug = async ({
     },
   });
 };
+
 const removeProductBySlug = async (slug) => {
   const productToRemove = await getProductBySlug(slug);
   await prisma.productMedias.deleteMany({
