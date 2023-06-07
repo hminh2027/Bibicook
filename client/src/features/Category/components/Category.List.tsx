@@ -3,7 +3,7 @@ import React from "react";
 import CategoryItem from "./Category.Item";
 function CategoryList() {
   return (
-    <List>
+    <List w={"100%"}>
       {[1, 2, 3].map((item) => (
         <ListItem key={item}>
           <CategoryItem />

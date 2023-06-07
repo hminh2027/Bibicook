@@ -14,7 +14,9 @@ function CategoryCreateModal() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <Button onClick={onOpen}>Create</Button>
+      <Button onClick={onOpen} colorScheme="teal">
+        Create
+      </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>

@@ -3,7 +3,7 @@ import React from "react";
 
 function CategoryItem() {
   return (
-    <Flex justifyContent={"space-between"} alignItems={"center"}>
+    <Flex w={"100%"} justifyContent={"space-between"} alignItems={"center"}>
       <VStack alignItems={"start"}>
         <Text as={"b"}>Cate name</Text>
         <Text>Số sản phẩm: {10}</Text>

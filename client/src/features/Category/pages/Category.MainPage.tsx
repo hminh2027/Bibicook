@@ -7,7 +7,7 @@ type Props = {};
 
 function CategoryMainPage({}: Props) {
   return (
-    <VStack>
+    <VStack align={"start"}>
       <CategoryCreateModal />
       <CategoryList />
     </VStack>
