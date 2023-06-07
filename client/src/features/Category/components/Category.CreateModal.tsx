@@ -4,6 +4,7 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
+  ModalHeader,
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -15,11 +16,12 @@ function CategoryCreateModal() {
   return (
     <>
       <Button onClick={onOpen} colorScheme="teal">
-        Create
+        New Category
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
+          <ModalHeader>Create new category</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <CategoryCreateForm />
