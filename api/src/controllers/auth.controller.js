@@ -2,8 +2,9 @@ const authService = require("../services/auth.service");
 const tokenService = require("../services/token.service");
 const httpStatus = require("http-status");
 const { TokenTypes } = require("../constants/token");
+const { catchAsync } = require("../utils");
 
-const login = async (req, res, next) => {
+const login = catchAsync(async (req, res, next) => {
   try {
     const { username, password } = req.body;
     const user = await authService.login({ username, password });
@@ -26,9 +27,9 @@ const login = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
+});
 
-const signup = async (req, res, next) => {
+const signup = catchAsync(async (req, res, next) => {
   try {
     const { email, password, username } = req.body;
 
@@ -46,14 +47,14 @@ const signup = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
+});
 
-const logout = async (req, res) => {
+const logout = catchAsync(async (req, res) => {
   return res
     .clearCookie("accessToken")
     .status(httpStatus.OK)
     .json({ message: "Đăng xuất thành công!" });
-};
+});
 
 const refreshToken = (req, res, next) => {
   try {

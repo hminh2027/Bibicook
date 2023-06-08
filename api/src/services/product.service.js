@@ -35,7 +35,7 @@ const createProduct = async ({
   longDesc,
   createdBy,
   medias,
-  categorySlug,
+  categoryId,
   attributes,
 }) => {
   const product = await prisma.products.create({
@@ -72,7 +72,7 @@ const createProduct = async ({
   return product;
 };
 
-const updateProductBySlug = async ({
+const updateProductById = async ({
   slug,
   name,
   shortDesc,
@@ -150,7 +150,7 @@ const updateProductBySlug = async ({
   });
 };
 
-const removeProductBySlug = async (slug) => {
+const removeProductById = async (slug) => {
   const productToRemove = await getProductBySlug(slug);
   await prisma.productMedias.deleteMany({
     where: {
@@ -173,7 +173,6 @@ module.exports = {
   getProducts,
   createProduct,
   getProductById,
-  getProductBySlug,
-  updateProductBySlug,
-  removeProductBySlug,
+  updateProductById,
+  removeProductById,
 };

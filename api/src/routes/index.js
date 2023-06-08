@@ -11,10 +11,10 @@ const attributeRoute = require("./attribute.route");
 
 router.use("/account", accountRoute);
 router.use("/auth", authRoute);
-router.use("/media", mediaRoute);
-router.use("/banner", bannerRoute);
-router.use("/product", productRoute);
-router.use("/category", categoryRoute);
-router.use("/attribute", attributeRoute);
+// router.use("/media", mediaRoute);
+// router.use("/banner", bannerRoute);
+// router.use("/product", productRoute);
+// router.use("/category", categoryRoute);
+// router.use("/attribute", attributeRoute);
 
 module.exports = router;

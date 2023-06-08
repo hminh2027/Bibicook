@@ -1,7 +1,9 @@
 const httpStatus = require("http-status");
 const productService = require("../services/product.service");
 const productFieldFormatter = require("../utils/product-field-format");
-const getProductById = async (req, res, next) => {
+const { catchAsync } = require("../utils");
+
+const getProductById = catchAsync(async (req, res, next) => {
   try {
     const { id } = req.params;
     const product = await productService.getProductById({ id: +id });
@@ -12,19 +14,9 @@ const getProductById = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
-const getProductBySlug = async (req, res, next) => {
-  try {
-    const { slug } = req.params;
-    const product = await productService.getProductBySlug(slug);
+});
 
-    res.status(httpStatus.OK).json(productFieldFormatter.single(product));
-  } catch (error) {
-    next(error);
-  }
-};
-
-const getProducts = async (req, res, next) => {
+const getProducts = catchAsync(async (req, res, next) => {
   try {
     const { page = 1, limit = 10 } = req.query;
     const skip = (page - 1) * limit;
@@ -40,9 +32,9 @@ const getProducts = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
+});
 
-const createProduct = async (req, res, next) => {
+const createProduct = catchAsync(async (req, res, next) => {
   try {
     const { name, shortDesc, longDesc, medias, categorySlug, attributes } =
       req.body;
@@ -65,14 +57,15 @@ const createProduct = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
-const updateProductBySlug = async (req, res, next) => {
+});
+
+const updateProductById = catchAsync(async (req, res, next) => {
   try {
-    const { slug } = req.params;
+    const { id } = req.params;
     const { name, shortDesc, longDesc, medias, categorySlug, attributes } =
       req.body;
 
-    const product = await productService.updateProductBySlug({
+    const product = await productService.updateProductById({
       slug,
       name,
       shortDesc,
@@ -89,11 +82,12 @@ const updateProductBySlug = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
-const removeProductBySlug = async (req, res, next) => {
-  const { slug } = req.params;
+});
+
+const removeProductById = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
   try {
-    const result = await productService.removeProductBySlug(slug);
+    const result = await productService.removeProductById(id);
     res.status(httpStatus.OK).json({
       message: "Xoá sản phẩm thành công!",
       data: result,
@@ -101,12 +95,12 @@ const removeProductBySlug = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
+});
+
 module.exports = {
   createProduct,
   getProducts,
   getProductById,
-  getProductBySlug,
-  updateProductBySlug,
-  removeProductBySlug,
+  updateProductById,
+  removeProductById,
 };

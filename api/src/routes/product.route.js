@@ -16,11 +16,6 @@ router
     productController.createProduct
   );
 
-router
-  .route("/:slug")
-  .get(productController.getProductBySlug)
-  .patch(auth, productController.updateProductBySlug)
-  .delete(auth, productController.removeProductBySlug);
 router.route("/:id").get(productController.getProductById);
 // .patch(productController.updateProductById)
 // .delete(productController.deleteProductById);

@@ -1,16 +1,17 @@
 const httpStatus = require("http-status");
 const attributeService = require("../services/attribute.service");
+const { catchAsync } = require("../utils");
 
-const getAttributes = async (req, res, next) => {
+const getAttributes = catchAsync(async (req, res, next) => {
   try {
     const attributes = await attributeService.getAttributes();
     res.status(httpStatus.OK).json(attributes);
   } catch (error) {
     next(error);
   }
-};
+});
 
-const createAttribute = async (req, res, next) => {
+const createAttribute = catchAsync(async (req, res, next) => {
   try {
     const { name } = req.body;
     const attribute = await attributeService.createAttribute(name);
@@ -20,8 +21,8 @@ const createAttribute = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
-const deleteAttribute = async (req, res, next) => {
+});
+const deleteAttribute = catchAsync(async (req, res, next) => {
   try {
     const { name } = req.params;
     const attribute = await attributeService.deleteAttribute(name);
@@ -31,7 +32,7 @@ const deleteAttribute = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
+});
 module.exports = {
   createAttribute,
   getAttributes,

@@ -38,5 +38,5 @@ app.use(errorConverter);
 app.use(errorHandler);
 
 app.listen(config.port, () => {
-  console.log("Server started at port " + port);
+  console.log("Server started at port " + config.port);
 });

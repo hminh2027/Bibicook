@@ -3,74 +3,67 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model Product {
-  id              Int               @id @default(autoincrement())
-  categoryId      Int
-  name            String            @unique @db.VarChar(255)
-  longDesc        String?           @db.LongText()
-  shortDesc       String?           @db.VarChar(512)
-  createdAt       DateTime          @default(now()) @db.Timestamp(6)
-  updatedAt       DateTime          @default(now()) @db.Timestamp(6)
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  name       String      @unique @db.String
+  longDesc   String?     @db.String
+  shortDesc  String?     @db.String
+  createdAt  DateTime    @default(now()) @db.Date
+  updatedAt  DateTime    @default(now()) @db.Date
   // relations
-  Attribute_value Attribute_value[]
-  Category        Category          @relation(fields: [categoryId], references: [id])
-  Media           Media[]
-}
-
-model Account {
-  email    String @id @db.VarChar(255)
-  username String @unique @db.VarChar(255)
-  password String @db.VarChar(512)
+  Attribute  Attribute[]
+  Media      Media[]
+  Category   Category    @relation(fields: [categoryId], references: [id])
+  categoryId String      @db.ObjectId
 }
 
 model Attribute {
-  id              Int               @id @default(autoincrement())
-  name            String            @db.VarChar(255)
-  // relations
-  Attribute_value Attribute_value[]
-}
-
-model Attribute_value {
-  Product     Product   @relation(fields: [productId], references: [id])
-  productId   Int
-  Attribute   Attribute @relation(fields: [attributeId], references: [id])
-  attributeId Int
-  value       String    @db.VarChar(255)
-
-  @@id([productId, attributeId])
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  value     String
+  // 
+  Product   Product? @relation(fields: [productId], references: [id])
+  productId String?  @db.ObjectId
 }
 
 model Category {
-  id      Int       @id @default(autoincrement())
-  name    String    @db.VarChar(255)
+  id      String    @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
   Product Product[]
 }
 
 model Media {
-  url        String   @id @db.VarChar(255)
-  name       String   @db.VarChar(255)
-  uploadedAt DateTime @default(now()) @db.Timestamp(6)
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  url        String   @unique
+  name       String
+  uploadedAt DateTime @default(now())
   // relations
   Banner     Banner?
   Product    Product? @relation(fields: [productId], references: [id])
-  productId  Int?
+  productId  String?  @db.ObjectId
 }
 
 model Banner {
-  id    Int    @id @default(autoincrement())
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
   // relations
   Media Media  @relation(fields: [url], references: [url])
-  url   String @unique @db.VarChar(255)
+  url   String @unique
+}
+
+model Account {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  username String @unique
+  password String
 }
 
 model Setting {
-  id         Int     @id @default(autoincrement())
-  address    String? @db.VarChar(255)
-  logo       String? @db.VarChar(255)
-  siteTitle  String? @db.VarChar(255)
-  adminEmail String? @db.VarChar(255)
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  address    String?
+  logo       String?
+  siteTitle  String?
+  adminEmail String?
 }

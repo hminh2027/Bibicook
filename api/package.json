@@ -10,7 +10,7 @@
     "prettier": "prettier --check **/*.js",
     "prettier:fix": "prettier --write **/*.js",
     "db:seed": "node src/database/seed.js",
-    "db:reset": "npx prisma migrate reset && npx prisma db push && yarn run db:seed"
+    "db:reset": "npx prisma db push && yarn run db:seed"
   },
   "author": "Hoang Minh, Tien Anh",
   "license": "ISC",

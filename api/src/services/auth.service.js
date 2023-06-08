@@ -7,6 +7,7 @@ const login = async ({ username, password }) => {
     username,
     password,
   });
+
   if (!user)
     throw new ApiError(
       httpStatus.UNAUTHORIZED,
@@ -16,9 +17,8 @@ const login = async ({ username, password }) => {
   return user;
 };
 
-const signup = async ({ email, password, username }) => {
-  const user = await accountService.createUser({ email, password, username });
-  return user;
+const signup = async ({ password, username }) => {
+  return accountService.createUser({ password, username });
 };
 
 module.exports = {
