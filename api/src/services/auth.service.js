@@ -1,14 +1,15 @@
 const httpStatus = require("http-status");
 const ApiError = require("../utils/apiError");
 const accountService = require("./account.service");
+const passwordService = require("./password.service");
 
 const login = async ({ username, password }) => {
-  const user = await accountService.getUserByUsernameAndPassword({
-    username,
-    password,
-  });
+  const user = await accountService.getOneByUsername({ username });
 
-  if (!user)
+  if (
+    !user ||
+    !(await passwordService.comparePassword(password, user.password))
+  )
     throw new ApiError(
       httpStatus.UNAUTHORIZED,
       "Sai tên đăng nhập hoặc mật khẩu"
@@ -18,7 +19,8 @@ const login = async ({ username, password }) => {
 };
 
 const signup = async ({ password, username }) => {
-  return accountService.createUser({ password, username });
+  const hash = await passwordService.hashPassword(password);
+  return accountService.createUser({ password: hash, username });
 };
 
 module.exports = {
