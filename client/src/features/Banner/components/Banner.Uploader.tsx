@@ -1,16 +1,21 @@
 import FileUploadIcon from "@/components/common/FileUploadIcon";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
+import { useCreateBanner } from "../api/createBanner";
 interface Props {}
 export default function BannerUploader({}: Props) {
-  const onDrop = useCallback((acceptedFiles: Array<File>) => {
-    // Do something with the files
-    const formData = new FormData();
-    for (const file of acceptedFiles) {
-      formData.append("files", file);
-    }
-    console.log(formData);
-  }, []);
+  const mutation = useCreateBanner();
+  const onDrop = useCallback(
+    (acceptedFiles: Array<File>) => {
+      // Do something with the files
+      const formData = new FormData();
+      for (const file of acceptedFiles) {
+        formData.append("files", file);
+      }
+      mutation.mutate({ data: formData });
+    },
+    [mutation]
+  );
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (

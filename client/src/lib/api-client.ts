@@ -2,7 +2,7 @@ import axios, { InternalAxiosRequestConfig } from "axios";
 import { onSuccess, onError } from "./interceptors";
 import storage from "@/utils/storage";
 
-const authClient = axios.create({
+const privateClient = axios.create({
   baseURL: "http://localhost:3000/api/",
   withCredentials: true,
 });
@@ -19,11 +19,11 @@ function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   return config;
 }
 
-authClient.interceptors.request.use(authRequestInterceptor);
-authClient.interceptors.response.use(
+privateClient.interceptors.request.use(authRequestInterceptor);
+privateClient.interceptors.response.use(
   (response) => onSuccess(response),
   (error) => onError(error)
 );
-export { authClient, publicApiClient };
+export { privateClient, publicApiClient };
 
 export default publicApiClient;
