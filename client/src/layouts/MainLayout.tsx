@@ -14,10 +14,10 @@ function MainLayout({ children }: Props) {
       <MainHeader />
       <Divider />
       <Flex className="flex-1">
-        <div className="w-[150px]">
+        <div className="w-[150px] border-r border-r-gray-200">
           <MainSidebar />
         </div>
-        <div className="flex-1">{children}</div>
+        <div className="flex-1 p-4">{children}</div>
       </Flex>
     </Flex>
   );

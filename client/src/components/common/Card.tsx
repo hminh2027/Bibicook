@@ -13,9 +13,7 @@ interface Props extends CardProps {
 export default function Card({ cardTitle, children }: Props) {
   const title = cardTitle && (
     <>
-      <div className="border-b border-b-[hsl(210,23%,95%)] p-4">
-        {cardTitle}
-      </div>
+      <div className="border-b border-b-[#eff2f5] p-4">{cardTitle}</div>
     </>
   );
   return (

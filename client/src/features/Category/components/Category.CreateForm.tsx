@@ -7,10 +7,13 @@ import {
   Button,
   Flex,
   VStack,
+  Text,
+  Spinner,
 } from "@chakra-ui/react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useCreateCategory } from "../api/createCategory";
 
 const CategoryCreateForm = () => {
   const {
@@ -22,22 +25,32 @@ const CategoryCreateForm = () => {
       name: "",
     },
   });
-
-  const onSubmit = (value: any) => {
-    console.log(value);
+  const { mutate } = useCreateCategory();
+  const onSubmit = async (value: any) => {
+    const { name } = value;
+    mutate({ name });
+    await new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(1);
+      }, 3000);
+    });
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Flex direction={"column"} gap={"8px"}>
-        <FormControl isInvalid={Boolean(errors?.name)} isRequired>
-          <FormLabel htmlFor="name">Category name</FormLabel>
+        <FormControl
+          isInvalid={Boolean(errors?.name)}
+          isRequired
+          isDisabled={isSubmitting}
+        >
+          <FormLabel htmlFor="name">Tên danh mục</FormLabel>
           <Input
             id="name"
-            placeholder="Category name"
+            placeholder="Tên danh mục"
             {...register("name", {
-              required: "This is required",
-              minLength: { value: 1, message: "Minimum length should be 1" },
+              required: "Cần nhập trường này",
+              minLength: { value: 1, message: "Độ dài ít nhất là 1" },
             })}
           />
           <FormErrorMessage>
@@ -45,7 +58,11 @@ const CategoryCreateForm = () => {
           </FormErrorMessage>
         </FormControl>
         <Flex justifyContent={"end"}>
-          <Button colorScheme={"green"}>Add</Button>
+          <Button colorScheme={"green"} type="submit" isDisabled={isSubmitting}>
+            <Flex gap={2} alignItems={"center"}>
+              {isSubmitting && <Spinner size={"sm"} />} <Text>Thêm</Text>
+            </Flex>
+          </Button>
         </Flex>
       </Flex>
     </form>

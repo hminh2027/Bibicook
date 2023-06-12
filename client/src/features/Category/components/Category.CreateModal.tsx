@@ -16,12 +16,12 @@ function CategoryCreateModal() {
   return (
     <>
       <Button onClick={onOpen} colorScheme="teal">
-        New Category
+        Thêm
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Create new category</ModalHeader>
+          <ModalHeader>Tạo danh mục</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <CategoryCreateForm />
