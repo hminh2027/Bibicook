@@ -3,50 +3,43 @@ const tokenService = require("../services/token.service");
 const httpStatus = require("http-status");
 const { TokenTypes } = require("../constants/token");
 const { catchAsync } = require("../utils");
+const _ = require("lodash");
 
-const login = catchAsync(async (req, res, next) => {
-  try {
-    const { username, password } = req.body;
-    const user = await authService.login({ username, password });
-    const accessToken = await tokenService.generateAccessToken({
-      userId: user.email,
-    });
-    const refreshToken = await tokenService.generateRefreshToken({
-      userId: user.email,
-    });
+const login = catchAsync(async (req, res) => {
+  const { username, password } = req.body;
+  const user = await authService.login({ username, password });
+  const accessToken = await tokenService.generateAccessToken({
+    userId: user.email,
+  });
+  const refreshToken = await tokenService.generateRefreshToken({
+    userId: user.email,
+  });
 
-    res
-      .cookie("accessToken", accessToken, {
-        httpOnly: true,
-      })
-      .json({
-        user,
-        accessToken,
-        refreshToken,
-      });
-  } catch (error) {
-    next(error);
-  }
+  res
+    .cookie("accessToken", accessToken, {
+      httpOnly: true,
+    })
+    .json({
+      user: _.omit(user, ["password"]),
+      accessToken,
+      refreshToken,
+    });
 });
 
-const signup = catchAsync(async (req, res, next) => {
-  try {
-    const { email, password, username } = req.body;
+const signup = catchAsync(async (req, res) => {
+  const { email, password, username } = req.body;
 
-    const user = await authService.signup({ email, password, username });
+  const user = await authService.signup({ email, password, username });
 
-    res.status(httpStatus.CREATED).json({
-      user,
-      accessToken: await tokenService.generateAccessToken({
-        userId: user.email,
-      }),
-      refreshToken: await tokenService.generateRefreshToken({
-        userId: user.email,
-      }),
-    });
-  } catch (error) {
-    next(error);
-  }
+  res.status(httpStatus.CREATED).json({
+    user,
+    accessToken: await tokenService.generateAccessToken({
+      userId: user.email,
+    }),
+    refreshToken: await tokenService.generateRefreshToken({
+      userId: user.email,
+    }),
+  });
 });
 
 const logout = catchAsync(async (req, res) => {
@@ -56,28 +49,24 @@ const logout = catchAsync(async (req, res) => {
     .json({ message: "Đăng xuất thành công!" });
 });
 
-const refreshToken = (req, res, next) => {
-  try {
-    const { refreshToken } = req.body;
+const refreshToken = catchAsync((req, res) => {
+  const { refreshToken } = req.body;
 
-    const decoded = tokenService.verifyToken({
-      token: refreshToken,
-      tokenType: TokenTypes.REFRESH,
-    });
+  const decoded = tokenService.verifyToken({
+    token: refreshToken,
+    tokenType: TokenTypes.REFRESH,
+  });
 
-    const accessToken = tokenService.generateAccessToken({
-      userId: decoded.userId,
-    });
+  const accessToken = tokenService.generateAccessToken({
+    userId: decoded.userId,
+  });
 
-    res
-      .cookie("accessToken", accessToken, {
-        httpOnly: true,
-      })
-      .json({ accessToken });
-  } catch (error) {
-    next(error);
-  }
-};
+  res
+    .cookie("accessToken", accessToken, {
+      httpOnly: true,
+    })
+    .json({ accessToken });
+});
 
 module.exports = {
   login,

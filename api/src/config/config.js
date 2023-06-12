@@ -17,9 +17,6 @@ const envVariables = Joi.object()
     JWT_RT_EXPIRE_IN: Joi.string()
       .required()
       .description("JWT refresh token time-to-live"),
-    JWT_VERIFY_EMAIL_EXPIRE_IN: Joi.string()
-      .required()
-      .description("JWT verify email token time-to-live"),
   })
   .unknown();
 
@@ -40,6 +37,5 @@ module.exports = {
     secret: envVars.JWT_SECRET,
     atExpiresIn: envVars.JWT_AT_EXPIRE_IN,
     rtExpiresIn: envVars.JWT_RT_EXPIRE_IN,
-    emailExpiresIn: envVars.JWT_VERIFY_EMAIL_EXPIRE_IN,
   },
 };

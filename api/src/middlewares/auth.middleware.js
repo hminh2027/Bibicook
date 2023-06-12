@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config/config");
 const { TokenTypes } = require("../constants/token");
-const accountService = require("../services/account.service");
+const { accountService } = require("../services");
 
 const auth = async (req, res, next) => {
   try {
@@ -11,13 +11,11 @@ const auth = async (req, res, next) => {
     const decoded = jwt.verify(token, config.jwt.secret);
     if (decoded.type !== TokenTypes.ACCESS) throw new Error();
 
-    const user = await accountService.getUserByEmail({ email: decoded.userId });
+    const user = await accountService.getOneByUsername({
+      username: decoded.username,
+    });
     if (!user) throw new Error();
-
     req.user = user;
-
-    // console.log(decoded);
-    // console.log(user);
 
     next();
   } catch (error) {

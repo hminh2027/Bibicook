@@ -1,15 +1,25 @@
+const httpStatus = require("http-status");
 const { catchAsync } = require("../utils");
+const { accountService } = require("../services");
+const _ = require("lodash");
 
-const getUserByToken = catchAsync(async (req, res, next) => {
+const getUserByToken = catchAsync(async (req, res) => {
   const user = req.user;
-  res.status(200).json(user);
+  res.status(httpStatus.OK).json({ user: _.omit(user, ["password"]) });
 });
 
-const getUserById = catchAsync(async (req, res, next) => {});
-
-const updateUserById = catchAsync(async (req, res, next) => {});
+const updatePasswordByToken = catchAsync(async (req, res) => {
+  const { password, username } = req.user;
+  await accountService.updateOneById(user.id, {
+    password,
+    username,
+  });
+  res.status(httpStatus.OK).json({
+    message: "Đổi mật khẩu thành công!",
+  });
+});
 
 module.exports = {
-  getUserById,
   getUserByToken,
+  updatePasswordByToken,
 };

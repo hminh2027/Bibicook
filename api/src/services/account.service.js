@@ -3,38 +3,35 @@ const { prisma } = require("../database/prisma-client");
 const ApiError = require("../utils/apiError");
 const _ = require("lodash");
 
-const createUser = async ({ password, username }) => {
-  const usernameNotUniue = await getOneByUsername({ username });
-  if (usernameNotUniue)
-    throw new ApiError(httpStatus.BAD_REQUEST, "Username này đã tồn tại");
+const createOne = async ({ password, username }) => {
+  const hasUser = await getAll();
+  if (hasUser) throw new ApiError(httpStatus.BAD_REQUEST, "Admin đã tồn tại");
 
-  const user = await prisma.account.create({
+  return prisma.account.create({
     data: {
       password,
       username,
     },
   });
-  return _.omit(user, ["password"]);
 };
 
-const getOneByUsername = async ({ username }) => {
+const getAll = () => prisma.account.findMany();
+
+const getOneByUsername = ({ username }) => {
   return prisma.account.findFirst({
     where: { username },
   });
 };
 
-const getOneByUsernameAndPassword = async ({ username, password }) => {
-  const user = await prisma.account.findFirst({
-    where: { username, password },
+const updateOneById = (id, { password, username }) => {
+  return prisma.account.update({
+    where: { id },
+    data: { password, username },
   });
-  return _.omit(user, ["password"]);
 };
 
-const updateUserById = async ({ id, password, username }) => {};
-
 module.exports = {
-  createUser,
-  updateUserById,
+  createOne,
+  updateOneById,
   getOneByUsername,
-  getOneByUsernameAndPassword,
 };

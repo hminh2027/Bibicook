@@ -20,7 +20,7 @@ const login = async ({ username, password }) => {
 
 const signup = async ({ password, username }) => {
   const hash = await passwordService.hashPassword(password);
-  return accountService.createUser({ password: hash, username });
+  return accountService.createOne({ password: hash, username });
 };
 
 module.exports = {
