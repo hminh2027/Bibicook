@@ -1,28 +1,31 @@
-import {
-  ReactNode,
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
+import { ReactNode, createContext, useContext, useMemo } from "react";
+import { useCounter } from "react-use";
+import { Step } from "../constant";
 
 const StepContext = createContext(null);
 
-export const StepProvider = ({ children }: { children: ReactNode }) => {
-  const [step, setStep] = useState(0);
-  const next = useCallback(() =>
-    setStep((prev) => {
-      if (prev >= 5) return prev;
-      return prev + 1;
-    })
-  []);
+export const StepProvider = ({
+  children,
+  steps,
+}: {
+  children: ReactNode;
+  steps: Step[];
+}) => {
+  const [curStep, { inc, dec, set, reset }] = useCounter(
+    0,
+    steps.length - 1,
+    0
+  );
   const value = useMemo(
     () => ({
-      step,
-      next,
+      steps,
+      curStep,
+      inc,
+      dec,
+      set,
+      reset,
     }),
-    [step, next]
+    [curStep, inc, dec, set, reset]
   );
   return <StepContext.Provider value={value}>{children}</StepContext.Provider>;
 };

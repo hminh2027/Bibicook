@@ -9,7 +9,7 @@ import {
 import { useFormContext } from "react-hook-form";
 
 interface Props {}
-export default function BasicInfo({}: Props) {
+export function BasicInfo({}: Props) {
   const {
     register,
     formState: { errors },
