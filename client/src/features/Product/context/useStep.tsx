@@ -1,34 +1,46 @@
 import { ReactNode, createContext, useContext, useMemo } from "react";
 import { useCounter } from "react-use";
-import { Step } from "../constant";
+import { StepListType } from "../constant";
 
-const StepContext = createContext(null);
+interface StepContextType {
+  list: StepListType;
+  curStep: number;
+  inc: (step?: number) => void;
+  dec: (step?: number) => void;
+  set: (step: number) => void;
+  reset: () => void;
+}
+const StepContext = createContext<StepContextType>(null!);
 
 export const StepProvider = ({
   children,
-  steps,
+  list,
 }: {
   children: ReactNode;
-  steps: Step[];
+  list: StepListType;
 }) => {
   const [curStep, { inc, dec, set, reset }] = useCounter(
     0,
-    steps.length - 1,
+    list.items.length - 1,
     0
   );
   const value = useMemo(
     () => ({
-      steps,
+      list,
       curStep,
       inc,
       dec,
       set,
       reset,
     }),
-    [curStep, inc, dec, set, reset]
+    [curStep, inc, dec, set, reset, list]
   );
   return <StepContext.Provider value={value}>{children}</StepContext.Provider>;
 };
 export default function useStep() {
-  return useContext(StepContext);
+  const stepContext = useContext(StepContext);
+  if (!StepContext) {
+    throw new Error("useStep has to be used within <StepProvider>");
+  }
+  return stepContext;
 }

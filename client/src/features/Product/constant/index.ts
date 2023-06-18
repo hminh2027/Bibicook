@@ -1,4 +1,3 @@
-import { ComponentType, ReactNode } from "react";
 import Attribute from "../components/Forms/Attribute";
 import { BasicInfo } from "../components/Forms/BasicInfo";
 import ImagesUpload from "../components/Forms/ImagesUpload";
@@ -21,3 +20,8 @@ export const CreateSteps: Step[] = [
     item: ImagesUpload,
   },
 ];
+export const CreateStepList = {
+  label: "Tạo sản phẩm",
+  items: CreateSteps,
+};
+export type StepListType = typeof CreateStepList;

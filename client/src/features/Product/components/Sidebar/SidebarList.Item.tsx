@@ -6,18 +6,22 @@ import useStep from "../../context/useStep";
 interface SidebarItemProps extends ReactStyle {
   index: number;
   label: string;
+  shouldDisplayText?: boolean;
 }
 export default function SidebarItem({
   index,
   label,
   className,
   style,
+  shouldDisplayText,
 }: SidebarItemProps) {
+  const { curStep, set } = useStep();
+
   const defaultStyle =
     "inline-flex justify-center items-center w-10 h-10 rounded-full border bg-gray-100 border-gray-100 text-black";
   const activeStyle = "text-green-500 border-green-500 bg-white";
-  const passedStyle = "bg-green-500 text-white";
-  const { curStep, set } = useStep();
+  const passedStyle = "bg-green-500 border-green-500 text-white";
+
   const curClass = () => {
     if (curStep > index) return passedStyle;
     if (curStep === index) return activeStyle;
@@ -26,7 +30,6 @@ export default function SidebarItem({
 
   const onClickHandler = () => {
     if (curStep > index) set(index);
-    return;
   };
   return (
     <Flex
@@ -40,7 +43,7 @@ export default function SidebarItem({
       <div className={mergeClass(defaultStyle, curClass())}>
         <Text>{index + 1}</Text>
       </div>
-      <Text>{label}</Text>
+      {shouldDisplayText && <Text>{label}</Text>}
     </Flex>
   );
 }

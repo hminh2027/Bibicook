@@ -1,16 +1,19 @@
 import { HStack } from "@chakra-ui/react";
 import AddProductForm from "../components/Forms/AddProduct";
-import ProductSidebar from "../components/Sidebar";
-import { CreateSteps } from "../constant";
+import Sidebar from "../components/Sidebar";
+import Collapsible from "../components/common";
+import { CreateStepList } from "../constant";
 import { StepProvider } from "../context/useStep";
 
 interface Props {}
 function ProductCreatePage({}: Props) {
   return (
-    <StepProvider steps={CreateSteps}>
+    <StepProvider list={CreateStepList}>
       <HStack>
-        <ProductSidebar />
-        <AddProductForm />
+        <Collapsible>
+          <Sidebar className="" />
+        </Collapsible>
+        <AddProductForm className="flex-1" />
       </HStack>
     </StepProvider>
   );
