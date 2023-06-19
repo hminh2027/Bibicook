@@ -1,55 +1,42 @@
 const httpStatus = require("http-status");
 const { prisma } = require("../database/prisma-client");
 const ApiError = require("../utils/apiError");
+const checkUnique = require("../utils/checkUnique");
 
-const getCategories = async () => {
-  return await prisma.categories.findMany({
-    include: {
-      _count: {
-        select: {
-          Products: true,
-        },
-      },
-    },
+const model = prisma.category;
+
+const createOne = async ({ name }) => {
+  const unique = await checkUnique({ model, data: { name } });
+  if (!unique)
+    throw new ApiError(httpStatus.BAD_REQUEST, "Thể loại đã tồn tại");
+  return prisma.category.create({ data: { name } });
+};
+
+const getMany = () => {
+  return prisma.category.findMany();
+};
+
+const getOneByName = (name) => {
+  return prisma.category.findFirst({ where: { name } });
+};
+
+const updateOneById = ({ id, name }) => {
+  return prisma.category.update({ where: { id }, data: { name } });
+};
+
+const removeOneById = async ({ id }) => {
+  const cate = await getOneByName({ model, data: { id } });
+  if (!cate)
+    throw new ApiError(httpStatus.BAD_REQUEST, "Thể loại không tồn tại");
+
+  return prisma.categories.delete({
+    where: { id: cate.id },
   });
-};
-
-const getCategoryByName = async (name) => {
-  return await prisma.categories.findFirst({ where: { name } });
-};
-const getCategoryBySlug = async (slug) => {
-  return await prisma.categories.findFirst({ where: { slug } });
-};
-
-// TODO: check unique constraint và catch auto
-const createCategory = async ({ name }) => {
-  const categoryNotUnique = await getCategoryByName(name);
-  if (categoryNotUnique)
-    throw new ApiError(httpStatus.BAD_REQUEST, "Category đã tồn tại");
-  const category = await prisma.categories.create({
-    data: {
-      name,
-    },
-  });
-  return category;
-};
-const removeCategory = async (slug = "") => {
-  try {
-    const categoryToRemove = await getCategoryBySlug(slug);
-    const res = await prisma.categories.delete({
-      where: {
-        name: categoryToRemove.name,
-      },
-    });
-    return res;
-  } catch (e) {
-    console.log(e);
-    throw new ApiError(httpStatus.NOT_MODIFIED, "Xoá category thất bại");
-  }
 };
 
 module.exports = {
-  getCategories,
-  createCategory,
-  removeCategory,
+  createOne,
+  getMany,
+  updateOneById,
+  removeOneById,
 };

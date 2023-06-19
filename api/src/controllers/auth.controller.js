@@ -20,9 +20,14 @@ const login = catchAsync(async (req, res) => {
       httpOnly: true,
     })
     .json({
-      user: _.omit(user, ["password"]),
-      accessToken,
-      refreshToken,
+      message: "Đăng nhập thành công!",
+      data: {
+        user: _.omit(user, ["password"]),
+        token: {
+          accessToken,
+          refreshToken,
+        },
+      },
     });
 });
 
@@ -30,15 +35,22 @@ const signup = catchAsync(async (req, res) => {
   const { email, password, username } = req.body;
 
   const user = await authService.signup({ email, password, username });
+  const accessToken = await tokenService.generateAccessToken({
+    userId: user.email,
+  });
+  const refreshToken = await tokenService.generateRefreshToken({
+    userId: user.email,
+  });
 
   res.status(httpStatus.CREATED).json({
-    user,
-    accessToken: await tokenService.generateAccessToken({
-      userId: user.email,
-    }),
-    refreshToken: await tokenService.generateRefreshToken({
-      userId: user.email,
-    }),
+    message: "Đăng ký thành công!",
+    data: {
+      user,
+      token: {
+        accessToken,
+        refreshToken,
+      },
+    },
   });
 });
 
