@@ -9,9 +9,9 @@ interface Props {}
 function ProductCreatePage({}: Props) {
   return (
     <StepProvider list={CreateStepList}>
-      <HStack>
+      <HStack gap={4}>
         <Collapsible>
-          <Sidebar className="" />
+          <Sidebar />
         </Collapsible>
         <AddProductForm className="flex-1" />
       </HStack>

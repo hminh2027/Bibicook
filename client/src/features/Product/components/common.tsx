@@ -1,23 +1,35 @@
+import { ReactStyle } from "@/types";
 import { Divider, Flex, IconButton } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { FaAngleDoubleLeft, FaAngleDoubleRight } from "react-icons/fa";
 import useCollapsible, { CollapsibleProvider } from "../context/useCollapsible";
 
-interface CollapsibleProps {
+interface CollapsibleProps extends ReactStyle {
   children: ReactNode;
 }
-function Collapsible({ children }: CollapsibleProps) {
+function Collapsible({ children, className }: CollapsibleProps) {
   return (
     <CollapsibleProvider>
-      <Flex direction={"column"} gap={4}>
-        <CollapsibleTrigger />
-        <Divider />
-        {children}
-      </Flex>
+      <CollapsibleWrapper className={className}>{children}</CollapsibleWrapper>
     </CollapsibleProvider>
   );
 }
-
+function CollapsibleWrapper({ children, className }: CollapsibleProps) {
+  const { isCollapsing } = useCollapsible();
+  return (
+    <Flex
+      direction={"column"}
+      gap={4}
+      className={`transition-[width,transform] ${
+        isCollapsing ? "w-10" : "w-48"
+      } ${className}  `}
+    >
+      <CollapsibleTrigger />
+      <Divider />
+      {children}
+    </Flex>
+  );
+}
 const CollapsibleTrigger = () => {
   const { isCollapsing, toggle } = useCollapsible();
   const Icon = isCollapsing ? FaAngleDoubleLeft : FaAngleDoubleRight;
@@ -29,9 +41,6 @@ const CollapsibleTrigger = () => {
         variant={"ghost"}
         icon={<Icon />}
       />
-      {/* <span onClick={() => toggle()} className="p-2">
-        <Icon />
-      </span> */}
     </div>
   );
 };
