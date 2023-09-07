@@ -1,12 +1,6 @@
 const httpStatus = require("http-status");
 const { catchAsync } = require("../utils");
 const { accountService } = require("../services");
-const _ = require("lodash");
-
-const getUserByToken = catchAsync(async (req, res) => {
-  const user = req.user;
-  res.status(httpStatus.OK).json({ user: _.omit(user, ["password"]) });
-});
 
 const updatePasswordByToken = catchAsync(async (req, res) => {
   const { password, username } = req.user;
@@ -20,6 +14,5 @@ const updatePasswordByToken = catchAsync(async (req, res) => {
 });
 
 module.exports = {
-  getUserByToken,
   updatePasswordByToken,
 };

@@ -8,43 +8,28 @@ datasource db {
 }
 
 model Product {
-  id         String      @id @default(auto()) @map("_id") @db.ObjectId
-  name       String      @unique @db.String
-  longDesc   String?     @db.String
-  shortDesc  String?     @db.String
-  createdAt  DateTime    @default(now()) @db.Date
-  updatedAt  DateTime    @default(now()) @db.Date
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  name        String  @unique @db.String
+  longDesc    String? @db.String
+  shortDesc   String? @db.String
+  views       String?
+  ingredients String?
+  nutrition   String?
+  useAge      String?
+  expiration  String?
+
   // relations
-  Attribute  Attribute[]
-  Media      Media[]
-  Category   Category    @relation(fields: [categoryId], references: [id])
-  categoryId String      @db.ObjectId
-}
-
-model Attribute {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  value     String
-  // 
-  Product   Product? @relation(fields: [productId], references: [id])
-  productId String?  @db.ObjectId
-}
-
-model Category {
-  id      String    @id @default(auto()) @map("_id") @db.ObjectId
-  name    String
-  Product Product[]
+  Media Media[]
 }
 
 model Media {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  url        String   @unique
-  name       String
-  uploadedAt DateTime @default(now())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  url       String   @unique
+  name      String   @unique
   // relations
-  Banner     Banner?
-  Product    Product? @relation(fields: [productId], references: [id])
-  productId  String?  @db.ObjectId
+  Banner    Banner?
+  Product   Product? @relation(fields: [productId], references: [id])
+  productId String?  @db.ObjectId
 }
 
 model Banner {
@@ -61,9 +46,14 @@ model Account {
 }
 
 model Setting {
-  id         String  @id @default(auto()) @map("_id") @db.ObjectId
-  address    String?
-  logo       String?
-  siteTitle  String?
-  adminEmail String?
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  address   String?
+  logo      String?
+  siteTitle String?
+  email     String?
+}
+
+model Tiktok {
+  id  String @id @default(auto()) @map("_id") @db.ObjectId
+  url String
 }

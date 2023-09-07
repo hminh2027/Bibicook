@@ -1,6 +1,5 @@
 const httpStatus = require("http-status");
 const productService = require("../services/product.service");
-const productFieldFormatter = require("../utils/product-field-format");
 const { catchAsync } = require("../utils");
 
 const getProductById = catchAsync(async (req, res, next) => {
@@ -8,9 +7,7 @@ const getProductById = catchAsync(async (req, res, next) => {
     const { id } = req.params;
     const product = await productService.getProductById({ id: +id });
 
-    res.status(httpStatus.OK).json({
-      data: productFieldFormatter.single(product),
-    });
+    res.status(httpStatus.OK).json({});
   } catch (error) {
     next(error);
   }
@@ -23,7 +20,6 @@ const getProducts = catchAsync(async (req, res, next) => {
 
     const products = await productService.getProducts({ take: +limit, skip });
     res.status(httpStatus.OK).json({
-      data: productFieldFormatter.multi(products),
       pagination: {
         page,
         total: products.length,
