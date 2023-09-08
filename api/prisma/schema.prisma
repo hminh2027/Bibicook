@@ -8,35 +8,22 @@ datasource db {
 }
 
 model Product {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
-  name        String  @unique @db.String
-  longDesc    String? @db.String
-  shortDesc   String? @db.String
-  views       String?
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String   @db.String
+  longDesc    String?  @db.String
+  shortDesc   String?  @db.String
+  views       Int?     @default(0)
   ingredients String?
   nutrition   String?
   useAge      String?
   expiration  String?
-
-  // relations
-  Media Media[]
-}
-
-model Media {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  url       String   @unique
-  name      String   @unique
-  // relations
-  Banner    Banner?
-  Product   Product? @relation(fields: [productId], references: [id])
-  productId String?  @db.ObjectId
+  medias      String[]
 }
 
 model Banner {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  id  String @id @default(auto()) @map("_id") @db.ObjectId
   // relations
-  Media Media  @relation(fields: [url], references: [url])
-  url   String @unique
+  url String @unique
 }
 
 model Account {

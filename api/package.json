@@ -4,17 +4,15 @@
   "description": "An e-commerce-like website for personal business (outsource project)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "pm2 start ecosystem.config.json --no-daemon",
-    "dev": "cross-env NODE_ENV=development nodemon src/app.js",
-    "prettier": "prettier --check **/*.js",
-    "prettier:fix": "prettier --write **/*.js",
+    "start": "nodemon src/app.js",
+    "db:create": "npx prisma generate && npx prisma db push",
     "db:seed": "node src/database/seed.js",
-    "db:reset": "npx prisma db push && yarn run db:seed"
+    "db:reset": "npx prisma generate && npx prisma db push && npm run db:seed"
   },
   "author": "Hoang Minh, Tien Anh",
   "license": "ISC",
   "dependencies": {
+    "@faker-js/faker": "^8.0.2",
     "@prisma/client": "^4.8.1",
     "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
@@ -29,7 +27,6 @@
     "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
-    "multer": "^1.4.5-lts.1",
     "winston": "^3.8.2"
   },
   "devDependencies": {

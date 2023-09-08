@@ -1,16 +1,19 @@
+const { productPrototype } = require("../prototypes");
+const { productService } = require("../services");
+const { generateDummyData } = require("../utils");
 const { prisma } = require("./prisma-client");
 
 async function main() {
-  // ACCOUNTS
-  await prisma.accounts.upsert({
-    where: { username: "test" },
-    update: {},
-    create: {
-      email: "test",
-      username: "test",
-      password: "123456",
-    },
-  });
+  // MEDIAS
+
+  // PRODUCTS
+  console.log("Seeding data... hold tight...");
+  const products = generateDummyData(20, productPrototype);
+  await prisma.product.deleteMany();
+  // console.log(products);
+  await productService.createMany(products);
+
+  console.log("Put data inside baby!");
 }
 main()
   .then(async () => {

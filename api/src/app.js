@@ -10,14 +10,6 @@ const { errorConverter, errorHandler } = require("./middlewares");
 
 const app = express();
 
-// const corsOptions = {
-//   //To allow requests from client
-//   origin: true,
-//   methods: ["GET", "PUT", "POST", "DELETE", "PATCH", "OPTIONS"],
-//   credentials: true,
-//   preflightContinue: true,
-// };
-
 // Middlewares
 app.use(cors());
 app.use(express.json());
