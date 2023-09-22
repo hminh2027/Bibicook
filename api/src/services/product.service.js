@@ -4,6 +4,7 @@ const getMany = ({ take, skip }) => {
   return prisma.product.findMany({
     take,
     skip,
+    orderBy: { views: "desc" },
   });
 };
 

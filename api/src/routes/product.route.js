@@ -8,6 +8,8 @@ router
   .get(productController.getMany)
   .post(productController.createOne);
 
+router.route("/top-views").get(productController.getManyByTopViews);
+
 router
   .route("/:id")
   .get(productController.getOneById)

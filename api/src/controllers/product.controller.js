@@ -25,6 +25,13 @@ const getMany = catchAsync(async (req, res) => {
   });
 });
 
+const getManyByTopViews = catchAsync(async (req, res) => {
+  const products = await productService.getMany({ take: 4, skip: 0 });
+  res.status(httpStatus.OK).json({
+    data: products,
+  });
+});
+
 const createOne = catchAsync(async (req, res) => {
   const {
     name,
@@ -98,4 +105,5 @@ module.exports = {
   createOne,
   updateOneById,
   removeOneById,
+  getManyByTopViews,
 };
